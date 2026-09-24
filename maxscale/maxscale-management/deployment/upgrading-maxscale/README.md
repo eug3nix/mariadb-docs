@@ -1,3 +1,10 @@
+---
+description: >-
+  Review critical information and procedures for upgrading MariaDB MaxScale
+  versions. Learn about new features deprecated functionality and specific steps
+  for each version transition.
+---
+
 # Upgrading MaxScale
 
 {% include "https://app.gitbook.com/s/GxVnu02ec8KJuFSxmB93/~/reusable/DobjxO0sqF3MWCEIIL8Z/" %}
@@ -7,6 +14,22 @@ Before upgrading to MariaDB MaxScale, it is critical to review the changes. This
 For more information about what has changed, please refer to the [ChangeLog and release notes](../../../../release-notes/maxscale/) of the releases you are upgrading from and upgrading to.
 
 Before starting the upgrade, any existing configuration files should be backed up.
+
+## Upgrading From Versions Affected by [MXS-6366](https://jira.mariadb.org/browse/MXS-6366)
+
+If configuration synchronization is used and you are upgrading from versions
+23.02.17, 23.08.13, 24.02.9, 25.01.6 or 25.10.2 or any older release that is
+affected by [MXS-6366](https://jira.mariadb.org/browse/MXS-6366), you must first
+upgrade to the latest patch version of that MaxScale series, do a configuration
+change that is synchronized into the cluster and only then upgrade the major
+version.
+
+For example, when upgrading from 23.08.9 to 25.10.3 and you have configured
+`config_sync_cluster`, the following steps need to be followed:
+
+* Upgrade MaxScale from 23.08.9 to 23.08.14
+* Enable and then disable `log_info` with `maxctrl alter maxscale log_info=true` followed by `maxctrl alter maxscale log_info=false`
+* Upgrade MaxScale from 23.08.14 to 25.10.3
 
 ## Upgrading MariaDB MaxScale from 25.01 to 25.10
 
@@ -376,7 +399,7 @@ The location of the MariaDB user data cache was moved from`/var/cache/maxscale/<
 
 ### Galeramon Monitoring Algorithm
 
-Galeramon will assign the master status _only_ to the node which has a_wsrep\_local\_index_ value of 0. This will guarantee consistent writes with multiple MaxScales but it also causes slower changes of the master node.
+Galeramon will assign the master status _only_ to the node which has a\_wsrep\_local\_index\_ value of 0. This will guarantee consistent writes with multiple MaxScales but it also causes slower changes of the master node.
 
 To enable the legacy behavior, add `root_node_as_master=false` to the Galera monitor configuration.
 

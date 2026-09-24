@@ -1,17 +1,19 @@
 ---
 description: >-
-  Display information about columns in a table. View field names, types, default
-  values, and other attributes for a specific table.
+  Complete guide to displaying table columns in MariaDB. Complete SHOW COLUMNS
+  syntax with field types, keys, and filtering options for production use.
 ---
 
 # SHOW COLUMNS
 
 ## Syntax
 
-```sql
+```bnf
 SHOW [FULL] {COLUMNS | FIELDS} FROM tbl_name [FROM db_name]
     [LIKE 'pattern' | WHERE expr]
 ```
+
+![Railroad diagram of SHOW COLUMNS — equivalent to the BNF above](../../../../.gitbook/assets/show-columns-railroad.svg)
 
 ## Description
 

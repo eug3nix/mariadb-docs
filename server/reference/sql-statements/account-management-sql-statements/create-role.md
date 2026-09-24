@@ -14,6 +14,8 @@ CREATE [OR REPLACE] ROLE [IF NOT EXISTS] role
     {CURRENT_USER | CURRENT_ROLE | user | role}]
 ```
 
+![Railroad diagram of CREATE ROLE — equivalent to the BNF above](../../../.gitbook/assets/create-role-railroad.svg)
+
 ## Description
 
 The `CREATE ROLE` statement creates one or more MariaDB [roles](../../../security/user-account-management/roles/). To use it, you must have the global [CREATE USER](grant.md#create-user) privilege or the [INSERT](grant.md#table-privileges) privilege for the mysql database. For each account, `CREATE ROLE` creates a new row in the [mysql.user](../../system-tables/the-mysql-database-tables/mysql-user-table.md) table that has no privileges, and with the corresponding `is_role` field set to `Y`. It also creates a record in the [mysql.roles\_mapping](../../system-tables/the-mysql-database-tables/mysql-roles_mapping-table.md) table.
@@ -33,6 +35,28 @@ For valid identifiers to use as role names, see [Identifier Names](../../sql-str
 #### WITH ADMIN
 
 The optional `WITH ADMIN` clause determines whether the current user, the current role or another user or role has use of the newly created role. If the clause is omitted, `WITH ADMIN CURRENT_USER` is treated as the default, which means that the current user will be able to [GRANT](grant.md#roles) this role to users.
+### Example: Using WITH ADMIN
+
+The WITH ADMIN option allows a specific user or role to manage (grant or revoke) the newly created role. For example:
+
+```sql
+CREATE ROLE developer WITH ADMIN lorinda@localhost;
+```
+
+Here, the `developer` role is created, and the user `lorinda@localhost` is given permission to grant or revoke this role to other users.
+
+If another user without administrative privileges attempts to grant the role, the operation fails:
+
+```sql
+GRANT developer TO ian@localhost;
+-- ERROR: Access denied
+```
+
+However, when executed by `lorinda@localhost`, the operation succeeds:
+
+```sql
+GRANT developer TO ian@localhost;
+```
 
 #### OR REPLACE
 

@@ -1,10 +1,17 @@
+---
+description: >-
+  CREATE PROCEDURE for MariaDB ColumnStore defines a stored procedure with
+  named IN, OUT, and INOUT parameters and a routine body containing SQL
+  statements.
+---
+
 # ColumnStore CREATE PROCEDURE
 
 Creates a stored routine in ColumnStore.
 
 ## Syntax
 
-```sql
+```bnf
 CREATE
     [DEFINER = { user | CURRENT_USER }]
     PROCEDURE sp_name ([proc_parameter[,...]])
@@ -41,6 +48,6 @@ CREATE PROCEDURE sp_complex_variable(IN arg_key INT, IN arg_date DATE)
 CALL sp_complex_variable(1000, '1998-10-10');
 ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

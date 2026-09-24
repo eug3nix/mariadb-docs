@@ -1,3 +1,10 @@
+---
+description: >-
+  Configuration Manager parameters for the MariaDB Server Single Node topology
+  in MariaDB Cloud, including binlog format, autocommit, cache sizes, and
+  replication-related settings.
+---
+
 # MariaDB Server Single Node
 
 For cloud databases with the MariaDB Server Single Node topology, the following Configuration Manager parameters are used to configure MariaDB Server behavior:
@@ -108,3 +115,5 @@ For cloud databases with the MariaDB Server Single Node topology, the following 
 | [tmp\_table\_size](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/server-system-variables#tmp_table_size)                                                                                                      | AUTO\_GENERATED                                                                                                                                            |
 | [transaction\_isolation](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/server-system-variables#transaction_isolation)                                                                                         | REPEATABLE-READ                                                                                                                                            |
 | [wait\_timeout](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/server-system-variables#wait_timeout)                                                                                                           | 600                                                                                                                                                        |
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

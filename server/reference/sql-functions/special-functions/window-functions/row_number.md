@@ -1,19 +1,21 @@
 ---
 description: >-
-  Assign a sequential integer to rows. This function numbers rows within a
-  partition starting at 1, based on the specified order.
+  Complete ROW_NUMBER() reference: ROW_NUMBER() OVER() window syntax, PARTITION
+  BY clauses, ORDER BY ordering, and RANK()/DENSE_RANK() comparisons.
 ---
 
 # ROW\_NUMBER
 
 ## Syntax
 
-```sql
+```bnf
 ROW_NUMBER() OVER (
   [ PARTITION BY partition_expression ]
   [ ORDER BY order_list ]
 )
 ```
+
+![Railroad diagram of ROW_NUMBER — equivalent to the BNF above](../../../../.gitbook/assets/row-number-railroad.svg)
 
 ## Description
 

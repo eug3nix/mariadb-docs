@@ -116,10 +116,17 @@ A package body provides implementations of the package public routines and can o
 * forward declarations for private routines
 * an executable initialization section
 
+> Starting with MariaDB 13.0.1, package bodies can define `RECORD` and `REF CURSOR` types that can be used as:
+>
+> * Parameters (IN, OUT, INOUT) for procedures and functions defined in the package
+> * RETURN clause data types for package functions
+>
+> For detailed syntax and examples, see [DECLARE TYPE](../../programmatic-compound-statements/declare-type.md).<br>
+
 ## Examples
 
 ```sql
-SET sql_mode=ORACLE; # unnecessary from MariaDB 11.4
+SET sql_mode=ORACLE;
 DELIMITER $$
 CREATE OR REPLACE PACKAGE employee_tools AS
   FUNCTION getSalary(eid INT) RETURN DECIMAL(10,2);

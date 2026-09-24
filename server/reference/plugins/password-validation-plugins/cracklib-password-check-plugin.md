@@ -24,7 +24,7 @@ The `cracklib_password_check` plugin is included in `systemd` [binary tarballs](
 
 The `cracklib_password_check` plugin can also be installed via a package manager on Linux. In order to do so, your system needs to be configured to install from one of the MariaDB repositories.
 
-You can configure your package manager to install it from MariaDB Corporation's MariaDB Package Repository by using the [MariaDB Package Repository setup script](../../../server-management/install-and-upgrade-mariadb/installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage.md).
+You can configure your package manager to install it from MariaDB Corporation's MariaDB Package Repository by using the [MariaDB Package Repository setup script](../../../server-management/install-and-upgrade-mariadb/mariadb-package-repository-setup-and-usage.md).
 
 You can also configure your package manager to install it from MariaDB Foundation's MariaDB Repository by using the [MariaDB Repository Configuration Tool](https://downloads.mariadb.org/mariadb/repositories/).
 
@@ -97,7 +97,7 @@ ERROR 1819 (HY000): Your password does not satisfy the current policy requiremen
 
 ### SELinux
 
-When using the standard [SELinux](../../../security/securing-mariadb/selinux.md) policy with the [mode](../../../security/securing-mariadb/selinux.md#changing-selinuxs-mode) set to `enforcing`, `mariadbd` does not have access to `/usr/share/cracklib`, and you may see the following error when attempting to use the `cracklib_password_check` plugin:
+When using the standard [SELinux](../../../security/securing-mariadb/selinux.md) policy with the [mode](../../../security/securing-mariadb/selinux.md#temporarily-putting-mysqld-into-permissive-mode) set to `enforcing`, `mariadbd` does not have access to `/usr/share/cracklib`, and you may see the following error when attempting to use the `cracklib_password_check` plugin:
 
 ```sql
 CREATE USER `user`@`hostname` IDENTIFIED BY 's0mePwd123.';

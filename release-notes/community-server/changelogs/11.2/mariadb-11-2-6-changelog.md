@@ -1,14 +1,14 @@
 # MariaDB 11.2.6 Changelog
 
-[Download](https://mariadb.com/downloads/)[Release Notes](../../old-releases/release-notes-mariadb-11-2-series/mariadb-11-2-6-release-notes.md)[Changelog](mariadb-11-2-6-changelog.md)[Overview of 11.2](../../old-releases/release-notes-mariadb-11-2-series/what-is-mariadb-112.md)
+[Download](https://mariadb.com/downloads/)[Release Notes](../../old-releases/11.2/11.2.6.md)[Changelog](mariadb-11-2-6-changelog.md)[Overview of 11.2](../../old-releases/11.2/what-is-mariadb-112.md)
 
 [_Alternate download from mariadb.org_](https://downloads.mariadb.org/mariadb/11.2.6/)
 
 **Release date:** 1 Nov 2024
 
-For the highlights of this release, see the [release notes](../../old-releases/release-notes-mariadb-11-2-series/mariadb-11-2-6-release-notes.md).
+For the highlights of this release, see the [release notes](../../old-releases/11.2/11.2.6.md).
 
-The revision number links will take you to the revision's page on GitHub. On [GitHub](https://github.com/MariaDB/server/tree/11.2) you can view more\
+The revision number links will take you to the revision's page on GitHub. On [GitHub](https://github.com/MariaDB/server/tree/11.2) you can view more
 details of the revision and view diffs of the code modified in that revision.
 
 * Includes all fixes from [MariaDB 10.11.10](../10.11/10.11.10.md)
@@ -73,6 +73,6 @@ details of the revision and view diffs of the code modified in that revision.
 
 {% include "../../../.gitbook/includes/announce.md" %}
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/7hzG0V6AUK8DqF4oiVaW/" %}
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 
 {% @marketo/form formid="4316" formId="4316" %}

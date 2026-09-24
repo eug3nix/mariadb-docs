@@ -1,3 +1,10 @@
+---
+description: >-
+  The MCP Server issues JWT tokens on login, then validates each request by
+  verifying the signature, checking token expiration, and confirming the
+  user against the shared MariaDB database.
+---
+
 # Token Management
 
 Token management is a critical part of the system's security, handled primarily by the RAG API.
@@ -60,6 +67,6 @@ sequenceDiagram
 * **Issuer/Audience Validation**: Prevents a token from one system from being used on another.
 * **Not-Before Check**: Prevents a token from being used before it is valid
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

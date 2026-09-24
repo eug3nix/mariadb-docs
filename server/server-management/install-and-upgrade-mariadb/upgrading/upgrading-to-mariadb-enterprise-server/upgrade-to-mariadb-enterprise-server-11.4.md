@@ -6,13 +6,13 @@ These instructions detail the **upgrade** from a previous version of **MariaDB E
 
 When MariaDB Enterprise Server is upgraded, the old version needs to be uninstalled, and the new version needs to be installed.
 
-See [What's New in MariaDB Enterprise Server 11.4](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/enterprise-server/11-4/whats-new-in-mariadb-enterprise-server-11-4).
+See [What's New in MariaDB Enterprise Server 11.4](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/aEnK0ZXmUbJzqQrTjFyb/enterprise-server/11.4/whats-new).
 
 ## Data Backup <a href="#data-backup" id="data-backup"></a>
 
 Occasionally, issues can be encountered during upgrades. These issues can even potentially corrupt the database's data files, preventing you from easily reverting to the old installation. Therefore, it is generally best to perform a backup before upgrading. If an issue is encountered during the upgrade, you can use the backup to restore your MariaDB Server database to the old version. If the upgrade finishes without issue, then the backup can be deleted.
 
-The instructions below show how to perform a backup using [MariaDB Backup](../../../../server-usage/backing-up-and-restoring-databases/mariadb-backup/). For more information about backing up and restoring the database, please see the [Recovery Guide](../../../../server-usage/backing-up-and-restoring-databases/backup-and-restore-with-mariadb-enterprise-server/).
+The instructions below show how to perform a backup using [MariaDB Backup](../../../../server-usage/backup-and-restore/mariadb-backup/README.md). For more information about backing up and restoring the database, please see the [Recovery Guide](../../../../server-usage/backup-and-restore/backup-and-restore-with-mariadb-enterprise-server/mariadb-enterprise-backup.md).
 
 1\. Take a full backup. On MariaDB Enterprise Server 11.4 and later:
 
@@ -44,7 +44,7 @@ If you have the [MariaDB Audit Plugin](../../../../reference/plugins/mariadb-aud
 UNINSTALL SONAME 'server_audit';
 ```
 
-And if you load the plugin in a configuration file using the `plugin\_load\_add` option, then the option should also be removed. The [MariaDB Enterprise Audit Plugin](../../../../reference/plugins/mariadb-enterprise-audit/) will automatically be installed after installing MariaDB Enterprise Server 10.4 or later.
+And if you load the plugin in a configuration file using the `plugin_load_add` option, then the option should also be removed. The [MariaDB Enterprise Audit Plugin](../../../../reference/plugins/mariadb-enterprise-audit.md) will automatically be installed after installing MariaDB Enterprise Server 10.4 or later.
 
 ## Uninstall the Old Version <a href="#uninstall-the-old-version" id="uninstall-the-old-version"></a>
 
@@ -173,7 +173,7 @@ MariaDB Corporation provides package repositories for YUM (RHEL, AlmaLinux, Cent
     sudo ./mariadb_es_repo_setup --token="CUSTOMER_DOWNLOAD_TOKEN" --apply \
        --mariadb-server-version="11.4"
     ```
-    * _Checksums of the various releases of the `mariadb_es_repo_setup` script can be found in the_ [_Versions_](../../installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage.md#versions) _section at the bottom of the_ [_MariaDB Package Repository Setup and Usage_](../../installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage.md) _page. Substitute `${checksum}` in the example above with the latest checksum._
+    * _Checksums of the various releases of the `mariadb_es_repo_setup` script can be found in the_ [_Versions_](../../mariadb-package-repository-setup-and-usage.md#versions) _section at the bottom of the_ [_MariaDB Package Repository Setup and Usage_](../../mariadb-package-repository-setup-and-usage.md) _page. Substitute `${checksum}` in the example above with the latest checksum._
 
 3. Install MariaDB Enterprise Server and package dependencies:
 
@@ -218,7 +218,7 @@ MariaDB Corporation provides package repositories for YUM (RHEL, AlmaLinux, Cent
     ```bash
     sudo apt update
     ```
-    * _Checksums of the various releases of the `mariadb_es_repo_setup` script can be found in the_ [_Versions_](../../installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage.md#versions) _section at the bottom of the_ [_MariaDB Package Repository Setup and Usage_](../../installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage.md) _page. Substitute `${checksum}` in the example above with the latest checksum._
+    * _Checksums of the various releases of the `mariadb_es_repo_setup` script can be found in the_ [_Versions_](../../mariadb-package-repository-setup-and-usage.md#versions) _section at the bottom of the_ [_MariaDB Package Repository Setup and Usage_](../../mariadb-package-repository-setup-and-usage.md) _page. Substitute `${checksum}` in the example above with the latest checksum._
 
 3. Install MariaDB Enterprise Server and package dependencies:
 
@@ -259,7 +259,7 @@ MariaDB Corporation provides package repositories for YUM (RHEL, AlmaLinux, Cent
     sudo ./mariadb_es_repo_setup --token="CUSTOMER_DOWNLOAD_TOKEN" --apply \
        --mariadb-server-version="11.4"
     ```
-    * _Checksums of the various releases of the `mariadb_es_repo_setup` script can be found in the_ [_Versions_](../../installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage.md#versions) _section at the bottom of the_ [_MariaDB Package Repository Setup and Usage_](../../installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage.md) _page. Substitute `${checksum}` in the example above with the latest checksum._
+    * _Checksums of the various releases of the `mariadb_es_repo_setup` script can be found in the_ [_Versions_](../../mariadb-package-repository-setup-and-usage.md#versions) _section at the bottom of the_ [_MariaDB Package Repository Setup and Usage_](../../mariadb-package-repository-setup-and-usage.md) _page. Substitute `${checksum}` in the example above with the latest checksum._
 
 3. Install MariaDB Enterprise Server and package dependencies:
 
@@ -367,5 +367,7 @@ SELECT VERSION();
 | 11.4.5-3-MariaDB-Enterprise |
 +-----------------------------+
 ```
+
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 
 {% @marketo/form formId="4316" %}

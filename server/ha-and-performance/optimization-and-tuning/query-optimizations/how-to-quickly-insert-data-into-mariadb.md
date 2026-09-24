@@ -1,3 +1,8 @@
+---
+description: >-
+  Techniques for inserting data into MariaDB as quickly as possible.
+---
+
 # How to Quickly Insert Data Into MariaDB
 
 This article describes different techniques for inserting data quickly into MariaDB.
@@ -26,10 +31,10 @@ COMMIT;
 ALTER TABLE table_name ENABLE KEYS;
 ```
 
-In many storage engines (at least MyISAM and Aria),`ENABLE KEYS` works by scanning through the row data and collecting keys, sorting them and then creating the index blocks. This is an order of magnitude\
+In many storage engines (at least MyISAM and Aria),`ENABLE KEYS` works by scanning through the row data and collecting keys, sorting them and then creating the index blocks. This is an order of magnitude
 faster than creating the index one row at a time and it also uses less key buffer memory.
 
-**Note:** When you insert into an **empty table** with [INSERT](../../../reference/sql-statements/data-manipulation/inserting-loading-data/insert.md) or [LOAD DATA](../../../reference/sql-statements/data-manipulation/inserting-loading-data/load-data-into-tables-or-index/load-data-infile.md), MariaDB **automatically** does a [DISABLE KEYS](../../../reference/sql-statements/data-definition/alter/alter-table/) before and an [ENABLE KEYS](../../../reference/sql-statements/data-definition/alter/alter-table/)\
+**Note:** When you insert into an **empty table** with [INSERT](../../../reference/sql-statements/data-manipulation/inserting-loading-data/insert.md) or [LOAD DATA](../../../reference/sql-statements/data-manipulation/inserting-loading-data/load-data-into-tables-or-index/load-data-infile.md), MariaDB **automatically** does a [DISABLE KEYS](../../../reference/sql-statements/data-definition/alter/alter-table/) before and an [ENABLE KEYS](../../../reference/sql-statements/data-definition/alter/alter-table/)
 afterwards.
 
 When inserting big amounts of data, integrity checks are sensibly time-consuming. It is possible to disable the `UNIQUE` indexes and the [foreign keys](../optimization-and-indexes/foreign-keys.md) checks using the [unique\_checks](../system-variables/server-system-variables.md#unique_checks) and the [foreign\_key\_checks](../system-variables/server-system-variables.md#foreign_key_checks) system variables:
@@ -75,11 +80,11 @@ This is not as fast as reading the file on the server side, but the difference i
 
 Because of the above speed advantages there are many cases, when you need to insert **many** rows at a time, where it may be faster to create a file locally, add the rows there, and then use `LOAD DATA INFILE` to load them; compared to using `INSERT` to insert the rows.
 
-You will also get [progress reporting](https://app.gitbook.com/s/WCInJQ9cmGjq1lsTG91E/development-articles/mariadb-internals/using-mariadb-with-your-programs-api/progress-reporting) for`LOAD DATA INFILE`.
+You will also get [progress reporting](../../../reference/product-development/mariadb-internals/using-mariadb-with-your-programs-api/progress-reporting.md) for`LOAD DATA INFILE`.
 
 ### mariadb-import
 
-You can import many files in parallel with [mariadb-import](../../../clients-and-utilities/backup-restore-and-import-clients/mariadb-import.md) (`mysqlimport` before [MariaDB 10.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/mariadb-10-5-series/what-is-mariadb-105)). For example:
+You can import many files in parallel with [mariadb-import](../../../clients-and-utilities/backup-restore-and-import-clients/mariadb-import.md) (`mysqlimport` before [MariaDB 10.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.5/what-is-mariadb-105)). For example:
 
 ```
 mariadb-import --use-threads=10 database text-file-name [text-file-name...]

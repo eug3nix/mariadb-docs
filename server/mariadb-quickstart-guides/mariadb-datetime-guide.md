@@ -248,8 +248,8 @@ Common format specifiers:
 * `%Y`: Year, 4 digits
 * `%y`: Year, 2 digits
 * `%c`: Month, numeric (1-12)
-* `%r`: Time in 12-hour format (hh:mm:ss AM/PM)
-* `%T`: Time in 24-hour format (hh:mm:ss)
+* `%r`: Time in 12-hour format (`hh:mm:ss AM/PM`)
+* `%T`: Time in 24-hour format (`hh:mm:ss`)
 * `%H`: Hour (00-23)
 * `%h` or `%I`: Hour (01-12)
 * `%i`: Minutes (00-59)
@@ -304,6 +304,12 @@ Here, `%l` is hour (1-12) and `%p` adds AM/PM.
 * **Leverage Built-in Functions:** MariaDB offers a rich set of functions for date/time manipulation. Use them within your SQL queries to avoid complex logic in your application code.
 * **Test Queries:** When dealing with complex date/time logic or formatting, test your SQL statements directly in a MariaDB client (like the `mariadb` command-line tool) to verify results before embedding them in applications.
 * **Be Aware of Time Zones:** `TIMESTAMP` values are stored in UTC and converted to/from the session's time zone, while `DATETIME` values are stored "as is" without time zone conversion. Understand how your server and session time zones are configured if working with data across different regions. (Time zone handling is a more advanced topic not fully covered here).
+
+### See Also
+
+* [Date & Time Functions](../reference/sql-functions/date-time-functions/) — the full reference for every function used above
+* [DATE\_FORMAT()](../reference/sql-functions/date-time-functions/date_format.md) and [TIME\_FORMAT()](../reference/sql-functions/date-time-functions/time_format.md)
+* [EXTRACT()](../reference/sql-functions/date-time-functions/extract.md)
 
 <sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 

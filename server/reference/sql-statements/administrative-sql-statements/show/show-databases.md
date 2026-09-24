@@ -1,17 +1,19 @@
 ---
 description: >-
-  List databases on the MariaDB server. View the names of all databases
-  available to the current user.
+  Complete reference for listing databases in MariaDB. Complete SHOW DATABASES
+  syntax with pattern matching and privilege considerations for production use.
 ---
 
 # SHOW DATABASES
 
 ## Syntax
 
-```sql
+```bnf
 SHOW {DATABASES | SCHEMAS}
     [LIKE 'pattern' | WHERE expr]
 ```
+
+![Railroad diagram of SHOW DATABASES — equivalent to the BNF above](../../../../.gitbook/assets/show-databases-railroad.svg)
 
 ## Description
 

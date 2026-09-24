@@ -1,18 +1,8 @@
 ---
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
+description: >-
+  Overview of MariaDB Cloud Portal features: real-time performance metrics,
+  health indicators, alerts, logs, and administrative tools accessible through
+  the unified web dashboard.
 ---
 
 # MariaDB Cloud UI Portal
@@ -59,7 +49,7 @@ See "[Client Connections](../connecting-to-mariadb-cloud-dbs/)" for details on h
 From the Dashboard, the "MANAGE" button for a service provides access to:
 
 * [Self-Service Operations](manage-your-service.md) to stop/start, delete, or scale your service
-* [Security access](<../Security/Configuring Firewall.md>) to manage the firewall
+* [Security access](../security/configuring-firewall.md) to manage the firewall
 * [Autonomous](../cloud-management/autonomously-scale-compute-storage.md) settings for auto-scale of nodes and auto-scale of storage
 * [Apply custom configuration](../cloud-management/config/)
 
@@ -95,8 +85,8 @@ The Settings page allows you to access administrative and organizational configu
 Once you click the Settings link, the following options appear:
 
 * Organization
-* [User Management](<../Security/Managing Portal Users.md>)
-* [Secure Access (Firewall)](<../Security/Configuring Firewall.md>)
+* [User Management](../security/managing-portal-users.md)
+* [Secure Access (Firewall)](../security/configuring-firewall.md)
 * [Configuration Manager](../cloud-management/config/)
 * Policies for monitoring alerts
 * [Notification Channels](notifications.md) for the delivery of monitoring alerts by email
@@ -116,3 +106,5 @@ See "[Notifications](notifications.md)" for additional details.
 ## Logout
 
 To log out from MariaDB Cloud, click your name in the upper-right corner of the interface, then choose "Logout" from the menu.
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

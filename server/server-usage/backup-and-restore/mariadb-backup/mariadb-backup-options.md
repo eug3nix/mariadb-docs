@@ -1,14 +1,63 @@
 ---
 description: >-
-  A comprehensive reference for all command-line options available in
-  mariadb-backup, covering backup, prepare, and restore operations.
+  Reference for mariadb-backup (mariabackup) command-line options. Covers
+  --backup, --prepare, --copy-back, --move-back, streaming, and incremental
+  backups.
 ---
 
 # mariadb-backup Options
 
 {% include "../../../.gitbook/includes/mariadb-backup-was-previous....md" %}
 
-## List of `mariadb-backup` Options
+## `mariadb-backup` Options (mariabackup)
+
+Use this page as a reference for **`mariadb-backup` / `mariabackup` command-line options**. It focuses on the options (flags) you use for **physical (file-based) MariaDB backups**, including **hot online backups** for InnoDB.
+
+### Quick Reference (Most Searched Options)
+
+* Take a physical backup: [`--backup`](mariadb-backup-options.md#backup) + [`--target-dir`](mariadb-backup-options.md#target-dir)
+* Prepare a backup: [`--prepare`](mariadb-backup-options.md#prepare) (or legacy [`--apply-log`](mariadb-backup-options.md#apply-log))
+* Restore a backup: [`--copy-back`](mariadb-backup-options.md#copy-back) or [`--move-back`](mariadb-backup-options.md#move-back)
+* Incremental backups: [`--incremental-basedir`](mariadb-backup-options.md#incremental-basedir) + [`--incremental-dir`](mariadb-backup-options.md#incremental-dir)
+* Replication/Galera metadata: [`--slave-info`](mariadb-backup-options.md#slave-info), [`--binlog-info`](mariadb-backup-options.md#binlog-info), [`--galera-info`](mariadb-backup-options.md#galera-info)
+* Stream output (pipes to gzip/gpg/etc): [`--stream`](mariadb-backup-options.md#stream) + [`--extra-lsndir`](mariadb-backup-options.md#extra-lsndir)
+
+### Common Command Patterns
+
+Full backup (physical):
+
+```bash
+mariadb-backup --backup --target-dir=/backups/full \
+  --user=mariadb-backup --password=...
+```
+
+Prepare (make files consistent for restore):
+
+```bash
+mariadb-backup --prepare --target-dir=/backups/full
+```
+
+Restore:
+
+```bash
+mariadb-backup --copy-back --target-dir=/backups/full
+```
+
+Incremental backup (delta against an existing base backup):
+
+```bash
+mariadb-backup --backup --target-dir=/backups/inc1 \
+  --incremental-basedir=/backups/full
+```
+
+### Related Pages
+
+* [mariadb-backup Overview](mariadb-backup-overview.md)
+* [Full Backup and Restore (mariadb-backup)](full-backup-and-restore-with-mariadb-backup.md)
+* [Incremental Backup and Restore (mariadb-backup)](incremental-backup-and-restore-with-mariadb-backup.md)
+* [Using Encryption and Compression Tools With mariadb-backup](using-encryption-and-compression-tools-with-mariadb-backup.md)
+
+## Options
 
 ### `--apply-log`
 
@@ -75,7 +124,7 @@ When enabled, whether using `ON` or `AUTO`, `mariadb-backup` retrieves informati
 mariadb-backup --binlog-info --backup
 ```
 
-Currently, the `LOCKLESS` option depends on features unsupported by MariaDB Server. See the description of the [xtrabackup\_binlog\_pos\_innodb](files-created-by-mariadb-backup.md#xtrabackup_binlog_pos_innodb) file for more information. If you attempt to run `mariadb-backup` with this option, then it causes the utility to exit with an error.
+Currently, the `LOCKLESS` option depends on features unsupported by MariaDB Server. See the description of the [xtrabackup\_binlog\_pos\_innodb](files-created-by-mariadb-backup.md) file for more information. If you attempt to run `mariadb-backup` with this option, then it causes the utility to exit with an error.
 
 ### `--close-files`
 
@@ -109,7 +158,7 @@ The `--compress` option only supports the now deprecated `quicklz` algorithm.
 mariadb-backup --compress --backup
 ```
 
-If a backup is compressed using this option, then `mariadb-backup` will record that detail in the [xtrabackup\_info](files-created-by-mariadb-backup.md#xtrabackup_info) file.
+If a backup is compressed using this option, then `mariadb-backup` will record that detail in the [xtrabackup\_info](files-created-by-mariadb-backup.md) file.
 
 ### `--compress-chunk-size`
 
@@ -213,7 +262,7 @@ mariadb-backup --backup \
       --databases-exclude="example.table1 example.table2"
 ```
 
-To include databases in the backup, see the `--databases` option option.
+To include databases in the backup, see the `--databases` option.
 
 If a backup is a partial backup, then `mariadb-backup` records that detail in the `xtrabackup_info` file.
 
@@ -545,7 +594,7 @@ mariadb-backup --backup --history=backup_all
 
 Information is written to `mysql.mariadb_backup_history`.
 
-`mariadb-backup` also records this in the [mariadb\_backup\_info](files-created-by-mariadb-backup.md#mariadb_backup_info) file.
+`mariadb-backup` also records this in the [mariadb\_backup\_info](files-created-by-mariadb-backup.md) file.
 {% endtab %}
 
 {% tab title="< 10.11" %}
@@ -563,28 +612,27 @@ mariadb-backup --backup --history=backup_all
 
 Information is written to `PERCONA_SCHEMA.xtrabackup_history`.
 
-`mariadb-backup` also records this in the [xtrabackup\_info](files-created-by-mariadb-backup.md#xtrabackup_info) file.
+`mariadb-backup` also records this in the [xtrabackup\_info](files-created-by-mariadb-backup.md) file.
 {% endtab %}
 {% endtabs %}
 
 ### `-H, --host`
 
-Defines the hostname for the MariaDB Server you want to backup.
+Defines the hostname for the MariaDB Server you want to back up.
 
 ```bash
---host=name
+--host=name_or_ip-address
 ```
 
-Using this option, you can define the hostname or IP address to use when connecting to a local MariaDB Server over TCP/IP. By default, `mariadb-backup` attempts to connect to `localhost`.
+This option defines the hostname or IP address to use when **connecting to a local MariaDB Server over TCP/IP**. By default, `mariadb-backup` attempts to connect to `localhost`.
 
-Warning: No Remote Backups. This option does not allow you to back up a remote server. mariabackup must be run on the same server where the database files reside.
-The --host option is used only to establish the client connection for managing locks and retrieving metadata. The actual data files are always read from the local filesystem.
-Attempting to use this option to back up a remote host will result in a backup of the local machine's data, associated with the remote machine's binary log coordinates.
-
+{% hint style="warning" %}
+**The mariadb-backup client cannot create backups from a remote server.** Therefore, this option does not allow you to back up a remote server. `mariadb-backup` must always be run on the same server where the database files reside. The `--host` option is used only to establish the client connection for managing locks and retrieving metadata. The actual data files are always read from the local filesystem. Attempting to use this option to back up a remote host results in a backup of the local machine's data, associated with the remote machine's binary log coordinates.
+{% endhint %}
 
 ```bash
 mariadb-backup --backup \
-      --host="example.com"
+      --host="192.168.0.33"
 ```
 
 ### `--include`
@@ -671,7 +719,7 @@ mariadb-backup --backup \
      --incremental-history-name=morning_backup
 ```
 
-The table it uses by default is named `mysql.mariadb_backup_history`. Prior to [MariaDB 10.11](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-10-11-series/what-is-mariadb-1011), the default table was `PERCONA_SCHEMA.xtrabackup_history`.
+The table it uses by default is named `mysql.mariadb_backup_history`. Prior to [MariaDB 10.11](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.11/what-is-mariadb-1011), the default table was `PERCONA_SCHEMA.xtrabackup_history`.
 
 `mariadb-backup` also records this in the `xtrabackup_info` file.
 
@@ -850,7 +898,7 @@ Defines whether you want to store each InnoDB table as an `.ibd` file.
 
 ### `--innodb-flush-method`
 
-Defines the data flush method. Ignored from [MariaDB 11.0](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-0-series/what-is-mariadb-110).
+Defines the data flush method. Ignored from [MariaDB 11.0](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.0/what-is-mariadb-110). For the OS-level mechanisms behind these flag names, see [Storage I/O: Buffering and Persistence](../../../ha-and-performance/optimization-and-tuning/operating-system-optimizations/storage-io-buffering-and-persistence.md).
 
 ```bash
 --innodb-flush-method=fdatasync 
@@ -908,7 +956,11 @@ mariadb-backup --backup \
 
 ### `--innodb-log-file-mmap`
 
-**MariaDB starting with** 10.11.10, 11.4.4: When this option is enabled, `mariadb-backup` will read the `ib_logfile0` via a memory mapping, rather than by reading into a separately allocated buffer of `--innodb-log-buffer-size`.
+{% hint style="info" %}
+This variable is available from MariaDB 11.4.4 and 10.11.10.
+{% endhint %}
+
+When this option is enabled, `mariadb-backup` reads the `ib_logfile0` via a memory mapping, rather than by reading into a separately allocated buffer of `--innodb-log-buffer-size`.
 
 ### `--innodb-log-files-in-group`
 
@@ -1143,7 +1195,7 @@ Used internally to prepare a backup.
 
 When backing up Percona Server, mariadb-backup would use backup locks by default. To be specific, backup locks refers to the `LOCK TABLES FOR BACKUP` and `LOCK BINLOG FOR BACKUP` statements. This option can be used to disable support for Percona Server's backup locks. This option has no effect when the server does not support Percona's backup locks.
 
-Deprecated and has no effect from [MariaDB 10.11.8](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-10-11-series/mariadb-10-11-8-release-notes), [MariaDB 11.0.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-0-series/mariadb-11-0-6-release-notes), [MariaDB 11.1.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-1-series/mariadb-11-1-5-release-notes) and [MariaDB 11.2.4](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-2-series/mariadb-11-2-4-release-notes) as MariaDB now always uses backup locks for better performance. See [MDEV-32932](https://jira.mariadb.org/browse/MDEV-32932).
+Deprecated and has no effect from [MariaDB 10.11.8](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.11/10.11.8), [MariaDB 11.0.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.0/11.0.6), [MariaDB 11.1.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.1/11.1.5), [MariaDB 11.2.4](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.2/11.2.4) and [MariaDB 11.4.2](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/11.4/11.4.2) as MariaDB now always uses backup locks for better performance. See [MDEV-32932](https://jira.mariadb.org/browse/MDEV-32932).
 
 ```bash
 mariadb-backup --backup --no-backup-locks
@@ -1296,7 +1348,7 @@ mariadb-backup --print-param
 
 By default, mariadb-backup will not commit or rollback uncommitted XA transactions, and when the backup is restored, any uncommitted XA transactions must be manually committed using `XA COMMIT` or manually rolled back using `XA ROLLBACK`.
 
-**MariaDB starting with** [**10.5**](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-10-5-series/what-is-mariadb-105)
+**MariaDB starting with** [**10.5**](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.5/what-is-mariadb-105)
 
 mariadb-backup's `--rollback-xa` option is not present because the server has more robust ways of handling uncommitted XA transactions.
 
@@ -1314,7 +1366,7 @@ mariadb-backup --backup --rsync
 
 This option is not compatible with the `--stream` option.
 
-Deprecated and has no effect from [MariaDB 10.11.8](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-10-11-series/mariadb-10-11-8-release-notes), [MariaDB 11.0.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-0-series/mariadb-11-0-6-release-notes), [MariaDB 11.1.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-1-series/mariadb-11-1-5-release-notes) and [MariaDB 11.2.4](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-2-series/mariadb-11-2-4-release-notes) as rsync will not work on tables that are in use. See [MDEV-32932](https://jira.mariadb.org/browse/MDEV-32932).
+Deprecated and has no effect from [MariaDB 10.11.8](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.11/10.11.8), [MariaDB 11.0.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.0/11.0.6), [MariaDB 11.1.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.1/11.1.5), [MariaDB 11.2.4](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.2/11.2.4) and [MariaDB 11.4.2](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/11.4/11.4.2) as rsync will not work on tables that are in use. See [MDEV-32932](https://jira.mariadb.org/browse/MDEV-32932).
 
 ### `--safe-slave-backup`
 
@@ -1630,7 +1682,7 @@ Defines the tables you want to include in the backup.
 --tables=REGEX
 ```
 
-Using this option, you can define what tables you want `mariadb-backup` to back up from the database. The table values are defined using Regular Expressions. To define the tables you want to exclude from the backup, see the `--tables-exclude` option.
+Using this option, you can define what tables you want `mariadb-backup` to back up from the database. The table values are defined using Regular Expressions (regex[^2]). To define the tables you want to exclude from the backup, see the `--tables-exclude` option.
 
 ```bash
 mariadb-backup --backup \
@@ -1653,6 +1705,15 @@ mariadb-backup --backup \
 In that example, some of the tables included via the `--tables` option are excluded by `--tables-excludes`. That works because `--tables-exclude` takes precedence over `--tables`.
 
 You can specify multiple table name regex[^2] patterns as a comma-separated list, for both the `--tables` and the `--tables-exclude` options.
+
+The following command backs up all tables in the _`test1`_ and _`test2`_ databases, except the _`exclude_table`_ table in the _`test2`_ database, and stores the backup files under _`/path/to/backups/`_:
+
+```bash
+mariadb-backup --backup \
+     --tables=test1[.].*,test2[.].* \
+     --tables-exclude=^test2[.]exclude_table
+     --target-dir=/path/to/backups/
+```
 
 {% hint style="warning" %}
 The [`--databases`](mariadb-backup-options.md#databases) and [`--databases-exclude`](mariadb-backup-options.md#databases-exclude) options, if used, take precedence over `--tables` and `--tables-exclude`. That is, they can filter out tables, which are then not "visible" to the latter mentioned options.
@@ -1778,7 +1839,7 @@ Defines the username for connecting to the MariaDB Server.
 -u name
 ```
 
-When `mariadb-backup` runs, it connects to the specified MariaDB Server to get its backups. Using this option, you can define the database user used for authentication. Starting from [MariaDB 10.6.17](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-10-6-series/mariadb-10-6-17-release-notes), [MariaDB 10.11.7](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-10-11-series/mariadb-10-11-7-release-notes), [MariaDB 11.0.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-0-series/mariadb-11-0-5-release-notes), [MariaDB 11.1.4](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-1-series/mariadb-11-1-4-release-notes), [MariaDB 11.2.3](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-2-series/mariadb-11-2-3-release-notes), [MariaDB 11.3.2](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-3-rolling-releases/mariadb-11-3-2-release-notes), [MariaDB 11.4.1](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-11-4-series/mariadb-11-4-1-release-notes), if the `--user` option is omitted, the user name is detected from the OS.
+When `mariadb-backup` runs, it connects to the specified MariaDB Server to get its backups. Using this option, you can define the database user used for authentication. Starting from [MariaDB 10.6.17](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.6/10.6.17), [MariaDB 10.11.7](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.11/10.11.7), [MariaDB 11.0.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.0/11.0.5), [MariaDB 11.1.4](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.1/11.1.4), [MariaDB 11.2.3](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.2/11.2.3), [MariaDB 11.3.2](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.3/11.3.2), [MariaDB 11.4.1](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/11.4/11.4.1), if the `--user` option is omitted, the user name is detected from the OS.
 
 ```bash
 mariadb-backup --backup \

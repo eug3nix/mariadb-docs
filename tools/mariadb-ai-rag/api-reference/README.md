@@ -1,4 +1,8 @@
 ---
+description: >-
+  MariaDB AI RAG exposes a comprehensive RESTful API for programmatic
+  interaction with the system. All API endpoints require authentication except
+  for the login endpoint.
 icon: paperclip
 ---
 
@@ -73,6 +77,6 @@ http://localhost:8000
 
 For production deployments, replace with your configured host and port.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

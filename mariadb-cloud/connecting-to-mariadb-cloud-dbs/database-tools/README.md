@@ -1,19 +1,9 @@
 ---
+description: >-
+  Connect to MariaDB Cloud from third-party database GUI tools: DBeaver,
+  DBgate, HeidiSQL, and TablePlus, with DSN configuration and TLS setup for
+  each.
 icon: wrench
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
 ---
 
 # Database Tools
@@ -22,7 +12,7 @@ This page highlights various MariaDB-supported SQL clients and tools that integr
 
 ## DBeaver
 
-A comprehensive database management tool that supports MariaDB Cloud and is recommended for CloudDBA users.
+A comprehensive database management tool that supports MariaDB Cloud and is recommended for Cloud DBA users.
 
 {% content-ref url="dbeaver.md" %}
 [dbeaver.md](dbeaver.md)
@@ -51,3 +41,5 @@ A popular GUI client that supports multiple operating systems, securely integrat
 {% content-ref url="tableplus.md" %}
 [tableplus.md](tableplus.md)
 {% endcontent-ref %}
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

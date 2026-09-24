@@ -1,8 +1,8 @@
 ---
 description: >-
-  Discover MariaDB ColumnStore, the powerful columnar storage engine for
-  analytical workloads. Learn about its architecture, features, and how it
-  enables high-performance data warehousing and analytics.
+  MariaDB ColumnStore is a columnar storage engine for analytical workloads,
+  with documentation on architecture, deployment, management, security, and
+  use cases for data warehousing and OLAP.
 icon: table-columns
 ---
 
@@ -44,6 +44,6 @@ icon: table-columns
 [reference](reference/)
 {% endcontent-ref %}
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

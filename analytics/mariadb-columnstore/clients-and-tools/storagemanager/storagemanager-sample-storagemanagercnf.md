@@ -1,3 +1,10 @@
+---
+description: >-
+  Sample storagemanager.cnf for MariaDB ColumnStore showing [ObjectStorage],
+  [S3], and [LocalStorage] sections with credentials, paths, and concurrency
+  tuning options.
+---
+
 # Sample storagemanager.cnf
 
 ```ini
@@ -33,6 +40,6 @@ path = /var/lib/columnstore/storagemanager/cache
 Note: A region is required even when using an on-premises solution like [ActiveScale](https://qsupport.quantum.com/kb/flare/Content/ActiveScale/PDFs/ActiveScale_OS_S3_API_Reference.pdf) due to header expectations within the API.
 {% endhint %}
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

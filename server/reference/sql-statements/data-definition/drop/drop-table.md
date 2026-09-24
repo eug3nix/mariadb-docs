@@ -1,14 +1,15 @@
 ---
 description: >-
-  Delete one or more tables. This command removes the table definitions and all
-  stored data permanently, and can also delete temporary tables.
+  Complete DROP TABLE syntax: TEMPORARY, IF EXISTS, WAIT/NOWAIT,
+  RESTRICT/CASCADE options, metadata locks, atomic DROP, and replication
+  behavior.
 ---
 
 # DROP TABLE
 
 ## Syntax
 
-```sql
+```bnf
 DROP [TEMPORARY] TABLE [IF EXISTS] [/*COMMENT TO SAVE*/]
     tbl_name [, tbl_name] ...
     [WAIT n|NOWAIT]
@@ -31,7 +32,7 @@ Note that for a partitioned table, `DROP TABLE` permanently removes the table de
 
 For each referenced table, `DROP TABLE` drops a temporary table with that name, if it exists. If it does not exist, and the `TEMPORARY` keyword is not used, it drops a non-temporary table with the same name, if it exists. The `TEMPORARY` keyword ensures that a non-temporary table will not accidentally be dropped.
 
-Use `IF EXISTS` to prevent an error from occurring for tables that do not\
+Use `IF EXISTS` to prevent an error from occurring for tables that do not
 exist. A `NOTE` is generated for each non-existent table when using`IF EXISTS`. See [SHOW WARNINGS](../../administrative-sql-statements/show/show-warnings.md).
 
 If a [foreign key](../../../../ha-and-performance/optimization-and-tuning/optimization-and-indexes/foreign-keys.md) references this table, the table cannot be dropped. In this case, it is necessary to drop the foreign key first.
@@ -62,11 +63,11 @@ Set the lock wait timeout. See [WAIT and NOWAIT](../../transactions/wait-and-now
 
 ## DROP TABLE in replication
 
-`DROP TABLE` has the following characteristics in [replication](../../../../server-usage/storage-engines/myrocks/myrocks-and-replication.md):
+`DROP TABLE` has the following characteristics in [replication](../../../../ha-and-performance/standard-replication/):
 
 * `DROP TABLE IF EXISTS` are always logged.
 * `DROP TABLE` without `IF EXISTS` for tables that don't exist are not written to the [binary log](../../../../server-management/server-monitoring-logs/binary-log/).
-* Dropping of `TEMPORARY` tables are prefixed in the log with `TEMPORARY`. These drops are only logged when running [statement](../../../../server-management/server-monitoring-logs/binary-log/binary-log-formats.md#statement-based) or [mixed mode](../../../../server-management/server-monitoring-logs/binary-log/binary-log-formats.md#mixed) replication.
+* Dropping of `TEMPORARY` tables are prefixed in the log with `TEMPORARY`. These drops are only logged when running [statement](../../../../server-management/server-monitoring-logs/binary-log/binary-log-formats.md#statement-based-logging) or [mixed mode](../../../../server-management/server-monitoring-logs/binary-log/binary-log-formats.md#mixed-logging) replication.
 * One `DROP TABLE` statement can be logged with up to 3 different `DROP` statements:
   * `DROP TEMPORARY TABLE list_of_non_transactional_temporary_tables`
   * `DROP TEMPORARY TABLE list_of_transactional_temporary_tables`
@@ -112,7 +113,7 @@ WHERE TABLE_SCHEMA = 'mydb';
 
 ## Atomic DROP TABLE
 
-**MariaDB starting with** [**10.6.1**](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-10-6-series/mariadb-1061-release-notes)
+**MariaDB starting with** [**10.6.1**](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.6/10.6.1)
 
 {% tabs %}
 {% tab title="Current" %}
@@ -120,7 +121,7 @@ WHERE TABLE_SCHEMA = 'mydb';
 {% endtab %}
 
 {% tab title="< 10.6.1" %}
-There is a small chance that, during a server crash happening in the middle of `DROP TABLE`, some storage engines that were using multiple storage files, like [MyISAM](../../../../server-usage/storage-engines/myisam-storage-engine/), could have only a part of its internal files dropped. In [MariaDB 10.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/mariadb-10-5-series/what-is-mariadb-105), `DROP TABLE` was extended to be able to delete a table that was only partly dropped ([MDEV-11412](https://jira.mariadb.org/browse/MDEV-11412)) as explained above. Atomic `DROP TABLE` is the final piece to make `DROP TABLE` fully reliable. Dropping multiple tables is crash-safe. See [Atomic DDL](../atomic-ddl.md) for more information.
+There is a small chance that, during a server crash happening in the middle of `DROP TABLE`, some storage engines that were using multiple storage files, like [MyISAM](../../../../server-usage/storage-engines/myisam-storage-engine/), could have only a part of its internal files dropped. In [MariaDB 10.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.5/what-is-mariadb-105), `DROP TABLE` was extended to be able to delete a table that was only partly dropped ([MDEV-11412](https://jira.mariadb.org/browse/MDEV-11412)) as explained above. Atomic `DROP TABLE` is the final piece to make `DROP TABLE` fully reliable. Dropping multiple tables is crash-safe. See [Atomic DDL](../atomic-ddl.md) for more information.
 {% endtab %}
 {% endtabs %}
 

@@ -1,12 +1,8 @@
 ---
-description: The CONNECT storage engine has been deprecated.
+description: The CONNECT storage engine.
 ---
 
 # CONNECT Data Types
-
-{% hint style="warning" %}
-This storage engine has been deprecated.
-{% endhint %}
 
 Many data types make no or little sense when applied to plain files. This why [CONNECT](./) supports only a restricted set of data types. However, ODBC, JDBC or MYSQL source tables may contain data types not supported by CONNECT. In this case, CONNECT makes an automatic conversion to a similar supported type when it is possible.
 
@@ -27,7 +23,7 @@ The data types currently supported by CONNECT are:
 
 This type corresponds to what is generally known as [CHAR](../../../reference/data-types/string-data-types/char.md) or [VARCHAR](../../../reference/data-types/string-data-types/varchar.md) by database users, or as strings by programmers. Columns containing characters have a maximum length but the character string is of fixed or variable length depending on the file format.
 
-The DATA\_CHARSET option must be used to specify the character set used in the data source or file. Note that, unlike usually with MariaDB, when a multi-byte character set is used, the column size represents the number of bytes the column value can contain, not the number of characters.
+The `DATA_CHARSET` option must be used to specify the character set used in the data source or file. Note that, unlike usually with MariaDB, when a multi-byte character set is used, the column size represents the number of bytes the column value can contain, not the number of characters.
 
 ## TYPE\_INT
 
@@ -73,7 +69,7 @@ The internal representation of it are the character string`-2658.740000`. The wa
 
 Because this type is mainly used by CONNECT to handle numeric or decimal fields of ODBC, JDBC and MySQL table types, CONNECT does not provide decimal calculations or comparison by itself. This is why decimal columns of CONNECT tables cannot be indexed.
 
-## DATE Data type
+## DATE Data Type
 
 Internally, date/time values are stored by CONNECT as a signed 4-byte integer. The value 0 corresponds to 01 January 1970 12:00:00 am coordinated universal time ([UTC](../../../reference/data-types/string-data-types/character-sets/internationalization-and-localization/coordinated-universal-time.md)). All other date/time values are represented by the number of seconds elapsed since or before midnight (00:00:00), 1 January 1970, to that date/time value. Date/time values before midnight 1 January 1970 are represented by a negative number of seconds.
 
@@ -135,17 +131,17 @@ A `CONNECT` format string consists of a series of elements that represent a part
 
 * To match the source string, you can add body text to the format string, enclosing it in single quotes or double quotes if it would be ambiguous. Punctuation marks do not need to be quoted.
 * The hour information is regarded as 12-hour format if a “t” or “tt” element follows the “hh” element in the format or as 24-hour format otherwise.
-* The "MM", "DD", "hh", "mm", "ss" elements can be specified with one or two letters (e.g. "MM" or "M") making no difference on input, but placing a leading zero to one-digit values on output \[[1](connect-data-types.md#_note-0)] for two-letter elements.
+* The "MM", "DD", "hh", "mm", "ss" elements can be specified with one or two letters (e.g. "MM" or "M") making no difference on input, but placing a leading zero to one-digit values on output \[1] for two-letter elements.
 * If the format contains elements DDD or DDDD, the day of week name is skipped on input and ignored to calculate the internal date value. On output, the correct day of week name is generated and displayed.
-* Temporal values are always stored as numeric in [BIN](connect-table-types/connect-table-types-data-files.md#bin-table-type) and [VEC](connect-table-types/connect-table-types-data-files.md#vec-table-type-vecto) tables.
+* Temporal values are always stored as numeric in [BIN](connect-table-types/connect-bin-table-type.md) and [VEC](connect-table-types/connect-vec-table-type.md) tables.
 
 ### Handling dates that are out of the range of supported CONNECT dates
 
 If you want to make a table containing, for instance, historical dates not being convertible into CONNECT dates, make your column `CHAR` or `VARCHAR` and store the dates in the MariaDB format. All date functions applied to these strings will convert them to MariaDB dates and will work as if they were real dates. Of course they must be inserted and are displayed using the MariaDB format.
 
-## NULL handling
+## NULL Handling
 
-`CONNECT` handles [null values](../../../reference/data-types/null-values.md) for data sources able to produce nulls. Currently this concerns mainly the [ODBC](connect-table-types/connect-odbc-table-type-accessing-tables-from-another-dbms.md), [JDBC](connect-table-types/connect-jdbc-table-type-accessing-tables-from-another-dbms.md), MONGO, [MYSQL](connect-table-types/connect-mysql-table-type-accessing-mysqlmariadb-tables.md), [XML](connect-table-types/connect-table-types-data-files.md#xml-table-type), [JSON](connect-table-types/connect-json-table-type.md) and [INI](connect-table-types/connect-table-types-data-files.md#ini-table-type) table types. For INI, [JSON](connect-table-types/connect-json-table-type.md), MONGO or XML types, null values are returned when the key is missing in the section (INI) or when the corresponding node does not exist in a row (XML, JSON, MONGO).
+`CONNECT` handles [null values](../../../reference/data-types/null-values.md) for data sources able to produce nulls. Currently this concerns mainly the [ODBC](connect-table-types/connect-odbc-table-type-accessing-tables-from-another-dbms.md), [JDBC](connect-table-types/connect-jdbc-table-type-accessing-tables-from-another-dbms.md), MONGO, [MYSQL](connect-table-types/connect-mysql-table-type-accessing-mysqlmariadb-tables.md), [XML](connect-table-types/connect-xml-table-type.md), [JSON](connect-table-types/connect-json-table-type.md) and [INI](connect-table-types/connect-ini-table-type.md) table types. For INI, [JSON](connect-table-types/connect-json-table-type.md), MONGO or XML types, null values are returned when the key is missing in the section (INI) or when the corresponding node does not exist in a row (XML, JSON, MONGO).
 
 For other file tables, the issue is to define what a null value is. In a numeric column, 0 can sometimes be a valid value but, in some other cases, it can make no sense. The same for character columns; is a blank field a valid value or not?
 
@@ -205,11 +201,11 @@ The first query returns no rows, 0 are valid values and not NULL. The second que
 
 It shows that the NULL inserted value was replaced by a valid 0 value.
 
-## Unsigned numeric types
+## Unsigned Numeric Types
 
 They are supported by CONNECT since version 1.01.0010 for fixed numeric types (TINY, SHORT, INTEGER, and BITINT).
 
-## Data type conversion
+## Data Type Conversion
 
 `CONNECT` is able to convert data from one type to another in most cases. These conversions are done without warning even when this leads to truncation or loss of precision. This is true, in particular, for tables of type ODBC, JDBC, MYSQL and PROXY (via MySQL) because the source table may contain some data types not supported by `CONNECT`. They are converted when possible to `CONNECT` types.
 
@@ -274,11 +270,7 @@ JDBC SQL types are converted as:
 
 Note: The [connect\_type\_conv](connect-system-variables.md#connect_type_conv) SKIP option also applies to ODBC and JDBC tables.
 
-1. [↑](connect-data-types.md#_ref-0) Here input and output are\
-   used to specify respectively decoding the date to get its numeric value from\
-   the data file and encoding a date to write it in the table file. Input is\
-   performed within [SELECT](../../../reference/sql-statements/data-manipulation/selecting-data/select.md) queries; output is performed in [UPDATE](../../../reference/sql-statements/data-manipulation/changing-deleting-data/update.md) or [INSERT](../../../reference/sql-statements/data-manipulation/inserting-loading-data/insert.md)\
-   queries.
+1. Here input and output are used to specify respectively decoding the date to get its numeric value from the data file and encoding a date to write it in the table file. Input is performed within [SELECT](../../../reference/sql-statements/data-manipulation/selecting-data/select.md) queries; output is performed in [UPDATE](../../../reference/sql-statements/data-manipulation/changing-deleting-data/update.md) or [INSERT](../../../reference/sql-statements/data-manipulation/inserting-loading-data/insert.md) queries.
 
 <sub>_This page is licensed: GPLv2_</sub>
 

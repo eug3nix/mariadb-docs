@@ -1,3 +1,9 @@
+---
+description: >-
+  Stress-test a MariaDB server by running test scenarios repeatedly with
+  mariadb-stress-test (a symlink to mysql-stress-test).
+---
+
 # mariadb-stress-test
 
 `mariadb-stress-test` is a symlink to `mysql-stress-test`, the script for assisting with adding users or databases or changing passwords in MariaDB.
@@ -52,5 +58,7 @@ mariadb-stress-test.pl [options]
 | --verbose                         | Verbose mode. Print more information about what the program does                                                                                                                                                                                                                                                         |
 
 CC BY-SA / Gnu FDL
+
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 
 {% @marketo/form formId="4316" %}

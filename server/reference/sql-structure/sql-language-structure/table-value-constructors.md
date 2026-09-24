@@ -1,8 +1,13 @@
+---
+description: >-
+  The VALUES table value constructor, which produces a set of rows.
+---
+
 # Table Value Constructors
 
 ## Syntax
 
-```sql
+```bnf
 VALUES ( row_value[, row_value...]), (...)...
 ```
 
@@ -12,7 +17,7 @@ In Unions, Views, and subqueries, a Table Value Constructor (TVC) allows you to 
 
 ## Examples
 
-Using TVC's with [UNION](../../sql-statements/data-manipulation/selecting-data/joins-subqueries/union.md) operations:
+Using TVC's with [UNION](../../sql-statements/data-manipulation/selecting-data/set-operations/union.md) operations:
 
 ```sql
 CREATE TABLE test.t1 (val1 INT, val2 INT);

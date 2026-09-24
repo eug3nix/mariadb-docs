@@ -1,3 +1,10 @@
+---
+description: >-
+  Connect to MariaDB Cloud from a Python application using the MariaDB
+  Connector/Python library, including connection-string format, TLS
+  configuration, and authentication.
+---
+
 # Connect From Python App
 
 ## Overview
@@ -162,3 +169,5 @@ except mariadb.Error as e:
 # Close Connection
 conn.close()
 ```
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

@@ -11,8 +11,8 @@ description: >-
 
 {% tabs %}
 {% tab title="Current" %}
-```sql
-SHOW BINLOG STATUS
+```bnf
+SHOW [MASTER | BINLOG] STATUS
 ```
 {% endtab %}
 
@@ -37,9 +37,30 @@ This statement requires the [SUPER](../../account-management-sql-statements/gran
 {% endtab %}
 {% endtabs %}
 
-To see information about the current [GTIDs](../../../../ha-and-performance/standard-replication/gtid.md) in the binary log, use the [gtid\_binlog\_pos](../../../../ha-and-performance/standard-replication/gtid.md) variable.
+{% hint style="info" %}
+The following improved functionality is available from MariaDB 12.3.
+{% endhint %}
+
+To see information about the current [GTIDs](../../../../ha-and-performance/standard-replication/gtid.md) in the binary log, use the [gtid\_binlog\_pos](../../../../ha-and-performance/standard-replication/gtid.md) variable. It is enabled by default, and helps find the current state of the master server. (Previously, this required two statements, `SHOW MASTER STATUS` and `SELECT @@global.gtid_binlog_pos`.)
 
 ## Example
+
+{% tabs %}
+{% tab title="Current" %}
+From MariaDB 12.3, `SHOW BINLOG STATUS` includes the `Gtid_Binlog_Pos` column, so a separate `SELECT @@global.gtid_binlog_pos` statement is no longer required to see the current GTID position:
+
+```sql
+SHOW BINLOG STATUS;
++--------------------+----------+--------------+------------------+-----------------+
+| File               | Position | Binlog_Do_DB | Binlog_Ignore_DB | Gtid_Binlog_Pos |
++--------------------+----------+--------------+------------------+-----------------+
+| mariadb-bin.000016 |      475 |              |                  | 0-1-2           |
++--------------------+----------+--------------+------------------+-----------------+
+```
+{% endtab %}
+
+{% tab title="< 12.3" %}
+Before MariaDB 12.3, `SHOW BINLOG STATUS` (or `SHOW MASTER STATUS`) does not include the `Gtid_Binlog_Pos` column. To see the current GTID position, run an additional `SELECT @@global.gtid_binlog_pos`:
 
 ```sql
 SHOW BINLOG STATUS;
@@ -55,6 +76,8 @@ SELECT @@global.gtid_binlog_pos;
 | 0-1-2                    |
 +--------------------------+
 ```
+{% endtab %}
+{% endtabs %}
 
 ## See Also
 

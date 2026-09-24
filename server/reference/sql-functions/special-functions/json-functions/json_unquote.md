@@ -8,7 +8,7 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 JSON_UNQUOTE(val)
 ```
 
@@ -67,6 +67,10 @@ SELECT JSON_UNQUOTE('Si\bng\ting');
 | Si\bng\ting                 |
 +-----------------------------+
 ```
+
+## See Also
+
+* [JSON Arrow Operators](json-arrow-operators.md) — the `->>` operator is shorthand for `JSON_UNQUOTE(JSON_EXTRACT())`.
 
 <sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 

@@ -1,6 +1,12 @@
+---
+description: >-
+  Complete What to Do if MariaDB Doesn't Start guide for MariaDB. Complete
+  reference documentation for implementation, configuration, and usage.
+---
+
 # What to Do if MariaDB Doesn't Start
 
-There could be many reasons that MariaDB fails to start. This page will help troubleshoot some of the more common reasons and provide solutions.
+This page helps troubleshoot some of the more common reasons for MariaDB not starting, and provide solutions.
 
 If you have tried everything here and still need help, you can ask for help on IRC or on the forums - see [Where to find other MariaDB users and developers](https://app.gitbook.com/s/WCInJQ9cmGjq1lsTG91E/community/joining-the-community) - or ask a question at the [Starting and Stopping MariaDB](./) page.
 
@@ -10,16 +16,16 @@ The reason for the failure will almost certainly be written in the [error log](.
 
 Common Locations:
 
-* /var/log/
-* /var/log/mysql
-* C:\Program Files\MariaDB x.y\data (x.y refers to the version number)
-* C:\Program Files (x86)\MariaDB x.y\data (32bit version on 64bit Windows)
+* `/var/log/`
+* `/var/log/mysql`
+* `C:\Program Files\MariaDB x.y\data` (x.y refers to the version number)
+* `C:\Program Files (x86)\MariaDB x.y\data` (32bit version on 64bit Windows)
 
 It's also possible that the error log has been explicitly written to another location. This is often done by changing the [datadir](../../ha-and-performance/optimization-and-tuning/system-variables/server-system-variables.md#datadir) or [log\_error](../../ha-and-performance/optimization-and-tuning/system-variables/server-system-variables.md#log_error) system variables in an [option file](../install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md). See the [Option Files](what-to-do-if-mariadb-doesnt-start.md#option-files) below for more information about that.
 
 A quick way to get the values of these system variables is to execute the following commands:
 
-```
+```bash
 mariadbd --help --verbose | grep 'log-error' | tail -1
 mariadbd --help --verbose | grep 'datadir' | tail -1
 ```
@@ -30,13 +36,13 @@ Another kind of file to consider when troubleshooting is [option files](../insta
 
 You can check which configuration options MariaDB server will use from its option files by executing the following command:
 
-```
+```bash
 mariadbd --print-defaults
 ```
 
 You can also check by executing the following command:
 
-```
+```bash
 my_print_defaults --mysqld
 ```
 
@@ -87,7 +93,7 @@ May 13 10:24:28 mariadb3 maridbd[19221]: 2019-05-13 10:24:28 0 [ERROR] Aborting
 
 This is usually a permission error on the directory in which this file is being written. Ensure that the entire [datadir](../../ha-and-performance/optimization-and-tuning/system-variables/server-system-variables.md#datadir) is owned by the user running `mariadbd`, usually `mysql`. Ensure that directories have the "x" (execute) directory permissions for the owner. Ensure that all the parent directories of the datadir upwards have "x" (execute) permissions for all (`user`, `group`, and `other`).
 
-Once this is checked, look at the [systemd](what-to-do-if-mariadb-doesnt-start.md#systemd) and [SELinux](what-to-do-if-mariadb-doesnt-start.md#selinux) documentation below, or [AppArmor](what-to-do-if-mariadb-doesnt-start.md#AppArmorl).
+Once this is checked, look at the [systemd](what-to-do-if-mariadb-doesnt-start.md#systemd) and [SELinux](what-to-do-if-mariadb-doesnt-start.md#selinux) documentation below, or [AppArmor](what-to-do-if-mariadb-doesnt-start.md#apparmor).
 
 ## Can't Lock Aria Control File
 
@@ -101,7 +107,7 @@ This almost always happens because there is already an existing MariaDB service 
 
 A less likely case is that file locking is not available, which might occur on an NFS-mounted data directory without proper locking support.
 
-## Unable to lock ./ibdata1 error 11
+## Unable to Lock ./ibdata1 Error 11
 
 Like the above for the Aria Control File, this is attempting to exclusively lock the `ibdata1` InnoDB system tablespace. Error 11 corresponds to the system error "OS error code 11: Resource temporarily unavailable," meaning the lock cannot be created.
 
@@ -152,14 +158,14 @@ A MariaDB crash could cause system table corruption. With the default settings, 
 
 ## systemd
 
-If you are using [systemd](systemd.md), then there are a few relevant notes about startup failures:
+If you are using [systemd](systemd/README.md), then there are a few relevant notes about startup failures:
 
-* If MariaDB is configured to access files under `/home`, `/root`, or `/run/user`, then the default systemd unit file will prevent access to these directories with a `Permission Denied` error. This happens because the unit file sets [ProtectHome=true](https://www.freedesktop.org/software/systemd/man/systemd.exec.html#ProtectHome=). See [Systemd: Configuring Access to Home Directories](systemd.md#configuring-access-to-home-directories) for information on how to work around this.
+* If MariaDB is configured to access files under `/home`, `/root`, or `/run/user`, then the default systemd unit file will prevent access to these directories with a `Permission Denied` error. This happens because the unit file sets [ProtectHome=true](https://www.freedesktop.org/software/systemd/man/systemd.exec.html#ProtectHome=). See [Systemd: Configuring Access to Home Directories](systemd/configuring.md#configuring-access-to-home-directories) for information on how to work around this.
 * The default systemd unit file also sets [ProtectSystem=full](https://www.freedesktop.org/software/systemd/man/systemd.exec.html#ProtectSystem=), which places restrictions on writing to a few other directories. Overwriting this with `ProtectSystem=off` in the same way as above will restore access to these directories.
-* If MariaDB takes longer than 90 seconds to start, then the default systemd unit file will cause it to fail with an error. This happens because the default value for the [TimeoutStartSec](https://www.freedesktop.org/software/systemd/man/systemd.service.html#TimeoutStartSec=) option is 90 seconds. See [Systemd: Configuring the Systemd Service Timeout](systemd.md#configuring-the-systemd-service-timeout) for information on how to work around this.
-* The systemd journal may also contain useful information about startup failures. See [Systemd: Systemd Journal](systemd.md#systemd-journal) for more information.
+* If MariaDB takes longer than 90 seconds to start, then the default systemd unit file will cause it to fail with an error. This happens because the default value for the [TimeoutStartSec](https://www.freedesktop.org/software/systemd/man/systemd.service.html#TimeoutStartSec=) option is 90 seconds. See [Systemd: Configuring the Systemd Service Timeout](systemd/configuring.md#configuring-the-systemd-service-timeout) for information on how to work around this.
+* The systemd journal may also contain useful information about startup failures. See [Systemd: Systemd Journal](systemd/starting.md#systemd-journal) for more information.
 
-See [systemd](systemd.md) documentation for further information on systemd configuration.
+See [systemd](systemd/README.md) documentation for further information on systemd configuration.
 
 ## SELinux
 
@@ -179,15 +185,25 @@ See [SELinux](../../security/securing-mariadb/selinux.md) for more information.
 
 Add the following to `/etc/apparmor.d/tunables/alias` if you have moved the datadir:
 
-```
+```bash
 alias /var/lib/mysql/ -> /data/mariadb/,
 ```
 
 The restart AppArmor:
 
-```
+```bash
 sudo systemctl restart apparmor
 ```
+
+### AppArmor on newer Ubuntu and Debian releases
+
+In [Ubuntu 26.04 "Resolute Raccoon"](https://documentation.ubuntu.com/release-notes/26.04/changes-since-previous-interim/#mariadb-is-fully-supported), Debian 14 "Forky", and newer releases of these distributions, the MariaDB packages ship with a **custom AppArmor profile** which is enabled by default.
+
+In the event of unexplained errors at startup or runtime, check for potential AppArmor denials with `aa-status | grep mariadb` or `sudo dmesg | grep -i apparmor`.
+
+To disable enforcement, run `aa-complain /etc/apparmor.d/mariadbd`.
+
+To add local overrides, put them in `/etc/apparmor.d/local/mariadbd`. For more information, see [/usr/share/doc/mariadb-server/NEWS.Debian.gz](https://sources.debian.org/src/mariadb/latest/debian/mariadb-server.NEWS/).
 
 <sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 

@@ -1,3 +1,10 @@
+---
+description: >-
+  Query Accelerator (Alpha, ColumnStore 25.10.0 + ES 11.8.3+) lets MariaDB
+  ColumnStore execute aggregation queries on InnoDB tables in parallel using
+  engine-independent statistics.
+---
+
 # Query Accelerator
 
 {% hint style="warning" %}
@@ -7,12 +14,12 @@ Query Accelerator works only in **ColumnStore 25.10.0** and with **MariaDB Enter
 
 ## What is Query Accelerator
 
-Query Accelerator allows MariaDB to use ColumnStore to execute queries that are otherwise executed by InnoDB. Under the hood, Columnstore:
+Query Accelerator allows MariaDB to use ColumnStore to execute queries that are otherwise executed by InnoDB. Under the hood, ColumnStore:
 
 * receives a query;
 * searches for applicable Engine Independent statistics for InnoDB table index column;
 * applies RBO[^1] rule to transform its InnoDB tables into a number of `UNION` queries over non-overlapping ranges of a suitable InnoDB table index;
-* retrieves the data in parallel from MariaDB, and runs it using Columnstore runtime.
+* retrieves the data in parallel from MariaDB, and runs it using ColumnStore runtime.
 
 ## Queries Benefitting From Query Accelerator
 
@@ -38,7 +45,7 @@ The effectiveness of Query Accelerator can vary depending on the type of queries
 Performance issues occur for queries like this:
 
 ```sql
- SELECT column_a FROM tbl WHERE column_a = column_b 
+ SELECT column_a FROM tbl WHERE column_a = column_b
 ```
 
 InnoDB handles such comparison much better than ColumnStore in general, and in Query Accelerator, that would be even worse.
@@ -62,28 +69,40 @@ Locate (or create) the mariadb section, and add a line enabling Query Accelerato
 
 ```ini
 [mariadb]
-columnstore_innodb_queries_use_mcs = on
+loose-columnstore_innodb_queries_use_mcs = on
 ```
+
+{% hint style="warning" %}
+The `loose-` prefix is required for ColumnStore system variables in the configuration file. Without it, MariaDB Server will fail to start if the ColumnStore plugin is not installed or has been removed.
+{% endhint %}
 
 Restart MariaDB Server for the change to take effect.
 {% endstep %}
 
 {% step %}
-**Run queries to turn on Query Accelerator**
+**Enable Query Accelerator in a client session**
 
-Set these parameters in a client session:
+Use the routines in the `queryacc` schema to enable and disable Query Accelerator. These are automatically created during ColumnStore installation.
 
 ```sql
-SET columnstore_unstable_optimizer=ON;
-SET optimizer_switch="index_merge=off,index_merge_union=off,index_merge_sort_union=off,index_merge_intersection=off,index_merge_sort_intersection=off,index_condition_pushdown=off,derived_merge=off,derived_with_keys=off,firstmatch=off,loosescan=off,materialization=on,in_to_exists=off,semijoin=off,partial_match_rowid_merge=off,partial_match_table_scan=off,subquery_cache=off,mrr=off,mrr_cost_based=off,mrr_sort_keys=off,outer_join_with_cache=off,semijoin_with_cache=off,join_cache_incremental=off,join_cache_hashed=off,join_cache_bka=off,optimize_join_buffer_size=off,table_elimination=off,extended_keys=off,exists_to_in=off,orderby_uses_equalities=off,condition_pushdown_for_derived=on,split_materialized=off,condition_pushdown_for_subquery=off,rowid_filter=off,condition_pushdown_from_having=on,not_null_range_scan=off,hash_join_cardinality=off,cset_narrowing=off,sargable_casefold=off";
+-- Enable Query Accelerator and save previous settings
+SET @old_settings = queryacc.enable_queryacc();
+
+-- Run your queries
+SELECT c_zip, SUM(c_payment_cnt) FROM test.customer_indexed GROUP BY c_zip;
+
+-- Disable and restore previous settings
+CALL queryacc.disable_queryacc(@old_settings);
 ```
 
-{% hint style="info" %}
-In future versions of Query Accelerator, those `SET` statements will be in stored procedures, allowing to turn Query Accelerator on and off with simpler commands.
-{% endhint %}
+To run a single query with Query Accelerator without manually managing enable/disable:
+
+```sql
+CALL queryacc.with_queryacc('SELECT c_zip, SUM(c_payment_cnt) FROM test.customer_indexed GROUP BY c_zip');
+```
 
 {% hint style="warning" %}
-To use Query Accelerator just for one query, you have to run those `SET` statements per query, not per session. Setting them per session effectively disables the MariaDB Optimizer for subsequent queries that ColumnStore cannot execute.
+Do not leave Query Accelerator enabled for an entire session. It changes `optimizer_switch` settings that effectively disable the MariaDB Optimizer for queries that ColumnStore cannot execute. Always call `disable_queryacc()` after your queries, or use `with_queryacc()` which handles this automatically.
 {% endhint %}
 {% endstep %}
 {% endstepper %}
@@ -101,13 +120,17 @@ ANALYZE TABLE table_name PERSISTENT FOR COLUMNS (column_name) indexes();
 * `columnstore_unstable_optimizer`\
   \
   enables unstable optimizer that is required for Query Accelerator RBO[^1] rule.
-* `columnstore_select_handler`\
+* `columnstore_select_handler`
   enables/disables ColumnStore processing for InnoDB tables.
-* `columnstore_query_accel_parallel_factor`\
+* `columnstore_query_accel_parallel_factor`
   controls the number of parallel ranges to be used for Query Accelerator.
 
 {% hint style="warning" %}
 Watch out for `max_connections`. If you set `columnstore_query_accel_parallel_factor` to a high value, you may need to increase `max_connections` to avoid connection pool exhaustion.
+{% endhint %}
+
+{% hint style="info" %}
+`enable_queryacc()` sets `columnstore_query_accel_parallel_factor` to 5 by default. To use a different value, set it manually after calling `enable_queryacc()`.
 {% endhint %}
 
 ## Verifying That Query Accelerator is Being Used
@@ -131,8 +154,8 @@ CREATE DATABASE IF NOT EXISTS test; USE test;
 CREATE TABLE IF NOT EXISTS test.customer_indexed (  `c_d_id` int(2) NOT NULL, `c_w_id` int(6) NOT NULL, `c_first` varchar(16) , `c_middle` char(2) , `c_last` varchar(16) , `c_street_1` varchar(20) , `c_street_2` varchar(20) , `c_city` varchar(20) , `c_state` char(2) , `c_zip` int(5) , `c_phone` char(16) , `c_since` datetime DEFAULT NULL, `c_credit` char(2) , `c_credit_lim` decimal(12,2) DEFAULT NULL, `c_discount` decimal(4,4) DEFAULT NULL, `c_balance` decimal(12,2) DEFAULT NULL, `c_ytd_payment` decimal(12,2) DEFAULT NULL, `c_payment_cnt` int(8) DEFAULT NULL, `c_delivery_cnt` int(8) DEFAULT NULL, `c_data` varchar(500)) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 INSERT INTO test.customer_indexed  SELECT  ROUND(RAND() * 42000, 0), ROUND(RAND() * 42000, 0), substring(MD5(RAND()*1000000000),1,16), substring(MD5(RAND()),1,2), substring(MD5(RAND()*1000000000),1,16), substring(MD5(RAND()*1000000000),1,20), substring(MD5(RAND()*1000000000),1,20), substring(MD5(RAND()*1000000000),1,20), substring(MD5(RAND()),1,2), ROUND(RAND() * 42000, 0), substring(MD5(RAND()),1,16), CURRENT_TIMESTAMP - INTERVAL FLOOR(RAND() * 365 * 24 * 60 *60) SECOND, substring(MD5(RAND()),1,2), ROUND(RAND() * 9999999999, 2), ROUND(RAND() * 0, 4), ROUND(RAND() * 9999999999, 2), ROUND(RAND() * 9999999999, 2), ROUND(RAND() * 42000, 0), ROUND(RAND() * 42000, 0), substring(MD5(RAND()*1000000000),1,500) FROM seq_1_to_8000000; -- 3.5 min
 ALTER TABLE test.customer_indexed ADD INDEX idx_fast (`c_zip`, `c_payment_cnt`); -- ~1.5 min
--- baseline 
-SELECT c_zip, sum(c_payment_cnt)  FROM test.customer_indexed GROUP BY c_zip ORDER BY c_zip ;  --2.6s 
+-- baseline
+SELECT c_zip, sum(c_payment_cnt)  FROM test.customer_indexed GROUP BY c_zip ORDER BY c_zip ;  --2.6s
 ```
 {% endcode %}
 {% endstep %}
@@ -142,7 +165,7 @@ Turn on Query Accelerator - On CLI:
 
 {% code overflow="wrap" %}
 ```bash
-sed -i 's/^#columnstore_innodb_queries_use_mcs = on/columnstore_innodb_queries_use_mcs = on/' /etc/my.cnf.d/columnstore.cnf
+sed -i 's/^\s*loose-columnstore_innodb_queries_use_mcs\s*=.*/loose-columnstore_innodb_queries_use_mcs = on/' /etc/my.cnf.d/columnstore.cnf
 systemctl restart mariadb
 ```
 {% endcode %}
@@ -156,7 +179,7 @@ In mariadb (MariaDB command-line client), run these statements:
 # In mariadb (MariaDB command-line client)
 USE test;
 ANALYZE table test.customer_indexed PERSISTENT FOR COLUMNS (c_zip,c_payment_cnt) indexes(); --8s
-SELECT table_name, column_name, hist_type FROM mysql.column_stats WHERE table_name="customer_indexed"; 
+SELECT table_name, column_name, hist_type FROM mysql.column_stats WHERE table_name="customer_indexed";
 SHOW VARIABLES LIKE "%columnstore_innodb_queries_use_mcs%";
 ```
 {% endcode %}
@@ -173,9 +196,9 @@ In mariadb (MariaDB command-line client), run these statements:
 
 {% code overflow="wrap" %}
 ```sql
-SET columnstore_unstable_optimizer=ON;
-SET optimizer_switch='index_merge=off,index_merge_union=off,index_merge_sort_union=off,index_merge_intersection=off,index_merge_sort_intersection=off,index_condition_pushdown=off,derived_merge=off,derived_with_keys=off,firstmatch=off,loosescan=off,materialization=on,in_to_exists=off,semijoin=off,partial_match_rowid_merge=off,partial_match_table_scan=off,subquery_cache=off,mrr=off,mrr_cost_based=off,mrr_sort_keys=off,outer_join_with_cache=off,semijoin_with_cache=off,join_cache_incremental=off,join_cache_hashed=off,join_cache_bka=off,optimize_join_buffer_size=off,table_elimination=off,extended_keys=off,exists_to_in=off,orderby_uses_equalities=off,condition_pushdown_for_derived=on,split_materialized=off,condition_pushdown_for_subquery=off,rowid_filter=off,condition_pushdown_from_having=on,not_null_range_scan=off,hash_join_cardinality=off,cset_narrowing=off,sargable_casefold=off';
+SET @old_settings = queryacc.enable_queryacc();
 SELECT c_zip, sum(c_payment_cnt)  FROM test.customer_indexed GROUP BY c_zip ORDER BY c_zip ; -- 0.7s
+CALL queryacc.disable_queryacc(@old_settings);
 ```
 {% endcode %}
 {% endstep %}
@@ -185,7 +208,7 @@ Turn off Query Accelerator - On CLI:
 
 {% code overflow="wrap" %}
 ```bash
-sed -i 's/^columnstore_innodb_queries_use_mcs = on/#columnstore_innodb_queries_use_mcs = on/' /etc/my.cnf.d/columnstore.cnf
+sed -i 's/^\s*loose-columnstore_innodb_queries_use_mcs\s*=.*/loose-columnstore_innodb_queries_use_mcs = off/' /etc/my.cnf.d/columnstore.cnf
 systemctl restart mariadb
 ```
 {% endcode %}
@@ -251,7 +274,7 @@ SELECT mcs_get_plan('optimized');
 {% endstep %}
 {% endstepper %}
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}
 

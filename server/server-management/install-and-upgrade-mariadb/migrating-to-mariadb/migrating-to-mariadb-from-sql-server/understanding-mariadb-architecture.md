@@ -1,3 +1,10 @@
+---
+description: >-
+  An architectural overview for SQL Server DBAs, covering MariaDB's storage
+  engines (InnoDB), transaction logs (undo/redo), buffer pool, and system
+  databases.
+---
+
 # Understanding MariaDB Architecture
 
 {% include "https://app.gitbook.com/s/GxVnu02ec8KJuFSxmB93/~/reusable/UQS8KgfG8jtpHBvT83fL/" %}
@@ -59,7 +66,7 @@ The system tablespace is stored in the file `ibdata`. It contains information us
 
 Tables created while `innodb_file_per_table=1` are written into their own tablespace. These are `.ibd` files.
 
-Starting from [MariaDB 10.2](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-2-series/what-is-mariadb-102), temporary tables are written into temporary tablespaces, which means `ibtmp*` files. Previously, they were created in the system tablespace or in file-per-table tablespaces according to the value of `innodb_file_per_table`, just like regular tables. Temporary tablespaces, if present, are deleted when MariaDB starts.
+Starting from [MariaDB 10.2](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.2/what-is-mariadb-102), temporary tables are written into temporary tablespaces, which means `ibtmp*` files. Previously, they were created in the system tablespace or in file-per-table tablespaces according to the value of `innodb_file_per_table`, just like regular tables. Temporary tablespaces, if present, are deleted when MariaDB starts.
 
 **It is important to remember that tablespaces can never shrink**. If a file-per-table tablespace grows too much, deleting data won't recover space. Instead, a new table must be created and data needs to be copied. Finally, the old table will be deleted. If the system tablespace grows too much, the only solution is to move data into a new MariaDB installation.
 
@@ -109,7 +116,7 @@ Even if we only create InnoDB tables, we use Aria indirectly, in two ways:
 * For system tables.
 * For internal temporary tables.
 
-Aria is a non-transactional storage engine. By default it is crash-safe, meaning that all changes to data are written and fsynced to a write-ahead log and can always be recovered in case of a crash.
+Aria is a non-transactional storage engine. By default it is crash-safe, meaning that all changes to data are durably written to a write-ahead log and can always be recovered in case of a crash.
 
 Aria caches indexes into the pagecache. Data are not directly cached by Aria, so it's important that the underlying filesystem caches reads and writes.
 
@@ -186,7 +193,7 @@ The binary log can be written in the following formats:
 
 * STATEMENT logs SQL statements that modify data;
 * ROW logs a reference to the rows that have been modified, if any (usually it’s the primary key), and the new values that have been added or modified, in a binary format.
-* MIXED is a combination of the above formats. It means that ROW is used for statements that can safely be logged in this way (see below), and STATEMENT is used in other cases. This is the default format from [MariaDB 10.2](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-2-series/what-is-mariadb-102).
+* MIXED is a combination of the above formats. It means that ROW is used for statements that can safely be logged in this way (see below), and STATEMENT is used in other cases. This is the default format from [MariaDB 10.2](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.2/what-is-mariadb-102).
 
 In most cases, STATEMENT is slower because the SQL statement needs to be re-executed by the replica, and because certain statements may produce a different result in the replica (think about queries that use LIMIT without ORDER BY, or the CURRENT\_TIMESTAMP() function). But there are exceptions, and besides, DDL statements are always logged as STATEMENT to avoid flooding the binary log. Therefore, the binary log may well contain both ROW and STATEMENT entries.
 
@@ -233,7 +240,7 @@ Whichever connection method we use, MariaDB has a maximum number of simultaneous
 
 ## Configuration
 
-MariaDB has many settings that\
+MariaDB has many settings that
 control the server behavior. These can be set up when starting mysqld ([mysqld options](../../../starting-and-stopping-mariadb/mariadbd-options.md)), and the vast majority are also accessible as [server system variables](../../../../ha-and-performance/optimization-and-tuning/system-variables/server-system-variables.md). These can be classified in these ways:
 
 * Dynamic or static;

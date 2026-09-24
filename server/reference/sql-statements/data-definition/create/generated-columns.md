@@ -1,15 +1,19 @@
 ---
-description: Generated columns can be virtual or persistent (stored).
+description: >-
+  Complete generated columns reference: VIRTUAL vs PERSISTENT/STORED syntax,
+  CREATE/ALTER TABLE, index/foreign key constraints, sql_mode consistency.
 ---
 
 # Generated Columns
 
 ## Syntax
 
-```sql
-<type>  [GENERATED ALWAYS]  AS   ( <expression> )
-[VIRTUAL | PERSISTENT | STORED]  [UNIQUE] [UNIQUE KEY] [COMMENT <text>]
+```bnf
+<type> [GENERATED ALWAYS] AS (<expression>)
+[VIRTUAL | PERSISTENT | STORED] [UNIQUE [KEY]] [COMMENT <text>]
 ```
+
+![Railroad diagram of a generated-column definition — equivalent to the BNF above](../../../../.gitbook/assets/generated-columns-railroad.svg)
 
 {% tabs %}
 {% tab title="Current" %}
@@ -39,7 +43,7 @@ Generated columns are also sometimes called computed columns or virtual columns.
 * Generated columns can only be used with storage engines which support them. If you try to use a storage engine that does not support them, then you will see an error similar to the following:
 
 ```sql
-ERROR 1910 (HY000): TokuDB storage engine does not support computed columns
+ERROR 1910 (HY000): <storage engine> storage engine does not support generated columns
 ```
 
 * [InnoDB](../../../../server-usage/storage-engines/innodb/), [Aria](../../../../server-usage/storage-engines/aria/), [MyISAM](../../../../server-usage/storage-engines/myisam-storage-engine/) and [CONNECT](../../../../server-usage/storage-engines/connect/using-connect/using-connect-virtual-and-special-columns.md) support generated columns.
@@ -89,12 +93,12 @@ Defining indexes on both `VIRTUAL` and `PERSISTENT` generated columns is support
 If an index is defined on a generated column, then the optimizer considers using it in the same way as indexes based on "real" columns.
 
 {% tabs %}
-{% tab title="Tab 1" %}
-The optimizer can recognize use of indexed virtual column expressions in the `WHERE` clause and use them to construct range and ref(const) accesses. See [Virtual Column Support in the Optimizer](../../../../ha-and-performance/optimization-and-tuning/query-optimizations/virtual-column-support-in-the-optimizer.md).
+{% tab title="Current" %}
+The optimizer can recognize use of indexed virtual column expressions in the `WHERE` clause and use them to construct range and `ref(const)` accesses. See [Virtual Column Support in the Optimizer](../../../../ha-and-performance/optimization-and-tuning/query-optimizations/virtual-column-support-in-the-optimizer.md).
 {% endtab %}
 
 {% tab title="< 11.8" %}
-The optimizer **cannot** recognize use of indexed virtual column expressions in the `WHERE` clause and use them to construct range and ref(const) accesses. See [Virtual Column Support in the Optimizer](../../../../ha-and-performance/optimization-and-tuning/query-optimizations/virtual-column-support-in-the-optimizer.md).
+The optimizer **cannot** recognize use of indexed virtual column expressions in the `WHERE` clause and use them to construct range and `ref(const)` accesses. See [Virtual Column Support in the Optimizer](../../../../ha-and-performance/optimization-and-tuning/query-optimizations/virtual-column-support-in-the-optimizer.md).
 {% endtab %}
 {% endtabs %}
 
@@ -309,7 +313,7 @@ Generated columns are subject to various constraints in other DBMSs that are not
 
 ### Implementation Differences Compared to Microsoft SQL Server
 
-MariaDB's generated columns implementation does not enforce the following\
+MariaDB's generated columns implementation does not enforce the following
 restrictions that are present in [Microsoft SQL Server's computed columns](https://docs.microsoft.com/en-us/sql/relational-databases/tables/specify-computed-columns-in-a-table?view=sql-server-2017) implementation:
 
 * MariaDB allows [server variables](../../../../ha-and-performance/optimization-and-tuning/system-variables/) in generated column expressions, including those that change dynamically, such as [warning\_count](../../../../ha-and-performance/optimization-and-tuning/system-variables/server-system-variables.md#warning_count).
@@ -331,7 +335,7 @@ If you try to update a virtual column, you will get an error if the default [str
 
 ## Development History
 
-Generated columns was originally developed by Andrey Zhakov. It was then modified by Sanja Byelkin and Igor Babaev at Monty Program for inclusion in MariaDB. Monty did the work on [MariaDB 10.2](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-2-series/what-is-mariadb-102) to lift some of the limitations.
+Generated columns was originally developed by Andrey Zhakov. It was then modified by Sanja Byelkin and Igor Babaev at Monty Program for inclusion in MariaDB. Monty did the work on [MariaDB 10.2](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.2/what-is-mariadb-102) to lift some of the limitations.
 
 ## Examples
 
@@ -424,6 +428,7 @@ You can also use virtual columns to implement a "poor man's partial index". See 
 
 ## See Also
 
+* [Generated Columns](../../../../clients-and-utilities/backup-restore-and-import-clients/mariadb-dump.md#generated-columns) in `mariadb-dump`, for how generated columns appear in dump output.
 * [Putting Virtual Columns to good use](https://mariadb.com/blog/putting-virtual-columns-good-use) on the mariadb.com blog.
 
 <sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>

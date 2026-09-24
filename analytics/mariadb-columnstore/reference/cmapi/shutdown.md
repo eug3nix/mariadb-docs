@@ -1,3 +1,9 @@
+---
+description: >-
+  The CMAPI shutdown endpoint shuts down MariaDB ColumnStore on
+  every cluster node via HTTPS PUT with x-api-key authentication.
+---
+
 # shutdown
 
 Shuts down ColumnStore on all nodes
@@ -6,7 +12,7 @@ See [CMAPI](./) for detail on REST API endpoint, required headers, and other ava
 
 ## Description
 
-Upon successful `shutdown` call CMAPI connects to each MariaDB Enterprise ColumnStore node and performs shut down.
+Upon successful `shutdown` call CMAPI connects to each MariaDB ColumnStore node and performs shut down.
 
 Call made via HTTPS `PUT`, with authentication via shared secret using the `x-api-key` header.
 
@@ -16,7 +22,7 @@ JSON data required for this call:
 | --------- | ---------------------------------------------------------------------- |
 | `timeout` | Maximum time in seconds to wait for completion of `add-node` operation |
 
-Bash alias `mcsShutdown` is available starting with Enterprise ColumnStore 5.5.2.
+Bash alias `mcsShutdown` is available starting with ColumnStore 5.5.2.
 
 ## Examples
 
@@ -40,7 +46,7 @@ In this example, `jq` produces human-readable output from the returned JSON resp
 
 Starting with Enterprise ColumnStore 5.5.2, if your `bash` shell is configured to source the `columnstoreAlias` shell script, this command can be executed using the `mcsShutdown` alias. The alias executes `curl` and `jq`, so both programs must be installed on the system.
 
-The alias automatically retrieves the IP address for the primary node using the [mcsGetConfig](http://localhost:8000/docs/columnstore/ref/col/cli/mcsGetConfig/) command. The alias automatically retrieves the API key by reading `/etc/columnstore/cmapi_server.conf`.
+The alias automatically retrieves the IP address for the primary node using the [mcsGetConfig](../../architecture/columnstore-system-paths-and-logs.md#mcsgetconfig) command. The alias automatically retrieves the API key by reading `/etc/columnstore/cmapi_server.conf`.
 
 ```bash
 mcsShutdown
@@ -48,6 +54,6 @@ mcsShutdown
 
 These aliases use `jq` produces human-readable output from the returned JSON response.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

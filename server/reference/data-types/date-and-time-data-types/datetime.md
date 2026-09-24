@@ -1,15 +1,14 @@
 ---
 description: >-
-  Store date and time combinations. This type stores values in 'YYYY-MM-DD
-  HH:MM:SS' format, with a range from '1000-01-01 00:00:00' to '9999-12-31
-  23:59:59'.
+  Complete DATETIME data type guide for MariaDB. Complete reference for syntax,
+  valid values, storage requirements, and range limits for production use.
 ---
 
 # DATETIME
 
 ## Syntax
 
-```sql
+```bnf
 DATETIME [(microsecond precision)]
 ```
 
@@ -35,7 +34,7 @@ MariaDB also supports '`0000-00-00`' as a special _zero-date_ value, unless [NO\
 
 ## Oracle Mode
 
-In [Oracle mode](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/about/compatibility-and-differences/sql_modeoracle), `DATE` with a time portion is a synonym for `DATETIME`. See also [mariadb\_schema](../../system-tables/mariadb_schema.md).
+In [Oracle mode](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/about/compatibility-and-differences/sql_modeoracle), `DATE` with a time portion is a synonym for `DATETIME`. See also [mariadb\_schema](../../sql-structure/sql-language-structure/schema-qualifiers.md).
 
 ## Internal Format
 
@@ -198,7 +197,7 @@ SELECT description, CONVERT(example, DATETIME) AS example
 * [Data Type Storage Requirements](../data-type-storage-requirements.md)
 * [CONVERT()](../../sql-functions/string-functions/convert.md)
 * [Oracle mode](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/about/compatibility-and-differences/sql_modeoracle)
-* [mariadb\_schema](../../system-tables/mariadb_schema.md) data type qualifier
+* [mariadb\_schema data type qualifier](../../sql-structure/sql-language-structure/schema-qualifiers.md)
 
 <sub>_This page is licensed: GPLv2, originally from_</sub> [<sub>_fill\_help\_tables.sql_</sub>](https://github.com/MariaDB/server/blob/main/scripts/fill_help_tables.sql)
 

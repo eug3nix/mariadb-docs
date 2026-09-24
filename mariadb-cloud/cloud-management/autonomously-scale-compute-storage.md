@@ -1,4 +1,7 @@
 ---
+description: >-
+  MariaDB Cloud autonomous scaling adjusts compute and storage in response to
+  workload changes, scaling nodes up and down based on real-time load metrics.
 icon: maximize
 ---
 
@@ -13,9 +16,11 @@ Auto-scale of nodes enables scaling based on load:
 
 Auto-scale of storage enables expansion of capacity based on usage.
 
-Autonomous features can be enabled at the time of [service launch](../cloud-usage/launch-page.md). Autonomous features can be enabled or disabled after launch.
+Autonomous features can be enabled at the time of [service launch](../cloud-usage/launch-page.md). These features can be enabled or disabled after launch.
 
-<figure><img src="../.gitbook/assets/autonomous (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/auto-settings.png" alt=""><figcaption></figcaption></figure>
+
+_Autonomous Settings_
 
 ## Enable Auto-Scaling of Nodes
 
@@ -26,6 +31,12 @@ During [service launch](../cloud-usage/launch-page.md):
 * Check the "Enable auto-scale nodes" checkbox and set the desired scaling parameters.
 
 After service launch, [manage Autonomous settings](autonomously-scale-compute-storage.md#manage-autonomous-settings) and enable the desired auto-scaling features.
+
+{% hint style="info" %}
+**Enterprise Cluster Scaling Limits**&#x20;
+
+For services deployed using the **MariaDB Enterprise Cluster** topology, node auto-scaling (In/Out) is strictly limited to a **minimum of 3 nodes** and a **maximum of 5 nodes**. This requirement ensures the cluster always maintains a [mathematical quorum for synchronous replication and automated failover](https://app.gitbook.com/s/3VYeeVGUV4AMqrA3zwy7/high-availability/understanding-quorum-monitoring-and-recovery).
+{% endhint %}
 
 ## Enable Auto-Scaling of Storage
 
@@ -41,9 +52,11 @@ After service launch, [manage Autonomous settings](autonomously-scale-compute-st
 
 To manage Autonomous settings:
 
-* From the [Portal](../Portal%20features/), click the "MANAGE" button for the desired service, then choose "Autonomous" from the menu.
-* Update settings as desired.
-* Click "Apply Changes" when complete.
+1. From the [Portal](../cloud-usage/portal-features.md), click the "MANAGE" button for the desired service, then choose "Autonomous" from the menu.
+2. Update settings as desired.
+3. Click "Apply Changes" when complete.
+
+The “Apply Changes” option ensures that your updated Autonomous Settings take effect on the selected service.
 
 ## Scaling Rules
 
@@ -59,4 +72,6 @@ Automatic scaling occurs based on rules.
 
 Autonomous actions are not instantaneous.
 
-Cooldown periods may apply. A cooldown period is the time period after a scaling operation is completed and before another scaling operation can occur. The cooldown period for storage scaling is 6 hours.
+Cooldown periods may apply. A cooldown period is the time interval between the completion of a scaling operation and initiation of another scaling operation. The cooldown period for storage scaling is 6 hours.
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

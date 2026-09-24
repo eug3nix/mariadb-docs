@@ -16,7 +16,7 @@ The `IGNORE` option tells the server to ignore some common errors.
 * [LOAD DATA INFILE](load-data-into-tables-or-index/load-data-infile.md)
 * [UPDATE](../changing-deleting-data/update.md)
 * [ALTER TABLE](../../data-definition/alter/alter-table/)
-* [CREATE TABLE ... SELECT](../../data-definition/create/create-table.md#create-select)
+* [CREATE TABLE ... SELECT](../../data-definition/create/create-table.md#create-table-...-select)
 * [INSERT ... SELECT](insert-select.md)
 
 The logic used:
@@ -48,7 +48,7 @@ The following errors are ignored:
 
 Ignored errors normally generate a warning.
 
-A property of the `IGNORE` clause consists in causing transactional engines and non-transactional engines (like InnoDB and Aria) to behave the same way. For example, normally a multi-row insert which tries to violate a `UNIQUE` contraint is completely rolled back on InnoDB, but might be partially executed on Aria. With the `IGNORE` clause, the statement will be partially executed in both engines.
+A property of the `IGNORE` clause consists in causing transactional engines and non-transactional engines (like InnoDB and Aria) to behave the same way. For example, normally a multi-row insert which tries to violate a `UNIQUE` constraint is completely rolled back on InnoDB, but might be partially executed on Aria. With the `IGNORE` clause, the statement will be partially executed in both engines.
 
 Duplicate key errors also generate warnings. The [OLD\_MODE](../../../../server-management/variables-and-modes/old_mode.md) server variable can be used to prevent this.
 

@@ -1,3 +1,12 @@
+---
+description: >-
+  Install MariaDB AI RAG on Debian/Ubuntu, RHEL, or Windows by downloading the
+  platform package from the MariaDB downloads portal and running the installer
+  or package manager.
+hidden: true
+noIndex: true
+---
+
 # Installation
 
 ## System Requirements
@@ -13,7 +22,7 @@
 
 {% tabs %}
 {% tab title="Debian/Ubuntu" %}
-### Debian/Ubuntu Installation
+**Debian/Ubuntu Installation**
 
 1. Download the Debian / Ubuntu `.deb` installation package from:
    * [https://mariadb.com/downloads/enterprise-tooling/ai-rag/](https://mariadb.com/downloads/enterprise-tooling/ai-rag/)
@@ -30,7 +39,7 @@
 {% endtab %}
 
 {% tab title="RHEL" %}
-### RHEL (and equivalents) Installation
+**RHEL (and equivalents) Installation**
 
 1. Download the RHEL `.rpm` installation package from:
    * [https://mariadb.com/downloads/enterprise-tooling/ai-rag/](https://mariadb.com/downloads/enterprise-tooling/ai-rag/)
@@ -42,7 +51,7 @@
 {% endtab %}
 
 {% tab title="Windows" %}
-### Windows Installation
+**Windows Installation**
 
 1. Download the Windows `.msi` installation package from:
    * [https://mariadb.com/downloads/enterprise-tooling/ai-rag/](https://mariadb.com/downloads/enterprise-tooling/ai-rag/)
@@ -51,6 +60,6 @@
 {% endtab %}
 {% endtabs %}
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

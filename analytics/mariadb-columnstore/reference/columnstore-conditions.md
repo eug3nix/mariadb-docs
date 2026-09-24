@@ -1,3 +1,10 @@
+---
+description: >-
+  Reference for the conditions and operators usable in MariaDB ColumnStore
+  WHERE clauses, including comparison, IN, BETWEEN, IS NULL, LIKE pattern
+  matching, and EXISTS subqueries.
+---
+
 # ColumnStore Conditions
 
 A condition is a combination of expressions and operators that return `TRUE`, `FALSE` or `NULL. The` following syntax shows the conditions that can be used to return a `TRUE`, `FALSE`, or `NULL` condition.
@@ -68,6 +75,6 @@ Notes:
 * Circular joins are not supported in ColumnStore. See the Troubleshooting section
 * When the join memory limit is exceeded, a disk-based join will be used for processing if this option has been enabled.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

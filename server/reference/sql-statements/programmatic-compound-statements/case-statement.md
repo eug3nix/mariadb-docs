@@ -1,20 +1,22 @@
 ---
 description: >-
-  Implement complex conditional logic in stored programs. This control flow
-  statement executes specific SQL blocks based on matching conditions.
+  Complete reference for CASE Statement in MariaDB. Complete syntax guide with
+  all options, clauses, and practical examples with comprehensive examples and.
 ---
 
 # CASE Statement
 
 ## Syntax
 
-```sql
+```bnf
 CASE case_value
     WHEN when_value THEN statement_list
     [WHEN when_value THEN statement_list] ...
     [ELSE statement_list]
 END CASE
 ```
+
+![Railroad diagram of the simple CASE form — equivalent to the BNF above](../../../.gitbook/assets/case-statement-railroad.svg)
 
 Or:
 

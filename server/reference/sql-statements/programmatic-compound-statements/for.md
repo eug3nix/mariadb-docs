@@ -11,7 +11,7 @@ description: >-
 
 Integer range `FOR` loop:
 
-```sql
+```bnf
 [begin_label:]
 FOR var_name IN [ REVERSE ] lower_bound .. upper_bound
 DO statement_list
@@ -51,6 +51,12 @@ END FOR [ end_label ]
 `FOR` loops allow code to be executed a fixed number of times.
 
 In an integer range `FOR` loop, MariaDB will compare the lower bound and upper bound values, and assign the lower bound value to a counter. If `REVERSE` is not specified, and the upper bound value is greater than or equal to the counter, the counter will be incremented and the statement will continue, after which the loop is entered again. If the upper bound value is greater than the counter, the loop will be exited.
+
+{% hint style="info" %}
+**Dynamic Cursors Limitation**
+
+`FOR` loops cannot be used with dynamic cursors (cursors declared for prepared statement names). To handle dynamic cursors, employ explicit `OPEN`, `FETCH`, and `CLOSE` statements inside a `LOOP` or similar construct.
+{% endhint %}
 
 If REVERSE is specified, the counter is decremented, and the upper bound value needs to be less than or equal for the loop to continue.
 

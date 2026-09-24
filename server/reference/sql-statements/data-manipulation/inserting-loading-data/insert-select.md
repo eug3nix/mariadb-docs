@@ -8,12 +8,14 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 INSERT [LOW_PRIORITY | HIGH_PRIORITY] [IGNORE]
     [INTO] tbl_name [(col_name,...)]
     SELECT ...
     [ ON DUPLICATE KEY UPDATE col_name=expr, ... ]
 ```
+
+![Railroad diagram of INSERT ... SELECT — equivalent to the BNF above](../../../../.gitbook/assets/insert-select-railroad.svg)
 
 ## Description
 

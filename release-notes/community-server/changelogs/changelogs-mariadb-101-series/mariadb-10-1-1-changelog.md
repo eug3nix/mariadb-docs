@@ -1,12 +1,12 @@
 # MariaDB 10.1.1 Changelog
 
-The most recent release of [MariaDB 10.1](../../old-releases/release-notes-mariadb-10-1-series/changes-improvements-in-mariadb-10-1.md) is:[**MariaDB 10.1.48**](../../old-releases/release-notes-mariadb-10-1-series/mariadb-10148-release-notes.md) Stable (GA) [Download Now](https://downloads.mariadb.org/mariadb/10.1.48/)
+The most recent release of [MariaDB 10.1](../../old-releases/10.1/changes-improvements-in-mariadb-10-1.md) is:[**MariaDB 10.1.48**](../../old-releases/10.1/10.1.48.md) Stable (GA) [Download Now](https://downloads.mariadb.org/mariadb/10.1.48/)
 
-[Download](https://downloads.mariadb.org/mariadb/10.1.1)[Release Notes](../../old-releases/release-notes-mariadb-10-1-series/mariadb-10-1-1-release-notes.md)[Changelog](mariadb-10-1-1-changelog.md)[Overview of 10.1](../../old-releases/release-notes-mariadb-10-1-series/changes-improvements-in-mariadb-10-1.md)
+[Download](https://downloads.mariadb.org/mariadb/10.1.1)[Release Notes](../../old-releases/10.1/10.1.1.md)[Changelog](mariadb-10-1-1-changelog.md)[Overview of 10.1](../../old-releases/10.1/changes-improvements-in-mariadb-10-1.md)
 
 **Release date:** 17 Oct 2014
 
-For the highlights of this release, see the [release notes](../../old-releases/release-notes-mariadb-10-1-series/mariadb-10-1-1-release-notes.md).
+For the highlights of this release, see the [release notes](../../old-releases/10.1/10.1.1.md).
 
 The revision number links will take you to the revision's page on GitHub. On [GitHub](https://github.com/MariaDB/server/tree/10.1) you can view more details of the revision and view diffs of the code modified in that revision.
 
@@ -677,7 +677,7 @@ The revision number links will take you to the revision's page on GitHub. On [Gi
   * [MDEV-6616](https://jira.mariadb.org/browse/MDEV-6616) Server crashes in my\_hash\_first if shutdown is performed when FLUSH LOGS is running
 * [Revision #1a43425](https://github.com/MariaDB/server/commit/1a43425)\
   2014-09-05 09:49:27 -0400
-  * DB-310 run tokudb\_support\_xa.test on mysql and [mariadb 5.5](https://mariadb.com/docs/release-notes/mariadb-community-server-release-notes/old-releases/release-notes-mariadb-5-5-series)
+  * DB-310 run tokudb\_support\_xa.test on mysql and [mariadb 5.5](../../old-releases/5.5/)
 * [Revision #4aac44d](https://github.com/MariaDB/server/commit/4aac44d)\
   2014-09-05 14:18:31 +0200\
   \*
@@ -1200,7 +1200,7 @@ The revision number links will take you to the revision's page on GitHub. On [Gi
   * [MDEV-6247](https://jira.mariadb.org/browse/MDEV-6247): Merge 10.0-galera to 10.1.
 * [Revision #6dad23f](https://github.com/MariaDB/server/commit/6dad23f)\
   2014-08-06 15:28:58 +0300
-  * [MDEV-5834](https://jira.mariadb.org/browse/MDEV-5834): Merge Kakao Defragmentation implementation to [MariaDB 10.1](../../old-releases/release-notes-mariadb-10-1-series/changes-improvements-in-mariadb-10-1.md)
+  * [MDEV-5834](https://jira.mariadb.org/browse/MDEV-5834): Merge Kakao Defragmentation implementation to [MariaDB 10.1](../../old-releases/10.1/changes-improvements-in-mariadb-10-1.md)
 * [Revision #75f0f17](https://github.com/MariaDB/server/commit/75f0f17)\
   2014-08-06 14:02:05 +0200
   * [MDEV-6543](https://jira.mariadb.org/browse/MDEV-6543) Crash if enable 'federatedx' when 'federated' plugin already enabled, and vice-versa
@@ -1384,7 +1384,7 @@ The revision number links will take you to the revision's page on GitHub. On [Gi
   * [MDEV-6512](https://jira.mariadb.org/browse/MDEV-6512): InnoDB: Assertion failure in thread 4537024512 in file buf0buf.cc line 2642.
 * [Revision #3e9d454](https://github.com/MariaDB/server/commit/3e9d454)\
   2014-07-31 09:51:05 +0200
-  * [MDEV-6340](https://jira.mariadb.org/browse/MDEV-6340) [Mariadb 10.0.12](../../old-releases/release-notes-mariadb-10-0-series/mariadb-10012-release-notes.md) fatal "Lost connection" error w/ GCC 4.9 'Release' build; workaround \~ CFLAGS="-fno-delete-null-pointer-checks"
+  * [MDEV-6340](https://jira.mariadb.org/browse/MDEV-6340) [Mariadb 10.0.12](../../old-releases/10.0/10.0.12.md) fatal "Lost connection" error w/ GCC 4.9 'Release' build; workaround \~ CFLAGS="-fno-delete-null-pointer-checks"
 * [Revision #c253676](https://github.com/MariaDB/server/commit/c253676)\
   2014-07-31 10:32:52 +0300
   * [MDEV-6506](https://jira.mariadb.org/browse/MDEV-6506): InnoDB: Assertion failure in thread 2810182464 in file buf0flu.cc line 549.
@@ -1680,7 +1680,7 @@ The revision number links will take you to the revision's page on GitHub. On [Gi
   * o
   * n
   *
-  * ####
+  *
   * d
   * 9
   * 4
@@ -2032,7 +2032,7 @@ The revision number links will take you to the revision's page on GitHub. On [Gi
   * o
   * n
   *
-  * ####
+  *
   * 8
   * e
   * 4
@@ -2142,6 +2142,6 @@ The revision number links will take you to the revision's page on GitHub. On [Gi
 
 {% include "../../../.gitbook/includes/announce.md" %}
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/7hzG0V6AUK8DqF4oiVaW/" %}
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 
 {% @marketo/form formid="4316" formId="4316" %}

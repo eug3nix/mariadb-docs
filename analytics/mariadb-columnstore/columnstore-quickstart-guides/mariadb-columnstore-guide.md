@@ -1,5 +1,8 @@
 ---
-description: Quickstart guide for MariaDB ColumnStore
+description: >-
+  Quickstart guide for MariaDB ColumnStore: an introduction to the columnar
+  storage engine, its key benefits for OLAP analytics, and the User Module /
+  Performance Module architecture.
 ---
 
 # MariaDB ColumnStore Guide
@@ -90,8 +93,8 @@ SELECT COUNT(DISTINCT product_name) FROM sales_data;
 ## See Also
 
 * [MariaDB ColumnStore Overview](https://mariadb.com/products/columnstore/)
-* [DigitalOcean: How to Install MariaDB ColumnStore on Ubuntu 20.04](https://www.google.com/search?q=https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-columnstore-on-ubuntu-20-04\&authuser=1)
+* [DigitalOcean: How to Install MariaDB ColumnStore on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-install-mariadb-columnstore-on-ubuntu-20-04)
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

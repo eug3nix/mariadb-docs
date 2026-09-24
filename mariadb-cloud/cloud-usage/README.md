@@ -1,19 +1,9 @@
 ---
+description: >-
+  MariaDB Cloud Portal: a web-based interface for launching, managing,
+  configuring, and monitoring database services, with metrics, billing,
+  alerts, and access management.
 icon: tv
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
 ---
 
 # Cloud UI Portal
@@ -52,12 +42,12 @@ View detailed information on the hardware architecture, instance size, software 
 [service-details-page.md](service-details-page.md)
 {% endcontent-ref %}
 
-## Infrastructure Upgrades
+## Maintenance Management
 
-Handle mandatory infrastructure upgrades to ensure that your MariaDB Cloud services remain compliant with the performance, security, and compliance standards set by cloud providers.
+Manage infrastructure and database security maintenance for your MariaDB Cloud services — schedule upgrades in weekly maintenance windows, defer or apply updates, and track them through their lifecycle, keeping your services compliant with the performance, security, and compliance standards set by cloud providers.
 
-{% content-ref url="infrastructure-upgrades.md" %}
-[infrastructure-upgrades.md](infrastructure-upgrades.md)
+{% content-ref url="maintenance-management.md" %}
+[maintenance-management.md](maintenance-management.md)
 {% endcontent-ref %}
 
 ## Notifications
@@ -83,3 +73,5 @@ View current usage, access billing history, monitor resource consumption, and co
 {% content-ref url="billing.md" %}
 [billing.md](billing.md)
 {% endcontent-ref %}
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

@@ -1,10 +1,17 @@
+---
+description: >-
+  SELECT for MariaDB ColumnStore queries tables with the standard MariaDB
+  syntax, supporting WHERE, GROUP BY, HAVING, ORDER BY, LIMIT, and INTO
+  OUTFILE / DUMPFILE export.
+---
+
 # ColumnStore SELECT
 
 The `SELECT` statement is used to query the database and display table data. You can add many clauses to filter the data.
 
 ## Syntax
 
-```sql
+```bnf
 SELECT
 [ALL | DISTINCT ]
     select_expr [, select_expr ...]
@@ -109,6 +116,6 @@ SELECT custkey FROM customer LIMIT 1000,5;
 When `LIMIT` is used in a nested query, and the inner query contains an `ORDER BY` clause, `LIMIT` is applied before   `ORDER BY` is applied.
 {% endhint %}
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

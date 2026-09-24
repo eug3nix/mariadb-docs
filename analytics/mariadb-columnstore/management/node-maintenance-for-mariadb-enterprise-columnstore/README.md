@@ -1,4 +1,8 @@
 ---
+description: >-
+  Node maintenance procedures for MariaDB ColumnStore via MaxScale:
+  rejoin, remove, set to maintenance mode, switchover the primary, and view or
+  clear table locks.
 layout:
   width: default
   title:
@@ -15,5 +19,5 @@ layout:
     visible: true
 ---
 
-# Node Maintenance for MariaDB Enterprise Columnstore
+# Node Maintenance for MariaDB ColumnStore
 

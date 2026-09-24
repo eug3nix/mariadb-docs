@@ -1,3 +1,10 @@
+---
+description: >-
+  Connect to MariaDB Cloud via ODBC using the MariaDB Connector/ODBC driver,
+  with DSN configuration, TLS setup, and credential handling for
+  ODBC-compatible applications.
+---
+
 # Connect Using ODBC
 
 ## Overview
@@ -188,7 +195,7 @@ The following syntax is required:
 
 * IPv6 addresses must be enclosed within square brackets `"[]"`
 * hostname and port must be separated by a colon `":"`
-* `hostname:port` pairs must be be separated by a comma `","`
+* `hostname:port` pairs must be separated by a comma `","`
 * If only one `hostname:port` is specified, the host string must end with a comma
 * If no port is specified, the default port will be used
 
@@ -250,3 +257,5 @@ The `OPTIONS` bitmask contains the following bits:
 | 21         | 2097152   | Same as the FORWARDONLY connection parameter                                           |
 | 22         | 4194304   | Same as the AUTO\_RECONNECT connection parameter                                       |
 | 26         | 67108864  | Enables multi-statement queries                                                        |
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

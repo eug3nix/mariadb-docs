@@ -1,6 +1,6 @@
 # Old MySQL Versions
 
-[MariaDB 5.1](release-notes-mariadb-5-1-series/changes-improvements-in-mariadb-5-1.md) was the first release of MariaDB. It was based on MySQL 5.1.
+[MariaDB 5.1](5.1/changes-improvements-in-mariadb-5-1.md) was the first release of MariaDB. It was based on MySQL 5.1.
 
 In a sense, users can think about MySQL 5.0 and older releases (or even older releases of the MySQL 5.1 tree) as old versions of MariaDB.
 
@@ -19,7 +19,7 @@ This page lists the main features that were added in very old MySQL trees, befor
 
 ## MySQL 3.23
 
-* [Replication](https://mariadb.com/docs/server/server-usage/storage-engines/myrocks/myrocks-and-replication) (only statement-based, no SSL).
+* [Replication](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/ha-and-performance/standard-replication) (only statement-based, no SSL).
 * Temporary tables
 * Portable tables through different machines
 * [SQL\_MODE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/sql_mode)
@@ -39,7 +39,7 @@ This page lists the main features that were added in very old MySQL trees, befor
 * [InnoDB](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/storage-engines/innodb) enabled by default.
 * Dynamic configuration variables.
 * [FULLTEXT](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/ha-and-performance/optimization-and-tuning/optimization-and-indexes/full-text-indexes/full-text-index-overview) for MyISAM.
-* [UNION](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/joins-subqueries/union).
+* [UNION](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/set-operations/union).
 * [TRUNCATE TABLE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/table-statements/truncate-table).
 * Multi-table DELETE and UPDATE.
 * [Query cache](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/ha-and-performance/optimization-and-tuning/buffers-caches-and-threads/query-cache).
@@ -47,12 +47,12 @@ This page lists the main features that were added in very old MySQL trees, befor
 
 ## MySQL 4.1
 
-* [Subqueries](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/joins-subqueries/subqueries) (not optimized).
+* [Subqueries](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/subqueries) (not optimized).
 * Faster protocol.
 * [Prepared statements](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/prepared-statements).
 * [GIS](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-structure/geometry) support for MyISAM
 * B-TREE for MEMORY tables.
-* Replication over [SSL](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/security/securing-mariadb/encryption/data-in-transit-encryption/secure-connections-overview).
+* Replication over [SSL](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/security/encryption/data-in-transit-encryption/secure-connections-overview).
 * UTF-8 character set.
 * New storage engines:
   * [ARCHIVE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/storage-engines/archive)
@@ -75,6 +75,6 @@ This page lists the main features that were added in very old MySQL trees, befor
 * Plugins API.
 * [Row-based and mixed](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/server-monitoring-logs/binary-log/binary-log-formats) replication.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/7hzG0V6AUK8DqF4oiVaW/" %}
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 
 {% @marketo/form formid="4316" formId="4316" %}

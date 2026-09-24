@@ -1,43 +1,24 @@
-# Maintenance Windows
+---
+description: >-
+  Maintenance windows and scheduling policies for MariaDB Cloud — every service
+  has an assigned weekly 1-hour window defined in UTC, auto-assigned per region
+  and configurable per service.
+---
 
-Maintenance windows are a scheduled period of time when hardware, network, software, or configuration changes can be applied, and processes can be restarted.
+# Maintenance Windows and Scheduling Policies
 
-For Foundation Tier customers, maintenance windows are predefined by region.
+Every MariaDB Cloud database operates with an assigned weekly maintenance window. You can configure a different preferred maintenance period for each of your services.
 
-For Power Tier customers, maintenance windows are customer-selected.
+## Window Configuration Details
 
-Notice is provided to customers in advance of maintenance. CloudDBA customers are asked to confirm maintenance prior to scheduled start.
+* Each maintenance window is a block of **1 hour**.
+* Windows are defined in **UTC** to provide consistency across global time zones and daylight saving time (DST) changes.
+* If you don't select a window during or after launch, a default window is automatically assigned for your service, scheduled during off-peak hours for the deployed region's local time.
 
-## View Current Maintenance Window
+You can view and change your assigned window at any time from the **Maintenance** pane on the Service detail page. See [Maintenance Management](../cloud-usage/maintenance-management.md) for the full workflow.
 
-For Foundation Tier, to view the maintenance widown, Go to "Your services" and then "Details".
+## Auditability and Compliance
 
-On Power Tier, to show the current maintenance window for a service:
+MariaDB Cloud maintains a comprehensive, auditable history of all maintenance activities for each service. This history records when maintenance was scheduled, executed, and completed. Customer actions — including manual application, window changes, and deferrals — are permanently recorded to provide a complete audit trail for compliance and troubleshooting.
 
-1. Go to "Your services" page (top choice in left navigation).
-
-2. Click the ">" to the left of the desired service.
-
-3. The current maintenance window is shown in the "Customization" section.
-
-## Choose Maintenance Window
-
-A maintenance window selection applies to all services within a region.
-
-For Power Tier customers, maintenance windows are customer-selected:
-
-- A menu of supported maintenance windows is presented at time of service launch.
-
-- Maintenance windows may be changed after service launch, once a service reaches "Healthy" state.
-
-Maintenance windows can be updated at time of service launch, or on-demand:
-
-1. Go to "Your services" page (top choice in left navigation).
-
-2. Click the ">" to the left of the desired service.
-
-3. The current maintenance window is shown in the "Customization" section.
-
-4. Click on the triangle at the right of the "Maintenance window" to see a drop down display of available maintenance windows.
-
-5. Select the desired maintenance window and click on the "Save" button. This change will be applied to all services in the region.
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

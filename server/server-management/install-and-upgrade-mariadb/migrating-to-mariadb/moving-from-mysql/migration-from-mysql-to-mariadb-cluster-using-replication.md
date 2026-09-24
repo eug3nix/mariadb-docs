@@ -1,6 +1,13 @@
-# Migration from MySQL Galera Cluster to MariaDB Galera Cluster using Replication
+---
+description: >-
+  A strategy for migrating from a MySQL Galera Cluster to a MariaDB Galera
+  Cluster by setting up the new cluster as an asynchronous replica, minimizing
+  downtime.
+---
 
-This guide details migrating a live database from a MySQL Galera Cluster to a [MariaDB Galera Cluster](https://app.gitbook.com/s/3VYeeVGUV4AMqrA3zwy7/readme/mariadb-galera-cluster-usage-guide). The migration strategy requires setting up a new MariaDB Cluster and using [asynchronous replication](https://app.gitbook.com/s/3VYeeVGUV4AMqrA3zwy7/readme/about-galera-replication#synchronous-vs.-asynchronous-replication) to sync it with the existing MySQL Cluster. The method includes a reliable failback route.
+# Migrating Galera Cluster
+
+**This guide covers the migration of a live database from a MySQL Galera Cluster to a** [**MariaDB Galera Cluster**](https://app.gitbook.com/s/3VYeeVGUV4AMqrA3zwy7/readme/mariadb-galera-cluster-usage-guide)**.** The migration strategy requires setting up a new MariaDB Cluster, then using [asynchronous replication](https://app.gitbook.com/s/3VYeeVGUV4AMqrA3zwy7/readme/about-galera-replication#synchronous-vs.-asynchronous-replication) to sync it with an existing MySQL Cluster. The method includes a reliable failback route.
 
 {% hint style="info" %}
 This document focuses on the migration process itself. For detailed comparisons between the two database systems, please refer to [Incompatibilities and Feature Differences Between MariaDB and MySQL.](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/about/compatibility-and-differences)
@@ -22,7 +29,7 @@ Due to changes in MySQL 8.0+, `mariadb-dump` may not be compatible for this init
 
 {% stepper %}
 {% step %}
-### Check for Incompatibilities
+**Check for Incompatibilities**
 
 {% hint style="warning" %}
 While MariaDB maintains a high degree of compatibility with MySQL, it is crucial to review any differences that could impact your applications.
@@ -42,7 +49,7 @@ For more details, see [MySQL to MariaDB Replication Compatibilit](https://app.gi
 {% endstep %}
 
 {% step %}
-### Install and Configure a New MariaDB Galera Cluster
+**Install and Configure a New MariaDB Galera Cluster**
 
 Set up a new, empty [MariaDB Galera Cluster](https://app.gitbook.com/s/3VYeeVGUV4AMqrA3zwy7/galera-cluster-quickstart-guides/mariadb-galera-cluster-guide) that will become the target for the migration.
 
@@ -87,7 +94,7 @@ It is recommended to set `wsrep_sst_method` on all nodes to ensure consistency d
 {% endstep %}
 
 {% step %}
-### Back Up the MySQL Database
+**Back Up the MySQL Database**
 
 A full logical backup of the MySQL database is required to seed the new MariaDB Cluster.
 
@@ -118,7 +125,7 @@ This above command generates a backup file and logs the source's binary log file
 {% endstep %}
 
 {% step %}
-#### Bootstrap the MariaDB Cluster and Restore Data
+**Bootstrap the MariaDB Cluster and Restore Data**
 
 Start the first node of the MariaDB cluster and load the MySQL backup.
 
@@ -160,7 +167,7 @@ Cluster size should match the number of nodes in your cluster.
 {% endstep %}
 
 {% step %}
-### Set Up Asynchronous Replication
+**Set Up Asynchronous Replication**
 
 Configure one of the MariaDB nodes to act as a replica of the source MySQL cluster.
 
@@ -190,7 +197,7 @@ START SLAVE;
 {% endstep %}
 
 {% step %}
-### Monitor and Failover
+**Monitor and Failover**
 
 With replication running, the MariaDB cluster will catch up with any changes made to the MySQL cluster since the backup was taken.
 
@@ -223,3 +230,5 @@ Once the MariaDB cluster is fully synchronized, follow these steps:
 5. **Decommission MySQL:** After confirming the application runs smoothly on MariaDB, decommission the MySQL cluster.
 {% endstep %}
 {% endstepper %}
+
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>

@@ -1,3 +1,10 @@
+---
+description: >-
+  Documentation for the `ORACLE` SQL mode, which provides extensive
+  compatibility with Oracle Database PL/SQL syntax, data types, and sequences,
+  facilitating migration.
+---
+
 # SQL\_MODE=ORACLE
 
 {% include "https://app.gitbook.com/s/GxVnu02ec8KJuFSxmB93/~/reusable/Dn7q74OYovrrC5l3cYgb/" %}
@@ -40,26 +47,27 @@ Oracle mode makes the following changes to [Stored Procedures](https://app.gitbo
 
 Oracle mode makes the following changes to [Cursors](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/programmatic-compound-statements-cursors):
 
-| Oracle syntax                                                                          | Description                                                                                                                                                                                                   |
-| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CREATE PROCEDURE p1 AS CURSOR cur IS (SELECT a, b FROM t1); BEGIN FOR rec IN cur ...` | Explicit cursor with [FOR loop](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/for). [MDEV-10581](https://jira.mariadb.org/browse/MDEV-10581)       |
-| `CREATE PROCEDURE p1 AS rec IN (SELECT a, b FROM t1)`                                  | Implicit cursor with [FOR loop](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/for). [MDEV-12098](https://jira.mariadb.org/browse/MDEV-12098)       |
-| `CURSOR c(prm_a VARCHAR2, prm_b VARCHAR2) ... OPEN c(1,2)`                             | Cursor with parameters. [MDEV-10597](https://jira.mariadb.org/browse/MDEV-10597)                                                                                                                              |
-| `CURSOR c(prm_a VARCHAR2, prm_b VARCHAR2) ... FOR rec in c(1,2)`                       | Cursor with parameters and [FOR loop](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/for). [MDEV-12314](https://jira.mariadb.org/browse/MDEV-12314) |
-| `s %ISOPEN, %ROWCOUNT, %FOUND, %NOTFOUND`                                              | Explicit cursor attributes. [MDEV-10582](https://jira.mariadb.org/browse/MDEV-10582)                                                                                                                          |
+| Oracle syntax                                                                          | Description                                                                                                                                                                                                                                                                         |
+| -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CREATE PROCEDURE p1 AS CURSOR cur IS (SELECT a, b FROM t1); BEGIN FOR rec IN cur ...` | Explicit cursor with [FOR loop](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/for). [MDEV-10581](https://jira.mariadb.org/browse/MDEV-10581)                                                                             |
+| `CREATE PROCEDURE p1 AS rec IN (SELECT a, b FROM t1)`                                  | Implicit cursor with [FOR loop](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/for). [MDEV-12098](https://jira.mariadb.org/browse/MDEV-12098)                                                                             |
+| `CURSOR c(prm_a VARCHAR2, prm_b VARCHAR2) ... OPEN c(1,2)`                             | Cursor with parameters. [MDEV-10597](https://jira.mariadb.org/browse/MDEV-10597)                                                                                                                                                                                                    |
+| `CURSOR c(prm_a VARCHAR2, prm_b VARCHAR2) ... FOR rec in c(1,2)`                       | Cursor with parameters and [FOR loop](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/for). [MDEV-12314](https://jira.mariadb.org/browse/MDEV-12314)                                                                       |
+| `s %ISOPEN, %ROWCOUNT, %FOUND, %NOTFOUND`                                              | Explicit cursor attributes. [MDEV-10582](https://jira.mariadb.org/browse/MDEV-10582)                                                                                                                                                                                                |
+| `TYPE type_name IS REF CURSOR [ RETURN return_type ]`                                  | Declares as `REF CURSOR` (cursor variable). Supports weak and strong types. See [DECLARE TYPE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/declare-type) and [MDEV-10152](https://jira.mariadb.org/browse/MDEV-10152). |
 
 ### LOOP
 
 Oracle mode makes the following changes to [LOOP](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/loop):
 
-| Oracle syntax                                                                 | Description                                                                                                                                                                               |
-| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `FOR i IN 1..10 LOOP ... END LOOP`                                            | Numeric [FOR loop](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/programmatic-compound-statements/for). [MDEV-10580](https://jira.mariadb.org/browse/MDEV-10580)            |
-| `GOTO`                                                                        | [GOTO statement](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/goto). [MDEV-10697](https://jira.mariadb.org/browse/MDEV-10697) |
-| `<<label>>` used with GOTO                                                    | ANSI uses `label:`. [MDEV-10697](https://jira.mariadb.org/browse/MDEV-10697)                                                                                                              |
-| To leave loop block: `EXIT [ label ] [ WHEN bool_expr ]`                      | ANSI syntax is `IF bool_expr THEN LEAVE label`                                                                                                                                            |
-| `[<<label>>] WHILE boolean_expression LOOP statement... END LOOP [ label ] ;` | Oracle style `WHILE` loop                                                                                                                                                                 |
-| `CONTINUE [ label ] [ WHEN boolean_expression]`                               | `CONTINUE` is only valid inside a loop                                                                                                                                                    |
+| Oracle syntax                                                                 | Description                                                                                                                                                                                |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `FOR i IN 1..10 LOOP ... END LOOP`                                            | Numeric [FOR loop](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/for). [MDEV-10580](https://jira.mariadb.org/browse/MDEV-10580) |
+| `GOTO`                                                                        | [GOTO statement](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/goto). [MDEV-10697](https://jira.mariadb.org/browse/MDEV-10697)  |
+| `<<label>>` used with GOTO                                                    | ANSI uses `label:`. [MDEV-10697](https://jira.mariadb.org/browse/MDEV-10697)                                                                                                               |
+| To leave loop block: `EXIT [ label ] [ WHEN bool_expr ]`                      | ANSI syntax is `IF bool_expr THEN LEAVE label`                                                                                                                                             |
+| `[<<label>>] WHILE boolean_expression LOOP statement... END LOOP [ label ] ;` | Oracle style `WHILE` loop                                                                                                                                                                  |
+| `CONTINUE [ label ] [ WHEN boolean_expression]`                               | `CONTINUE` is only valid inside a loop                                                                                                                                                     |
 
 ### Variables
 
@@ -75,10 +83,10 @@ Oracle mode makes the following changes to [LOOP](https://app.gitbook.com/s/Ssme
 | Variables can be declared after cursor declarations                                                                               | In MariaDB mode, variables must be declared before cursors. [MDEV-10598](https://jira.mariadb.org/browse/MDEV-10598)                                                                                                |
 | Triggers uses `:NEW` and `:OLD`                                                                                                   | ANSI uses NEW and OLD. [MDEV-10579](https://jira.mariadb.org/browse/MDEV-10579)                                                                                                                                     |
 | `SQLCODE`                                                                                                                         | Returns the number code of the most recent exception. Can only be used in Stored Procedures. [MDEV-10578](https://jira.mariadb.org/browse/MDEV-10578)                                                               |
-| `SQLERRM`                                                                                                                         | Returns the error message associdated to it's error number argument or `SQLCODE` if no argument is given. Can only be used in Stored Procedures. [MDEV-10578](https://jira.mariadb.org/browse/MDEV-10578)           |
+| `SQLERRM`                                                                                                                         | Returns the error message associated to it's error number argument or `SQLCODE` if no argument is given. Can only be used in Stored Procedures. [MDEV-10578](https://jira.mariadb.org/browse/MDEV-10578)           |
 | `SQL%ROWCOUNT`                                                                                                                    | Almost same as [ROW\_COUNT()](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-functions/secondary-functions/information-functions/row_count). [MDEV-10583](https://jira.mariadb.org/browse/MDEV-10583) |
 | [ROWNUM](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-functions/secondary-functions/information-functions/rownum) | Returns number of accepted rows. From [MariaDB 10.6](../../10.6/what-is-mariadb-106.md).                                                                                                                            |
-| Associative arrays                                                                                                                | See [blog post](https://mariadb.org/bringing-oracles-associative-arrays-to-mariadb/). From [MariaDB 12.1](../../12.1/changes-and-improvements-in-mariadb-12.1.md).                                                  |
+| Associative arrays                                                                                                                | See [blog post](https://mariadb.org/bringing-oracles-associative-arrays-to-mariadb/). From [MariaDB 12.1](../../old-releases/12.1/changes-and-improvements-in-mariadb-12.1.md).                                     |
 
 ### Exceptions
 
@@ -99,7 +107,7 @@ Oracle mode makes the following changes to [LOOP](https://app.gitbook.com/s/Ssme
 
 ### Simple Syntax Compatibility
 
-<table><thead><tr><th>Oracle syntax</th><th width="72.407470703125">Version</th><th>Description</th></tr></thead><tbody><tr><td><code>ELSIF</code></td><td>10.3</td><td>ANSI uses <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/if">ELSEIF</a></td></tr><tr><td><code>SELECT UNIQUE</code></td><td>10.3</td><td>Same as <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/select#distinct">SELECT DISTINCT</a>. <a href="https://jira.mariadb.org/browse/MDEV-12086">MDEV-12086</a></td></tr><tr><td><code>TRUNCATE TABLE t1 [DROP STORAGE] or [REUSE STORAGE]</code></td><td>10.3</td><td><code>DROP STORAGE</code> and <code>REUSE STORAGE</code> are allowed as optional keywords for <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/table-statements/truncate-table">TRUNCATE TABLE</a>. <a href="https://jira.mariadb.org/browse/MDEV-10588">MDEV-10588</a></td></tr><tr><td><a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/joins-subqueries/subqueries/subqueries-in-a-from-clause-derived-tables">Subqueries in a FROM clause</a> without an alias</td><td>10.6</td><td><code>SELECT * FROM (SELECT 1 FROM DUAL), (SELECT 2 FROM DUAL)</code></td></tr><tr><td><a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/joins-subqueries/union">UNION</a>, <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/joins-subqueries/except">EXCEPT</a> and <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/joins-subqueries/intersect">INTERSECT</a> all have the same precedence.</td><td>10.3</td><td><a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/joins-subqueries/intersect">INTERSECT</a> has higher precedence than <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/joins-subqueries/union">UNION</a> and <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/joins-subqueries/except">EXCEPT</a> in non-Oracle modes.</td></tr><tr><td><code>MINUS</code></td><td>10.6</td><td>MINUS is a synonym for <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/joins-subqueries/except">EXCEPT</a>.</td></tr></tbody></table>
+<table><thead><tr><th>Oracle syntax</th><th width="72.407470703125">Version</th><th>Description</th></tr></thead><tbody><tr><td><code>ELSIF</code></td><td>10.3</td><td>ANSI uses <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/programmatic-compound-statements/if">ELSEIF</a></td></tr><tr><td><code>SELECT UNIQUE</code></td><td>10.3</td><td>Same as <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/select#distinct">SELECT DISTINCT</a>. <a href="https://jira.mariadb.org/browse/MDEV-12086">MDEV-12086</a></td></tr><tr><td><code>TRUNCATE TABLE t1 [DROP STORAGE] or [REUSE STORAGE]</code></td><td>10.3</td><td><code>DROP STORAGE</code> and <code>REUSE STORAGE</code> are allowed as optional keywords for <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/table-statements/truncate-table">TRUNCATE TABLE</a>. <a href="https://jira.mariadb.org/browse/MDEV-10588">MDEV-10588</a></td></tr><tr><td><a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/subqueries/subqueries-in-a-from-clause-derived-tables">Subqueries in a FROM clause</a> without an alias</td><td>10.6</td><td><code>SELECT * FROM (SELECT 1 FROM DUAL), (SELECT 2 FROM DUAL)</code></td></tr><tr><td><a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/set-operations/union">UNION</a>, <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/set-operations/except">EXCEPT</a> and <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/set-operations/intersect">INTERSECT</a> all have the same precedence.</td><td>10.3</td><td><a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/set-operations/intersect">INTERSECT</a> has higher precedence than <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/set-operations/union">UNION</a> and <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/set-operations/except">EXCEPT</a> in non-Oracle modes.</td></tr><tr><td><code>MINUS</code></td><td>10.6</td><td>MINUS is a synonym for <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/set-operations/except">EXCEPT</a>.</td></tr></tbody></table>
 
 ### Functions
 
@@ -128,11 +136,11 @@ Oracle mode makes the following changes to [Prepared Statements](https://app.git
 
 This was implemented as part of [MDEV-10343](https://jira.mariadb.org/browse/MDEV-10343).
 
-If one does a [SHOW CREATE TABLE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/administrative-sql-statements/show/show-create-table) in `ORACLE` mode on a table that has a native MariaDB `DATE` column, it will be displayed as [mariadb\_schema.date](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/system-tables/mariadb_schema) to not conflict with the Oracle `DATE` type.
+If one does a [SHOW CREATE TABLE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/administrative-sql-statements/show/show-create-table) in `ORACLE` mode on a table that has a native MariaDB `DATE` column, it will be displayed as [mariadb\_schema.date](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-structure/sql-language-structure/schema-qualifiers) to not conflict with the Oracle `DATE` type.
 
 ### Packages
 
-The following syntax has been supported since [MariaDB 10.3.5](../../old-releases/release-notes-mariadb-10-3-series/mariadb-1035-release-notes.md):
+The following syntax has been supported since [MariaDB 10.3.5](../../old-releases/10.3/10.3.5.md):
 
 * [CREATE PACKAGE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-definition/create/create-package)
 * [CREATE PACKAGE BODY](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-definition/create/create-package-body)
@@ -157,7 +165,7 @@ IF a=10 THEN NULL; ELSE NULL; END IF
 
 In Oracle, empty string ('') and NULL are the same thing,
 
-By using `sql_mode=EMPTY_STRING_IS_NULL` you can get a similar\
+By using `sql_mode=EMPTY_STRING_IS_NULL` you can get a similar
 experience in MariaDB:
 
 ```sql
@@ -180,7 +188,7 @@ The [SHOW CREATE TABLE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference
 
 ## See Also
 
-* [mariadb\_schema](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/system-tables/mariadb_schema)
+* [mariadb\_schema](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-structure/sql-language-structure/schema-qualifiers)
 * [Using SEQUENCEs](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-structure/sequences)
 * [SQL\_MODE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/sql_mode) EMPTY\_STRING\_IS\_NULL
 * [SQL\_MODE=MSSQL](sql_modemssql.md)
@@ -189,6 +197,6 @@ The [SHOW CREATE TABLE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference
 * [Curious case of the disappearing commercial databases (13 minute offset) - Monty Widenius - MariaDB Server Fest 2021](https://www.youtube.com/watch?v=0nysJV3pozg) (video)
 * [Sqlines - Oracle to MariaDB migration tool](https://sqlines.com/oracle-to-mariadb)
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/7hzG0V6AUK8DqF4oiVaW/" %}
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 
 {% @marketo/form formid="4316" formId="4316" %}

@@ -8,14 +8,14 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 REVERSE(str)
 ```
 
 ## Description
 
-Returns the string `str` with the order of the characters reversed.
 
+Returns the string `str` with the order of the characters reversed. If the input string is `NULL`, the function returns `NULL`.
 ## Examples
 
 ```sql

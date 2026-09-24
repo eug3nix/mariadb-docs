@@ -1,8 +1,7 @@
 ---
 description: >-
-  Follow this step-by-step guide to configure standard replication. Learn how to
-  prepare the primary, configure the replica, and establish a connection for
-  data synchronization.
+  Complete guide to MariaDB replication setup. Complete walkthrough for
+  primary-replica topology with binary logging and GTID configuration.
 ---
 
 # Setting Up Replication
@@ -13,7 +12,7 @@ The terms _master_ and _slave_ have historically been used in replication, and M
 
 Getting [replication](./) working involves steps on both the master server/s and steps on the replica server/s.
 
-## Setting up a Replication Replica with MariaDB-Backup
+## Setting up a Replica with mariadb-backup
 
 If you want to use [mariadb-backup](../../server-usage/backup-and-restore/mariadb-backup/) to set up a replication replica, review the information under [Setting up a Replication Replica with MariaDB-Backup](../../server-usage/backup-and-restore/mariadb-backup/setting-up-a-replica-with-mariadb-backup.md).
 
@@ -21,7 +20,7 @@ Setting up replication the "traditional" way is covered below.
 
 ## Versions
 
-In general, when replicating across different versions of MariaDB, it is best that the master is an older version than the slave. MariaDB versions are usually backward compatible, while of course older versions cannot always be forward compatible. See also [Replicating from MySQL Master to MariaDB Replica](setting-up-replication.md#replicating-from-mysql-master-to-mariadb-slave).
+In general, when replicating across different versions of MariaDB, it is best that the master is an older version than the slave. MariaDB versions are usually backward compatible, while of course older versions cannot always be forward compatible. See also **Replicating from MySQL Master to MariaDB Replica** below.
 
 Follow these steps to set up MariaDB replication:
 
@@ -30,7 +29,7 @@ Follow these steps to set up MariaDB replication:
 **Configure the Master**
 
 * Enable binary logging if it's not already enabled. See [Activating the Binary Log](../../server-management/server-monitoring-logs/binary-log/activating-the-binary-log.md) and [Binary log formats](../../server-management/server-monitoring-logs/binary-log/binary-log-formats.md) for details.
-* Give the master a unique [server\_id](replication-and-binary-log-system-variables.md#server_id). All slaves must also be given a server\_id. This can be a number from 1 to 232-1, and must be unique for each server in the replicating group.
+* Give the master a unique [server\_id](replication-and-binary-log-system-variables.md#server_id). All slaves must also be given a server\_id. This can be a number from 1 to (2<sup>32</sup>)-1, and must be unique for each server in the replicating group.
 * Specify a unique name for your replication logs with [--log-basename](../../server-management/starting-and-stopping-mariadb/mariadbd-options.md). If this is not specified your host name will be used and there will be problems if the hostname ever changes.
 * Slaves will need permission to connect and start replicating from a server. Usually this is done by creating a dedicated slave user, and granting that user permission only to replicate (REPLICATION SLAVE permission).
 
@@ -82,7 +81,7 @@ There are a number of options that may impact or break replication. Check the fo
 {% step %}
 **Configure the Replica**
 
-Give the replica a unique [server\_id](replication-and-binary-log-system-variables.md). All servers, whether masters or replicas, are given a server\_id. This can be a number from `1` to `232-1`, and must be unique for each server in the replicating group. The server will need to be restarted in order for a change in this option to take effect.
+Give the replica a unique [server\_id](replication-and-binary-log-system-variables.md). All servers, whether masters or replicas, are given a server\_id. This can be a number from `1` to `(2<sup>32</sup>)-1`, and must be unique for each server in the replicating group. The server will need to be restarted in order for a change in this option to take effect.
 {% endstep %}
 
 {% step %}
@@ -166,7 +165,7 @@ Slave_SQL_Running: Yes
 * Replication from MySQL 5.6 with GTID, binlog\_rows\_query\_log\_events and ignorable events works. In this case MariaDB will remove the MySQL GTIDs and other unneeded events and instead adds its own GTIDs.
 
 {% hint style="warning" %}
-[Replication from MySQL 8 to MariaDB](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/about/compatibility-and-differences/mariadb-vs-mysql-compatibility) requires [MariaDB 11.4.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-11-4-series/mariadb-11-4-5-release-notes) or newer.
+[Replication from MySQL 8 to MariaDB](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/about/compatibility-and-differences/mariadb-vs-mysql-compatibility) requires [MariaDB 11.4.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/11.4/11.4.5) or newer.
 {% endhint %}
 {% endstep %}
 {% endstepper %}

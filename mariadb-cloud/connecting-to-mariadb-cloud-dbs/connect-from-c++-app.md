@@ -1,3 +1,10 @@
+---
+description: >-
+  Connect to MariaDB Cloud from a C++ application using the MariaDB
+  Connector/C++ library, including connection-string format, TLS
+  configuration, and authentication.
+---
+
 # Connect From C++ App
 
 MariaDB Connector/C++ enables C++ applications to establish client connections to MariaDB Cloud over TLS.
@@ -272,3 +279,5 @@ int main(int argc, char **argv)
    return 0;
 }
 ```
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

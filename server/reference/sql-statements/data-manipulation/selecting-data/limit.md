@@ -1,7 +1,8 @@
 ---
 description: >-
-  Restrict the number of rows returned. This clause specifies the maximum number
-  of records to return and can optionally set an offset.
+  Complete LIMIT clause reference: LIMIT n, LIMIT offset,row_count, LIMIT
+  row_count OFFSET offset syntax, ORDER BY result handling, and UPDATE
+  replication safety.
 ---
 
 # LIMIT
@@ -17,21 +18,13 @@ LIMIT row_count OFFSET offset
 
 When you provide an offset _m_ with a limit _n_, the first _m_ rows will be ignored, and the following _n_ rows will be returned.
 
-Executing an [UPDATE](../changing-deleting-data/update.md) with the `LIMIT` clause is not safe for replication. `LIMIT 0` is an exception to this rule (see [MDEV-6170](https://jira.mariadb.org/browse/MDEV-6170)).
+Executing an [UPDATE](../changing-deleting-data/update.md) with the `LIMIT` clause is not safe for replication. `LIMIT 0` is an exception to this rule.
 
 There is a [LIMIT ROWS EXAMINED](../../../../ha-and-performance/optimization-and-tuning/query-optimizations/limit-rows-examined.md) optimization which provides the means to terminate the execution of [SELECT](select.md) statements which examine too many rows, and thus use too many resources. See [LIMIT ROWS EXAMINED](../../../../ha-and-performance/optimization-and-tuning/query-optimizations/limit-rows-examined.md).
 
 ### Multi-Table Updates
 
-{% tabs %}
-{% tab title="Current" %}
 It is possible to use `LIMIT` (or [ORDER BY](order-by.md)) in a multi-table [UPDATE](../changing-deleting-data/update.md) statement.
-{% endtab %}
-
-{% tab title="< 10.3.1" %}
-It is **not** possible to use `LIMIT` (or [ORDER BY](order-by.md)) in a multi-table [UPDATE](../changing-deleting-data/update.md) statement.
-{% endtab %}
-{% endtabs %}
 
 ### GROUP\_CONCAT
 
@@ -111,7 +104,7 @@ SELECT * FROM members ORDER BY name LIMIT 2,1;
 +-------+
 ```
 
-From [MariaDB 10.3.2](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-3-series/mariadb-1032-release-notes), `LIMIT` can be used in a multi-table update:
+`LIMIT` can be used in a multi-table update:
 
 ```sql
 CREATE TABLE warehouse (product_id INT, qty INT);

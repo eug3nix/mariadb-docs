@@ -1,7 +1,7 @@
 ---
 description: >-
-  A comprehensive guide to triggers, explaining their execution timing
-  (BEFORE/AFTER), supported events, and how they interact with storage engines.
+  Complete MariaDB triggers overview: BEFORE/AFTER INSERT/UPDATE/DELETE timing,
+  CREATE TRIGGER syntax, FOLLOWS|PRECEDES ordering, and DROP/SHOW TRIGGERS.
 ---
 
 # Trigger Overview
@@ -30,6 +30,8 @@ The [INSERT ... ON DUPLICATE KEY UPDATE](../../../reference/sql-statements/data-
 Otherwise, it works like a normal `INSERT` statement.
 
 Note that [TRUNCATE TABLE](../../../reference/sql-statements/table-statements/truncate-table.md) does not activate any triggers.
+
+MariaDB Enterprise Server 12.3 adds a separate class of _conflict_ triggers (`CREATE TRIGGER ... FOR CONFLICT`) that fire on a replica when a row-based replication event conflicts with the replica's local data. See [Conflict Detection and Resolution (CDR) Triggers](../../../ha-and-performance/standard-replication/conflict-detection-and-resolution-triggers.md).
 
 ## Triggers and Errors
 

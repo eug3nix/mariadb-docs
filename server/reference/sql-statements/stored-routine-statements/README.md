@@ -2,20 +2,6 @@
 description: >-
   This section covers SQL commands for creating, altering, and dropping stored
   procedures and functions, essential for programmatic database logic.
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
 ---
 
 # Stored Routine Statements
@@ -91,3 +77,5 @@ Remove a stored procedure and its associated privileges from the database.
 Remove a stored function from the database, deleting its definition and associated privileges.
 {% endcolumn %}
 {% endcolumns %}
+
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>

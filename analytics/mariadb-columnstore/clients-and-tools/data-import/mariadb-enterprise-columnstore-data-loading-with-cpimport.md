@@ -1,8 +1,15 @@
+---
+description: >-
+  Data loading into MariaDB ColumnStore with cpimport: a
+  non-blocking, append-only bulk load that bypasses the SQL layer and supports
+  text, binary, and stdin sources.
+---
+
 # Data Loading with cpimport
 
 ## Overview
 
-MariaDB Enterprise ColumnStore includes a bulk data loading tool called cpimport, which bypasses the SQL layer to decrease the overhead of bulk data loading.
+MariaDB ColumnStore includes a bulk data loading tool called cpimport, which bypasses the SQL layer to decrease the overhead of bulk data loading.
 
 Refer to the [cpimport modes](../data-ingestion/columnstore-bulk-data-loading.md#cpimport-modes) for additional information and to [ColumnStore Bulk Data Loading](../data-ingestion/columnstore-bulk-data-loading.md).
 
@@ -12,7 +19,7 @@ The `cpimport` tool:
 * Does not block read queries;
 * Requires a write metadata lock on the table, which can be monitored with the [METADATA\_LOCK\_INFO plugin](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/plugins/other-plugins/metadata-lock-info-plugin);
 * Appends the new data to the table. While the bulk load is in progress, the newly appended data is temporarily hidden from queries. After the bulk load is complete, the newly appended data is visible to queries;
-* Inserts each row in the order the rows are read from the source file. Users can optimize data loads for Enterprise ColumnStore's automatic partitioning by loading presorted data files;
+* Inserts each row in the order the rows are read from the source file. Users can optimize data loads for ColumnStore's automatic partitioning by loading presorted data files;
 * Supports parallel distributed bulk loads;
 * Imports data from text files;
 * Imports data from binary files;
@@ -28,7 +35,7 @@ You can load data using the `cpimport` tool in the following cases:
 
 ## Locking
 
-MariaDB Enterprise ColumnStore requires a write metadata lock (MDL) on the table when a bulk data load is performed with cpimport.
+MariaDB ColumnStore requires a write metadata lock (MDL) on the table when a bulk data load is performed with cpimport.
 
 When a bulk data load is running:
 
@@ -273,7 +280,7 @@ The `cpimport` tool does not write bulk data loads to the binary log, so they ca
 
 ### EFS Storage
 
-When Enterprise ColumnStore uses object storage and the Storage Manager directory uses EFS in the default Bursting Throughput mode, the cpimport tool can have performance problems if multiple data load operations are executed consecutively. The performance problems can occur because the Bursting Throughput mode scales the rate relative to the size of the file system, so the burst credits for a small Storage Manager volume can be fully consumed very quickly.
+When ColumnStore uses object storage and the Storage Manager directory uses EFS in the default Bursting Throughput mode, the cpimport tool can have performance problems if multiple data load operations are executed consecutively. The performance problems can occur because the Bursting Throughput mode scales the rate relative to the size of the file system, so the burst credits for a small Storage Manager volume can be fully consumed very quickly.
 
 When this problem occurs, some solutions are:
 
@@ -283,6 +290,6 @@ When this problem occurs, some solutions are:
 
 Additional information is available [here](../data-ingestion/columnstore-bulk-data-loading.md#cpimport-modes).
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

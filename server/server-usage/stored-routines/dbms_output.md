@@ -57,7 +57,7 @@ BEGIN
   DBMS_OUTPUT.PUT_LINE('line2');
   DBMS_OUTPUT.GET_LINE(line, status);
   INSERT INTO t1 VALUES (line, status);
-  DBMS_OUTPUT.PUT_LINE('line3'); -- This cleares the buffer (removes line2) before putting line3
+  DBMS_OUTPUT.PUT_LINE('line3'); -- This clears the buffer (removes line2) before putting line3
   LOOP
     DBMS_OUTPUT.GET_LINE(line, status);
     INSERT INTO t1 VALUES (line, status);
@@ -145,3 +145,5 @@ Like other bootstrap scripts, the script creating `DBMS_OUTPUT`:
 * Is installed into `/share/dbms_ouput.sql` of the installation directory.
 
 \\
+
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>

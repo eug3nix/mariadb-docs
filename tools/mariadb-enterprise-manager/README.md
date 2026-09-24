@@ -1,3 +1,10 @@
+---
+description: >-
+  Overview of MariaDB Enterprise Manager, a centralized observability and
+  management solution offering topology-aware monitoring, visual schema
+  management, and query editing via an integrated workspace.
+---
+
 # MariaDB Enterprise Manager
 
 MariaDB Enterprise Manager is a comprehensive observability and management solution designed for your entire database fleet. It provides advanced, topology-aware monitoring and a powerful suite of visual tools for query development and schema management, all from a single, centralized interface.
@@ -28,6 +35,6 @@ The Workspace provides a powerful suite of tools for developers and DBAs. It fea
 
 Secure your management layer with robust security features. Authenticate users with your corporate [**identity provider (OIDC)**](administration/user-management/configure-openid-connect-identity-provider.md), enforce granular permissions with [**role-based access control (RBAC)**](administration/user-management/), and maintain compliance with a comprehensive **audit log** for all administrative actions.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

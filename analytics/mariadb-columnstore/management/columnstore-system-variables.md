@@ -1,6 +1,37 @@
+---
+description: >-
+  Reference for MariaDB ColumnStore system variables, with each variable's
+  scope, default, dynamic flag, and description — including insert-cache
+  controls and other tuning options.
+---
+
 # ColumnStore System Variables
 
 ## Variables
+
+#### columnstore\_cache\_inserts
+
+**Scope:** Global\
+**Dynamic:** No (requires restart)\
+**Command Line**: `--columnstore-cache-inserts[={0|1}]`\
+**Default:** OFF\
+**Description**: The [insert cache](../clients-and-tools/data-ingestion/columnstore-insert-cache.md) feature can be enabled or disabled at the global level. When enabled, `INSERT` operations are directed to a memory‑optimized Aria cache table, which serves as a temporary buffer before the data is flushed into ColumnStore storage.
+
+#### columnstore\_cache\_flush\_threshold
+
+**Scope:** Global / Session\
+**Dynamic**: Yes\
+**Command Line**: `--columnstore-cache-flush-threshold=#`\
+**Default:** 500000\
+**Description**: Specifies the number of cached rows that trigger an automatic flush from the Aria cache table to the ColumnStore table. For tuning guidance, see [ColumnStore Insert Cache](../clients-and-tools/data-ingestion/columnstore-insert-cache.md).
+
+#### columnstore\_cache\_use\_import&#x20;
+
+**Scope:** Global\
+**Dynamic**: Yes\
+**Command Line**: `--columnstore-cache-use-import[={0|1}]`\
+**Default:** OFF\
+**Description**: When the insert cache is enabled, flush operations utilize the `cpimport` utility to achieve improved performance. When the feature is disabled, flushes are executed using ColumnStore’s internal batch processing mode. For details on performance trade-offs, see [ColumnStore Insert Cache](../clients-and-tools/data-ingestion/columnstore-insert-cache.md).
 
 #### columnstore\_diskjoin\_force\_run
 
@@ -21,7 +52,7 @@
 
 #### columnstore\_max\_allowed\_in\_values
 
-* Sets the maximum number of values that can be used in an IN predicate on a Columnstore table. This limit helps to prevent performance issues caused by queries with a large number of IN values.
+* Sets the maximum number of values that can be used in an IN predicate on a ColumnStore table. This limit helps to prevent performance issues caused by queries with a large number of IN values.
 * Scope: global, session
 * Data type: [numeric](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/data-types/numeric-data-types/numeric)
 * Default value: 10000
@@ -29,7 +60,7 @@
 
 #### columnstore\_max\_pm\_join\_result\_count
 
-* Sets the maximum number of rows that can be returned by a parallel merge join on a Columnstore table. This limit helps to prevent memory issues caused by joins that return a large number of rows.
+* Sets the maximum number of rows that can be returned by a parallel merge join on a ColumnStore table. This limit helps to prevent memory issues caused by joins that return a large number of rows.
 * Scope: global, session
 * Data type: [numeric](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/data-types/numeric-data-types/numeric)
 * Default value: 1000000
@@ -79,21 +110,21 @@
 * Default value: OFF
 * Range: OFF, ON
 
-#### [infinidb\_import\_for\_batchinsert\_delimiter](columnstore-system-variables.md#batch-insert-mode-for-inserts)
+#### [infinidb\_import\_for\_batchinsert\_delimiter](columnstore-system-variables.md#batch-insert-mode-for-insert-statements)
 
 * Command line: Yes
 * Scope: global, session
 * Data type: [numeric](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/data-types/numeric-data-types/numeric)
 * Default value: 7
 
-#### [infinidb\_import\_for\_batchinsert\_enclosed\_by](columnstore-system-variables.md#batch-insert-mode-for-inserts)
+#### [infinidb\_import\_for\_batchinsert\_enclosed\_by](columnstore-system-variables.md#batch-insert-mode-for-insert-statements)
 
 * Command line: Yes
 * Scope: global, session
 * Data type: [numeric](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/data-types/numeric-data-types/numeric)
 * Default value: 17
 
-#### [infinidb\_local\_query](columnstore-system-variables.md#local-pm-query-mode)
+#### [infinidb\_local\_query](columnstore-system-variables.md#local-primproc-query-mode)
 
 * Command line: Yes
 * Scope: global, session
@@ -138,7 +169,7 @@
 * Default value: OFF
 * Range: OFF, ON
 
-#### [infinidb\_use\_import\_for\_batchinsert](columnstore-system-variables.md#batch-insert-mode-for-inserts)
+#### [infinidb\_use\_import\_for\_batchinsert](columnstore-system-variables.md#batch-insert-mode-for-insert-statements)
 
 * Command line: Yes
 * Scope: global, session
@@ -185,7 +216,7 @@ In typical mathematical and scientific applications, the ability to avoid overfl
 
 ### Enable/Disable Decimal-to-Double Math
 
-The `infinidb\_double\_for\_decimal\_math` variable is used to control the data type for intermediate decimal results. This decimal for double math may be set as a default for the instance, set at the session level, or at the statement level by toggling this variable on and off.
+The `infinidb_double_for_decimal_math` variable is used to control the data type for intermediate decimal results. This decimal for double math may be set as a default for the instance, set at the session level, or at the statement level by toggling this variable on and off.
 
 To enable/disable the use of the decimal to double math at the session level, the following command is used. Once the session has ended, any subsequent session will return to the default for the instance:
 
@@ -236,7 +267,7 @@ Disk-based joins enable such queries to use disk for intermediate join data in c
 Disk-based joins does not include aggregation and DML joins.
 {% endhint %}
 
-The following variables in the `HashJoin` element in the `Columnstore.xml` configuration file relate to disk-based joins. `Columnstore.xml` resides in `/usr/local/mariadb/columnstore/etc/`.
+The following variables in the `HashJoin` element in the `ColumnStore.xml` configuration file relate to disk-based joins. `ColumnStore.xml` resides in `/usr/local/mariadb/columnstore/etc/`.
 
 * AllowDiskBasedJoin – Option to use disk-based joins. Valid values are Y (enabled) or N (disabled). Default is disabled.
 * TempFileCompression – Option to use compression for disk join files. Valid values are Y (use compressed files) or N (use non-compressed files).
@@ -277,27 +308,28 @@ MariaDB ColumnStore has the ability to utilize the cpimport fast data import too
 
 ### Enable/Disable Using cpimport for Batch Insert
 
-The `infinidb_use_import_for_batchinsert` variable is used to control if cpimport is used for these statements. This variable may be set as a default for the instance, set at the session level, or at the statement level by toggling this variable on and off.
+The `columnstore_use_import_for_batchinsert` variable is used to control if cpimport is used for these statements. This variable may be set as a default for the instance, set at the session level, or at the statement level.
 
-To enable/disable the use of the use cpimport for batch insert at the session level, the following command is used. Once the session has ended, any subsequent session will return to the default for the instance.
+To control the use of cpimport for batch insert at the session level, the following command is used. Once the session has ended, any subsequent session will return to the default for the instance.
 
 ```sql
-SET infinidb_use_import_for_batchinsert = n
+SET columnstore_use_import_for_batchinsert = value
 ```
 
-where n is:
+where `value` is:
 
-* 0 (disabled)
-* 1 (enabled)
+* `OFF` (disabled)
+* `ON` (enabled; the default)
+* `ALWAYS` (always use cpimport)
 
 ### Changing Default Delimiter for INSERT SELECT
 
-* The `infinidb_import_for_batchinsert_delimite`r variable is used internally by MariaDB ColumnStore on a non-transactional `INSERT INTO SELECT FROM` statement as the default delimiter passed to the cpimport tool. With a default value ascii 7, there should be no need to change this value unless your data contains ascii 7 values.
+* The `columnstore_import_for_batchinsert_delimiter` variable is used internally by MariaDB ColumnStore on a non-transactional `INSERT INTO SELECT FROM` statement as the default delimiter passed to the cpimport tool. With a default value ascii 7, there should be no need to change this value unless your data contains ascii 7 values.
 
-To change this variable value at the at the session level, the following command is used. Once the session has ended, any subsequent session will return to the default for the instance.
+To change this variable value at the session level, the following command is used. Once the session has ended, any subsequent session will return to the default for the instance.
 
 ```sql
-SET infinidb_import_for_batchinsert_delimiter = ascii_value
+SET columnstore_import_for_batchinsert_delimiter = ascii_value
 ```
 
 where `ascii_value` is an ASCII value representation of the delimiter desired.
@@ -395,6 +427,6 @@ where n is:
 2. (the default) query syntax is evaluated by ColumnStore for compatibility with distributed execution and incompatible queries are rejected. Queries executed in this mode take advantage of distributed execution and typically result in higher performance.
 3. auto-switch mode: ColumnStore will attempt to process the query internally, if it cannot, it will automatically switch the query to run in row-by-row mode.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

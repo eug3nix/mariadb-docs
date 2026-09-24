@@ -1,6 +1,13 @@
+---
+description: >-
+  Follow the specific steps to upgrade MariaDB MaxScale to version 25.01. This
+  guide covers new package structures, removed features, and critical
+  configuration changes for this release.
+---
+
 # Upgrade to MaxScale 25.01
 
-These instructions detail the upgrade to **MariaDB MaxScale 25.01** in a **MaxScale Instance** configuration on a range of [supported Operating Systems](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/architecture/topologies/compatibility).
+These instructions detail the upgrade to **MariaDB MaxScale 25.01** in a **MaxScale Instance** configuration on a range of [supported Operating Systems](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/SsmexDFPv2xG2OTyO5yV/architecture/topologies/compatibility).
 
 MariaDB MaxScale is an advanced database proxy and query router.
 
@@ -8,18 +15,28 @@ MariaDB MaxScale is an advanced database proxy and query router.
 
 | Term              | Definition                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MaxScale instance | <ul><li>MariaDB MaxScale running by itself on a single host.</li><li>It interacts with other hosts, such as deployments using <a href="https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/ha-and-performance/standard-replication">MariaDB Replication</a>, <a href="https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/3VYeeVGUV4AMqrA3zwy7/">Galera Cluster</a>, and <a href="https://app.gitbook.com/s/rBEU9juWLfTDcdwF3Q14/mariadb-columnstore">ColumnStore</a>.</li><li>It serves as the database proxy and load balancer.</li></ul> |
+| MaxScale instance | <ul><li>MariaDB MaxScale running by itself on a single host.</li><li>It interacts with other hosts, such as deployments using <a href="https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/SsmexDFPv2xG2OTyO5yV/ha-and-performance/standard-replication">MariaDB Replication</a>, <a href="https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/3VYeeVGUV4AMqrA3zwy7/">Galera Cluster</a>, and <a href="https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/rBEU9juWLfTDcdwF3Q14/mariadb-columnstore">ColumnStore</a>.</li><li>It serves as the database proxy and load balancer.</li></ul> |
 | upgrade           | <ul><li>A change from lower-versioned release of MariaDB MaxScale to a higher-versioned release of MariaDB MaxScale.</li></ul>                                                                                                                                                                                                                                                                                                                                                                                                      |
 
 ## Backing Up Configuration
 
-Upgrades can move or change configuration files. Before starting an upgrade, always back up your configuration files to ensure you can revert to the working system in the event that you encounter any issues during the upgrade.
+Upgrades can move or change configuration files. Before starting an upgrade, always back up your configuration so you can revert to the working system if you encounter any issues during the upgrade.
 
-To back up a configuration file, create a copy:
+A complete backup must include both the static configuration and any configuration MaxScale has persisted at runtime:
+
+* The main configuration file, `/etc/maxscale.cnf`.
+* Any auxiliary static configuration files in `/etc/maxscale.cnf.d/`.
+* The persisted configuration directory. Changes made at runtime through MaxCtrl, the REST API, or the GUI are saved here as individual `.cnf` files and override the static configuration when MaxScale restarts. This directory defaults to `/var/lib/maxscale/maxscale.cnf.d/` and is set by the [`persistdir`](../installation-and-configuration/maxscale-configuration-guide.md#persistdir) parameter in the `[maxscale]` section.
 
 ```bash
 sudo cp /etc/maxscale.cnf /data/backups/config/maxscale.cnf
+sudo cp -r /etc/maxscale.cnf.d /data/backups/config/maxscale.cnf.d
+sudo cp -r /var/lib/maxscale/maxscale.cnf.d /data/backups/config/persisted.cnf.d
 ```
+
+{% hint style="info" %}
+If you set `persistdir` to a non-default location in `/etc/maxscale.cnf`, back up that directory instead of `/var/lib/maxscale/maxscale.cnf.d/`.
+{% endhint %}
 
 ## Upgrade
 
@@ -41,7 +58,7 @@ Upgrade MaxScale following the instructions for your Linux distribution:
 
 {% tabs %}
 {% tab title="RHEL" %}
-#### Upgrade via DNF (RHEL)
+**Upgrade via DNF (RHEL)**
 
 {% stepper %}
 {% step %}
@@ -53,7 +70,7 @@ Retrieve your Customer Download Token at [https://customers.mariadb.com/download
 {% step %}
 **Configure YUM / DNF package repository**
 
-Pass the version you want to install using the `--mariadb-maxscale-version` flag to the [mariadb\_es\_repo\_setup](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/install-and-upgrade-mariadb/installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage) script. The following directions reference `25.01`.
+Pass the version you want to install using the `--mariadb-maxscale-version` flag to the [mariadb\_es\_repo\_setup](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/SsmexDFPv2xG2OTyO5yV/server-management/install-and-upgrade-mariadb/mariadb-package-repository-setup-and-usage) script. The following directions reference `25.01`.
 
 To configure YUM package repositories:
 
@@ -92,7 +109,7 @@ The upgrade process only loads MaxScale onto the system. MaxScale requires confi
 {% endtab %}
 
 {% tab title="Debian / Ubuntu" %}
-#### Upgrade via APT (Debian, Ubuntu)
+**Upgrade via APT (Debian, Ubuntu)**
 
 {% stepper %}
 {% step %}
@@ -104,7 +121,7 @@ Retrieve your Customer Download Token at [https://customers.mariadb.com/download
 {% step %}
 **Configure APT package repository**
 
-Pass the version you want to install using the `--mariadb-maxscale-version` flag to the [mariadb\_es\_repo\_setup](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/install-and-upgrade-mariadb/installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage) script. The following directions reference `25.01`.
+Pass the version you want to install using the `--mariadb-maxscale-version` flag to the [mariadb\_es\_repo\_setup](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/SsmexDFPv2xG2OTyO5yV/server-management/install-and-upgrade-mariadb/mariadb-package-repository-setup-and-usage) script. The following directions reference `25.01`.
 
 To configure APT package repositories:
 
@@ -147,7 +164,7 @@ The upgrade process only loads MaxScale onto the system. MaxScale requires confi
 {% endtab %}
 
 {% tab title="SLES" %}
-#### Upgrade via ZYpp (SLES)
+**Upgrade via ZYpp (SLES)**
 
 {% stepper %}
 {% step %}
@@ -159,7 +176,7 @@ Retrieve your Customer Download Token at [https://customers.mariadb.com/download
 {% step %}
 **Configure ZYpp package repository**
 
-Pass the version you want to install using the `--mariadb-maxscale-version` flag to the [mariadb\_es\_repo\_setup](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/install-and-upgrade-mariadb/installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage) script. The following directions reference `25.01`.
+Pass the version you want to install using the `--mariadb-maxscale-version` flag to the [mariadb\_es\_repo\_setup](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/SsmexDFPv2xG2OTyO5yV/server-management/install-and-upgrade-mariadb/mariadb-package-repository-setup-and-usage) script. The following directions reference `25.01`.
 
 To configure ZYpp package repositories:
 
@@ -214,7 +231,7 @@ Configuration parameters can change between releases of MariaDB MaxScale, which 
 
 {% tabs %}
 {% tab title="MaxScale 23.02" %}
-#### Changes in MaxScale 23.02
+**Changes in MaxScale 23.02**
 
 When upgrading from MaxScale 22.08 and earlier to MaxScale 25.01, the changes introduced in MaxScale 23.02 must be taken into consideration.
 
@@ -288,7 +305,7 @@ For `maxctrl create monitor`, the following deprecated command-line options were
 {% endtab %}
 
 {% tab title="MaxScale 22.08" %}
-#### Changes in MaxScale 22.08
+**Changes in MaxScale 22.08**
 
 When upgrading from MaxScale 6 and earlier to MaxScale 25.01, the changes introduced in MaxScale 22.08 must be taken into consideration.
 
@@ -327,7 +344,7 @@ When upgrading from MaxScale 6 and earlier to MaxScale 25.01, the changes introd
 {% endtab %}
 
 {% tab title="MaxScale 6" %}
-#### Changes in MaxScale 6
+**Changes in MaxScale 6**
 
 When upgrading from MaxScale 2.5 and earlier to MaxScale 25.01, the changes introduced in MaxScale 6 must be taken into consideration.
 
@@ -422,7 +439,7 @@ MaxScale 2.5 includes configuration changes for [MariaDB Monitor (mariadbmon)](.
 
 **ColumnStore Monitor**
 
-MaxScale 2.5 includes configuration changes for [ColumnStore Monitor (csmon)](../../../maxscale-archive/archive/mariadb-maxscale-21-06/mariadb-maxscale-2106-maxscale-21-06-monitors/maxscale-mariadb-monitor-usage/maxscale-mariadb-monitor-usage-columnstore-monitor.md):
+MaxScale 2.5 includes configuration changes for ColumnStore Monitor (csmon):
 
 *   The `version` parameter was previously optional, but it is now required.
 
@@ -527,3 +544,5 @@ sudo maxctrl show maxscale
 │              │ }                                                                    │
 └──────────────┴──────────────────────────────────────────────────────────────────────┘
 ```
+
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>

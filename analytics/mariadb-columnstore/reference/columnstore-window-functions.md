@@ -1,3 +1,10 @@
+---
+description: >-
+  MariaDB ColumnStore window functions follow SQL 2003 with partitions and
+  frames, applied after joins, GROUP BY, and HAVING; useful for cumulative
+  totals, rolling averages, and top-N.
+---
+
 # ColumnStore Window Functions
 
 ## Introduction
@@ -17,7 +24,7 @@ Window functions are applied after joins, group by, and having clauses are calcu
 
 A window function is applied in the select clause using the following syntax:
 
-```sql
+```bnf
 function_name ([expression [, expression ... ]]) OVER ( window_definition )
 ```
 
@@ -357,6 +364,6 @@ With example results:
 | Olivier | Devpulse     | 2016-10-05 | 834235.93 | 667519.1100000000 | 500802.29 |
 | Olivier | Trupe        | 2016-10-07 | 500802.29 | 667519.1100000000 | 500802.29 |
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

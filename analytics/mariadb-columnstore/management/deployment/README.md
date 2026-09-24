@@ -1,4 +1,8 @@
 ---
+description: >-
+  Deployment documentation for MariaDB ColumnStore, including the hardware
+  sizing guide, build-from-source instructions, install-guide topology
+  variants, and upgrade procedures.
 layout:
   width: default
   title:
@@ -17,3 +21,16 @@ layout:
 
 # Deployment
 
+{% content-ref url="../../columnstore-quickstart-guides/mariadb-columnstore-hardware-guide.md" %}
+[mariadb-columnstore-hardware-guide.md](../../columnstore-quickstart-guides/mariadb-columnstore-hardware-guide.md)
+{% endcontent-ref %}
+
+{% content-ref url="install-guide/" %}
+[install-guide](install-guide/)
+{% endcontent-ref %}
+
+{% content-ref url="upgrades/" %}
+[upgrades](upgrades/)
+{% endcontent-ref %}
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

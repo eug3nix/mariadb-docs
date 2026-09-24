@@ -1,3 +1,10 @@
+---
+description: >-
+  Configuration Manager parameters for the MariaDB Serverless Single Node
+  topology in MariaDB Cloud, including password validation, replication
+  settings, and runtime defaults.
+---
+
 # MariaDB Serverless Single Node
 
 For cloud databases using the MariaDB Serverless Single Node topology, the following Configuration Manager parameters are available to configure the behavior of the MariaDB Server:
@@ -36,3 +43,5 @@ For cloud databases using the MariaDB Serverless Single Node topology, the follo
 | [sql\_mode](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/server-system-variables#sql_mode)                                                                                | ERROR\_FOR\_DIVISION\_BY\_ZERO, NO\_AUTO\_CREATE\_USER, NO\_ENGINE\_SUBSTITUTION, STRICT\_TRANS\_TABLES                                                    |
 | [strict\_password\_validation](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/server-system-variables#strict_password_validation)                                           | ON                                                                                                                                                         |
 | [transaction\_isolation](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/server-system-variables#transaction_isolation)                                                      | REPEATABLE-READ                                                                                                                                            |
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

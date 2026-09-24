@@ -1,3 +1,9 @@
+---
+description: >-
+  A reference guide mapping SQL Server data types (e.g., `money`, `bit`) to
+  their MariaDB equivalents, highlighting differences in precision and storage.
+---
+
 # SQL Server and MariaDB Types Comparison
 
 {% include "https://app.gitbook.com/s/GxVnu02ec8KJuFSxmB93/~/reusable/UQS8KgfG8jtpHBvT83fL/" %}
@@ -19,7 +25,7 @@ For more information see [Numeric Data Type Overview](../../../../reference/data
 | tinyint          | 1            | [TINYINT](../../../../reference/data-types/numeric-data-types/tinyint.md)                                                                     | 1            |                                              |
 | smallint         | 2            | [SMALLINT](../../../../reference/data-types/numeric-data-types/smallint.md)                                                                   | 2            |                                              |
 |                  |              | [MEDIUMINT](../../../../reference/data-types/numeric-data-types/mediumint.md)                                                                 | 3            | Takes 3 bytes on disk, but 4 bytes in memory |
-| int              | 1            | [INT](../../../../reference/data-types/numeric-data-types/int.md) / [INTEGER](../../../../reference/data-types/numeric-data-types/integer.md) | 4            |                                              |
+| int              | 4            | [INT](../../../../reference/data-types/numeric-data-types/int.md) / [INTEGER](../../../../reference/data-types/numeric-data-types/integer.md) | 4            |                                              |
 | bigint           | 8            | [BIGINT](../../../../reference/data-types/numeric-data-types/bigint.md)                                                                       | 8            |                                              |
 
 ### Real Numbers (approximated)
@@ -27,7 +33,7 @@ For more information see [Numeric Data Type Overview](../../../../reference/data
 | SQL Server Types | Precision | Size | MariaDB Types                                                                | Size |
 | ---------------- | --------- | ---- | ---------------------------------------------------------------------------- | ---- |
 | float(1-24)      | 7 digits  | 4    | [FLOAT(0-23)](../../../../reference/data-types/numeric-data-types/float.md)  | 4    |
-| float(25-53)     | 15 digist | 8    | [FLOAT(24-53)](../../../../reference/data-types/numeric-data-types/float.md) | 8    |
+| float(25-53)     | 15 digits | 8    | [FLOAT(24-53)](../../../../reference/data-types/numeric-data-types/float.md) | 8    |
 
 MariaDB supports an alternative syntax: `FLOAT(M, D)`. M is the total number of digits, and D is the number of digits after the decimal point.
 
@@ -75,7 +81,7 @@ The [BIT](../../../../reference/data-types/numeric-data-types/bit.md) type is su
 In MariaDB, binary values can be written in one of the following ways:
 
 * `b'value'`
-* `0value`\
+* `0value`
   where `value` is a sequence of 0 and 1 digits. Hexadecimal syntax can also be used. For more details, see [Binary Literals](../../../../reference/sql-structure/sql-language-structure/binary-literals.md) and [Hexadecimal Literals](../../../../reference/sql-structure/sql-language-structure/hexadecimal-literals.md).
 
 MariaDB and SQL Server have different sets of bitwise operators. See [Bit Functions and Operators](../../../../reference/sql-functions/secondary-functions/bit-functions-and-operators/).
@@ -183,7 +189,7 @@ While MariaDB does not support the `uniqueidentifier` type, the [UUID](../../../
 
 `uniqueidentifier` columns contain 16-bit GUIDs. MariaDB UUID columns store UUIDv1 values (128 bits).
 
-The UUID type was implemented in [MariaDB 10.7](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-7-series/what-is-mariadb-107). On older versions, you can generate unique values with the [UUID()](../../../../reference/sql-functions/secondary-functions/miscellaneous-functions/uuid.md) or [UUID\_SHORT()](../../../../reference/sql-functions/secondary-functions/miscellaneous-functions/uuid_short.md) functions, and store them in `BIT(128)` or `BIT(64)` columns, respectively.
+The UUID type was implemented in [MariaDB 10.7](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.7/what-is-mariadb-107). On older versions, you can generate unique values with the [UUID()](../../../../reference/sql-functions/secondary-functions/miscellaneous-functions/uuid.md) or [UUID\_SHORT()](../../../../reference/sql-functions/secondary-functions/miscellaneous-functions/uuid_short.md) functions, and store them in `BIT(128)` or `BIT(64)` columns, respectively.
 
 ### xml
 
@@ -195,7 +201,7 @@ XML data can be stored in string columns. MariaDB supports several XML functions
 
 With SQL Server, typically JSON documents are stored in `nvarchar` columns in a text form.
 
-MariaDB has a [JSON](../../../../reference/data-types/string-data-types/json.md) pseudo-type that maps to [LONGTEXT](../../../../reference/data-types/string-data-types/longtext.md). However, from [MariaDB 10.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/mariadb-10-5-series/what-is-mariadb-105) the `JSON` pseudo-type also checks that the value is valid a JSON document.
+MariaDB has a [JSON](../../../../reference/data-types/string-data-types/json.md) pseudo-type that maps to [LONGTEXT](../../../../reference/data-types/string-data-types/longtext.md). However, from [MariaDB 10.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.5/what-is-mariadb-105) the `JSON` pseudo-type also checks that the value is valid a JSON document.
 
 MariaDB supports different JSON functions than SQL Server. MariaDB currently has more functions, and SQL Server syntax will not work. See [JSON functions](../../../../reference/sql-functions/special-functions/json-functions/) for more information.
 

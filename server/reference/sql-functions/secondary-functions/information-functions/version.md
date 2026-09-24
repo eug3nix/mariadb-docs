@@ -1,14 +1,14 @@
 ---
 description: >-
-  Return the server version. This function outputs a string indicating the
-  version number and distribution of the MariaDB server.
+  Complete VERSION reference for MariaDB. Complete function guide with syntax,
+  parameters, return values, and usage examples with comprehensive examples and.
 ---
 
 # VERSION
 
 ## Syntax
 
-```sql
+```bnf
 VERSION()
 ```
 

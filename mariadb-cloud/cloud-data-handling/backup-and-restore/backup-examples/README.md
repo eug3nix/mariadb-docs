@@ -1,18 +1,8 @@
 ---
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
+description: >-
+  MariaDB Cloud backup API examples covering snapshot, physical, logical
+  (mariadb-dump), incremental, and binary log backups for one-time and
+  scheduled execution.
 ---
 
 # Backup Examples
@@ -66,3 +56,5 @@ Manage backup schedules and monitor backup status using API calls. It includes l
 {% content-ref url="other-backup-api-examples.md" %}
 [other-backup-api-examples.md](other-backup-api-examples.md)
 {% endcontent-ref %}
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

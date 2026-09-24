@@ -8,12 +8,14 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 LAG (expr[, offset]) OVER ( 
   [ PARTITION BY partition_expression ] 
   < ORDER BY order_list >
 )
 ```
+
+![Railroad diagram of LAG — equivalent to the BNF above](../../../../.gitbook/assets/lag-railroad.svg)
 
 ## Description
 

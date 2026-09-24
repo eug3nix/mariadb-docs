@@ -1,8 +1,15 @@
+---
+description: >-
+  MariaDB Cloud billing is associated with a Cloud ID; the Portal exposes
+  current usage summary and pricing details for active services and historical
+  billing periods.
+---
+
 # Billing
 
 Billing is associated with a MariaDB Cloud ID.
 
-For pricing information, see "[Pricing](../Billing%20and%20Power%20Tier/Pricing.md)".
+For pricing information, see [Pricing](../reference/pricing.md).
 
 ## **Usage Information**
 
@@ -18,7 +25,7 @@ Usage information can be shown by service or by resource.
 
 Click the resource name or service name to expand the view.
 
-<figure><img src="../.gitbook/assets/current-usage.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/billing-history.png" alt=""><figcaption></figcaption></figure>
 
 _Billing - Current Usage_
 
@@ -29,3 +36,5 @@ From the [Portal](https://app.skysql.com/dashboard), you can access prior invoic
 1. Log in to the [Portal](https://app.skysql.com/dashboard).
 2. Click your name in the upper-right corner of the interface, then select "Billing" from the menu.
 3. Click the "Billing History" tab to show available invoices.
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

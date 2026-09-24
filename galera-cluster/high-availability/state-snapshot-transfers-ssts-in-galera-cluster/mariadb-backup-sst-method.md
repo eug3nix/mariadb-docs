@@ -6,7 +6,7 @@ description: >-
 
 # mariadb-backup SST Method
 
-The `mariabackup` SST method uses the [mariadb-backup](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/backup-and-restore/mariadb-backup) utility for performing SSTs. It is one of the methods that does not block the donor node. `mariadb-backup` was originally forked from [Percona XtraBackup](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/clients-and-utilities/legacy-clients-and-utilities/backing-up-and-restoring-databases-percona-xtrabackup), and similarly, the `mariabackup` SST method was originally forked from the xtrabackup-v2 SST method.
+The `mariabackup` SST method uses the [mariadb-backup](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/backup-and-restore/mariadb-backup) utility for performing SSTs. It is one of the methods that does not block the donor node. `mariadb-backup` was originally forked from Percona XtraBackup, and similarly, the `mariabackup` SST method was originally forked from the xtrabackup-v2 SST method.
 
 {% hint style="warning" %}
 If you use the `mariadb-backup` SST method, then you also need to have [socat](mariadb-backup-sst-method.md#socat-dependency) installed on the server. This is needed to stream the backup from the donor node to the joiner node. This is a limitation that was inherited from the xtrabackup-v2 SST method.
@@ -33,7 +33,7 @@ For an SST to work properly, the donor and joiner node must use the same SST met
 ## Major Version Upgrades <a href="#major-version-upgrades" id="major-version-upgrades"></a>
 
 {% hint style="warning" %}
-The InnoDB redo log format has been changed in [MariaDB 10.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/mariadb-10-5-series/what-is-mariadb-105) and [MariaDB 10.8](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-8-series/what-is-mariadb-108) in a way that will not allow the crash recovery or the preparation of a backup from an older major version. Because of this, the `mariabackup` SST method cannot be used for some major-version upgrades, unless you temporarily edit the `wsrep_sst_mariadbbackup` script so that the `--prepare` step on the newer-major-version joiner will be executed using the older-major-version `mariadb-backup` tool.
+The InnoDB redo log format has been changed in [MariaDB 10.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.5/what-is-mariadb-105) and [MariaDB 10.8](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.8/what-is-mariadb-108) in a way that will not allow the crash recovery or the preparation of a backup from an older major version. Because of this, the `mariabackup` SST method cannot be used for some major-version upgrades, unless you temporarily edit the `wsrep_sst_mariadbbackup` script so that the `--prepare` step on the newer-major-version joiner will be executed using the older-major-version `mariadb-backup` tool.
 {% endhint %}
 
 The default method `wsrep_sst_method=rsync` works for major-version upgrades; see [MDEV-27437](https://jira.mariadb.org/browse/MDEV-27437).
@@ -253,13 +253,18 @@ On RHEL/CentOS, `socat` can be installed from the [Extra Packages for Enterprise
 
 ## TLS <a href="#tls" id="tls"></a>
 
-This SST method supports two different TLS methods. The specific method can be selected by setting the `encrypt` option in the `[sst]` section of the MariaDB configuration file. The options are:
+{% hint style="warning" %}
+**By default, mariadb-backup SSTs are not encrypted.** The default value of the `[sst]` `encrypt` option is `0`, which streams the snapshot through an unencrypted `socat` TCP pipe. Enabling TLS for replication traffic (through `wsrep_provider_options` or `wsrep_ssl_mode`) does **not** encrypt SST traffic — snapshot encryption must be configured separately. To encrypt the snapshot, set `encrypt=3` or `encrypt=4` in the `[sst]` section (below), or set the `[sst]` `ssl-mode` option.
+{% endhint %}
+
+This SST method supports three different TLS methods. The specific method can be selected by setting the `encrypt` option in the `[sst]` section of the MariaDB configuration file. The options are:
 
 * TLS using OpenSSL encryption built into `socat` (`encrypt=2`)
 * TLS using OpenSSL encryption with Galera-compatible certificates and keys (`encrypt=3`)
+* TLS using OpenSSL encryption with standard MySQL/MariaDB SSL certificates (`encrypt=4`)
 
 {% hint style="warning" %}
-Note that `encrypt=1` refers to a TLS encryption method that has been deprecated and removed. `encrypt=4` refers to a TLS encryption method in `xtrabackup-v2` that has not yet been ported to `mariadb-backup`. See [MDEV-18050](https://jira.mariadb.org/browse/MDEV-18050) about that.
+Note that `encrypt=1` refers to a TLS encryption method that has been deprecated and removed.
 {% endhint %}
 
 ### TLS Using OpenSSL Encryption Built into Socat <a href="#tls-using-openssl-encryption-built-into-socat" id="tls-using-openssl-encryption-built-into-socat"></a>
@@ -300,7 +305,7 @@ Make sure to replace the paths with whatever is relevant on your system. This sh
 
 ### TLS Using OpenSSL Encryption With Galera-Compatible Certificates and Keys <a href="#tls-using-openssl-encryption-with-galera-compatible-certificates-and-keys" id="tls-using-openssl-encryption-with-galera-compatible-certificates-and-keys"></a>
 
-To generate keys compatible with this encryption method, follow [these directions](https://galeracluster.com/library/documentation/ssl-cert.html).
+To generate keys compatible with this encryption method, follow [Certificate Creation With OpenSSL](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/SsmexDFPv2xG2OTyO5yV/security/encryption/data-in-transit-encryption/certificate-creation-with-openssl).
 
 First, generate the keys and certificates:
 
@@ -333,6 +338,29 @@ tcert=/etc/my.cnf.d/certificates/server1-cert.pem
 {% hint style="warning" %}
 Make sure to replace the paths with whatever is relevant on your system. This should allow your SSTs to be encrypted.
 {% endhint %}
+
+### \[sst] ssl-mode
+
+The `ssl-mode` option in the `[sst]` section is the higher-level TLS control for State Snapshot Transfers, honored by the SST methods that support TLS (`mariabackup` and `rsync`):
+
+| `ssl-mode`        | Behavior                                                                       |
+| ----------------- | ------------------------------------------------------------------------------ |
+| `DISABLED`        | Default. TLS not required (legacy `encrypt`/`tca`/`tcert`/`tkey` still apply).  |
+| `REQUIRED`        | TLS mandatory; peer certificate chain not verified.                            |
+| `VERIFY_CA`       | TLS mandatory; peer chain verified against the CA.                             |
+| `VERIFY_IDENTITY` | TLS mandatory; chain verified and peer host identity checked.                  |
+
+When `ssl-mode` is set to any value other than `DISABLED` and a certificate and key are configured, `mariadb-backup` automatically sets `encrypt=3`, reusing the server's TLS certificates.
+
+{% hint style="info" %}
+**Do not confuse `ssl-mode` with similarly named options:**
+
+* `[sst]` `ssl-mode` (this option) controls **SST** traffic: `DISABLED`, `REQUIRED`, `VERIFY_CA`, `VERIFY_IDENTITY`.
+* [`wsrep_ssl_mode`](../../reference/wsrep-variable-details/wsrep_ssl_mode.md) controls **replication** traffic: `PROVIDER`, `SERVER`, `SERVER_X509`.
+* The MySQL client `--ssl-mode` option does **not** exist in the MariaDB client, which uses `--ssl-verify-server-cert` instead.
+{% endhint %}
+
+See [SST TLS Modes](../../galera-security/mariadb-enterprise-cluster-security.md#sst-tls-modes) for the full description of each mode.
 
 ## Logs <a href="#logs" id="logs"></a>
 
@@ -383,6 +411,14 @@ sockopt=",pf=ip6"
 
 See [MDEV-18797](https://jira.mariadb.org/browse/MDEV-18797) for more information.
 
+## SST with Tables Using DATA DIRECTORY
+
+When a table is created with the `DATA DIRECTORY` clause, its data file (`.ibd`) is stored outside of the `datadir` on the donor node. During a State Snapshot Transfer (SST), `mariadb-backup` sends all table data, including files located in external `DATA DIRECTORY` paths, to the joiner node.
+
+By default, all incoming SST data is staged inside the `datadir` on the joiner. If the combined size of the data files (including those from external `DATA DIRECTORY` paths) exceeds the available space in `datadir`, the SST fails with a **"No space left on device"** error.
+
+The `wsrep_sst_tmp_dir` system variable, introduced in **MariaDB 13.0**, allows redirecting the SST staging area to a separate directory on a filesystem with sufficient space. The joiner sends data into this temporary directory first, then moves the prepared data into `datadir`. See the `wsrep_sst_tmp_dir` system variable.
+
 ## Manual SST With mariadb-backup <a href="#manual-sst-with-mariabackup" id="manual-sst-with-mariabackup"></a>
 
 If Galera Cluster's automatic SSTs repeatedly fail, it can be helpful to perform a "manual SST"; see: [Manual SST of Galera Cluster node with ](manual-sst-of-galera-cluster-node-with-mariadb-backup.md)[mariadb-backup](mariadb-backup-sst-method.md)
@@ -391,9 +427,8 @@ If Galera Cluster's automatic SSTs repeatedly fail, it can be helpful to perform
 
 * [Percona XtraBackup SST Configuration](https://www.percona.com/doc/percona-xtradb-cluster/5.7/manual/xtrabackup_sst.html)
 * [Encrypting PXC Traffic: ENCRYPTING SST TRAFFIC](https://docs.percona.com/percona-xtradb-cluster/5.7/security/encrypt-traffic.html#encrypt-sst)
-* [XTRABACKUP PARAMETERS](https://galeracluster.com/library/documentation/xtrabackup-options.html)
-* [SSL FOR STATE SNAPSHOT TRANSFERS: ENABLING SSL FOR XTRABACKUP](https://galeracluster.com/library/documentation/ssl-sst.html#ssl-xtrabackup)
+* [Securing Communications in Galera Cluster](../../galera-security/securing-communications-in-galera-cluster.md)
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/7hzG0V6AUK8DqF4oiVaW/" %}
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 
 {% @marketo/form formId="4316" %}

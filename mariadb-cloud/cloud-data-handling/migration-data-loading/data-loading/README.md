@@ -1,18 +1,8 @@
 ---
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
+description: >-
+  MariaDB Cloud data loading: LOAD DATA LOCAL INFILE for CSV/TSV files,
+  mariadb-dump and mariadb-import utilities, and inbound replication from
+  external MySQL or MariaDB databases.
 ---
 
 # Data Loading
@@ -51,3 +41,4 @@ Set up and run continuous, inbound replication from an external MySQL or MariaDB
 [replicating-data-from-external-db.md](replicating-data-from-external-db.md)
 {% endcontent-ref %}
 
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

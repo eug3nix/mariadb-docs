@@ -1,19 +1,9 @@
 ---
+description: >-
+  Private VPC connections for MariaDB Cloud: AWS PrivateLink, Azure Private
+  Link, and GCP Private Service Connect for accessing Cloud databases without
+  public network exposure.
 icon: network-wired
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
 ---
 
 # Using VPC Connections
@@ -31,3 +21,5 @@ MariaDB Cloud cloud databases can optionally be configured for private connectio
 * [AWS PrivateLink](setting-up-aws-private-link.md) is supported for MariaDB Cloud databases on AWS
 * [Azure PrivateLink](setting-up-azure-private-link.md) is supported for MariaDB Cloud databases on Azure
 * [Private Service Connect](setting-up-gcp-private-service-connect.md) is supported for MariaDB Cloud databases on GCP
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

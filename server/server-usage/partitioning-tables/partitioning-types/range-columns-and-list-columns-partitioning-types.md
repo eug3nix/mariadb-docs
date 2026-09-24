@@ -10,15 +10,18 @@ description: >-
 
 * The list can contain one or more columns.
 * Columns can be of any [integer](../../../reference/data-types/numeric-data-types/int.md), [string](../../../reference/data-types/string-data-types/), [DATE](../../../reference/data-types/date-and-time-data-types/date.md), and [DATETIME](../../../reference/data-types/date-and-time-data-types/datetime.md) types.
+* [TIMESTAMP](../../../reference/data-types/date-and-time-data-types/timestamp.md) columns are accepted only in combination with an `INTERVAL` clause. See [RANGE COLUMNS INTERVAL Partitioning Type](range-columns-interval-partitioning.md).
 * Only bare columns are permitted; no expressions.
 
 All the specified columns are compared to the specified values to determine which partition should contain a specific row. See below for details.
+
+A `RANGE COLUMNS` table can also extend its own partitions as data is written, by adding an `INTERVAL` clause. See [RANGE COLUMNS INTERVAL Partitioning Type](range-columns-interval-partitioning.md).
 
 ## Syntax
 
 The last part of a [CREATE TABLE](../../../reference/sql-statements/data-definition/create/create-table.md) statement can be definition of the new table's partitions. In the case of `RANGE COLUMNS` partitioning, the syntax is as follows:
 
-```sql
+```bnf
 PARTITION BY RANGE COLUMNS (col1, col2, ...)
 (
 	PARTITION partition_name VALUES LESS THAN (value1, value2, ...),
@@ -45,7 +48,7 @@ To determine which partition should contain a row, all specified columns are com
 
 With `LIST COLUMNS`, a row matches a partition if all row values are identical to the specified values. At most one partition can match the row.
 
-With `RANGE COLUMNS`, a row matches a partition if all row values are less than the specified values. The first partition that matches the row values are used.
+With `RANGE COLUMNS`, a row matches a partition if it is less than the specified value tuple in lexicographic order. The first partition that matches the row values are used.
 
 The `DEFAULT` partition catches all records which do not fit in other partitions. Only one `DEFAULT` partition is allowed.
 

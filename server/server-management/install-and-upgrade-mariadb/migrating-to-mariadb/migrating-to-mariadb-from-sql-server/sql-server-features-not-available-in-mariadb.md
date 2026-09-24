@@ -1,3 +1,7 @@
+---
+description: Features available in Microsoft SQL Server that aren't available in MariaDB.
+---
+
 # SQL Server Features Not Available in MariaDB
 
 {% include "https://app.gitbook.com/s/GxVnu02ec8KJuFSxmB93/~/reusable/UQS8KgfG8jtpHBvT83fL/" %}
@@ -37,12 +41,12 @@ This page has a list of SQL Server features that are not supported in MariaDB. T
   * Sending HTTP requests.
 * External languages, external libraries (MariaDB only supports procedural SQL and PL/SQL).
 * Negative permissions (the `DENY` command).
-* Snapshot replication. See [Provisioning a Slave](mariadb-replication-overview-for-sql-server-users.md#provisioning-a-slave).
+* Snapshot replication. See [Provisioning a Slave](mariadb-replication-overview-for-sql-server-users.md#provisioning-a-replica).
 
 ## Introduced in SQL Server 2016
 
 * Native data masking
-* PolyBase (however, [MariaDB 10.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/mariadb-10-5-series/what-is-mariadb-105) supports accessing Amazon S3 via the [S3 storage engine](../../../../server-usage/storage-engines/s3-storage-engine/) and several DBMSs via [CONNECT](../../../../server-usage/storage-engines/connect/))
+* PolyBase (however, [MariaDB 10.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.5/what-is-mariadb-105) supports accessing Amazon S3 via the [S3 storage engine](../../../../server-usage/storage-engines/s3-storage-engine/) and several DBMSs via [CONNECT](../../../../server-usage/storage-engines/connect/))
 * R and Python services
 * ColumnStore indexes. MariaDB has a storage engine called [ColumnStore](../../../../architecture/topologies/columnstore-object-storage/), but this is a completely different feature.
 

@@ -1,18 +1,8 @@
 ---
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
+description: >-
+  MariaDB Cloud migration and data loading: managed REST-API migrations and
+  self-managed logical-dump-and-replication options from Oracle, MySQL,
+  PostgreSQL, SQL Server, and DB2.
 ---
 
 # Migration, Data Loading
@@ -35,3 +25,4 @@ MariaDB Cloud offers several tools and methods for loading data into your databa
 [data-loading](data-loading/)
 {% endcontent-ref %}
 
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

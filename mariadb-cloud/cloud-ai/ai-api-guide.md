@@ -1,3 +1,10 @@
+---
+description: >-
+  MariaDB Cloud AI Agent API for embedding conversational AI in applications:
+  stateful chat sessions, natural-language queries, and X-API-Key
+  authentication — no LLM infrastructure required.
+---
+
 # AI Agents API User Guide
 
 ## Overview
@@ -220,3 +227,5 @@ A successful response returns a structured JSON object:
 
 * **API Reference:** [AI Agent API Docs](https://apidocs.skysql.com/)
 * **MariaDB Cloud Console:** [MariaDB Cloud Portal](https://app.skysql.com)
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

@@ -1,18 +1,25 @@
-# Major Release Upgrades for MariaDB Enterprise ColumnStore
+---
+description: >-
+  Major-release upgrade procedure for MariaDB ColumnStore (CS 5 to
+  22.08): full data backup, optional reuse of existing servers, and
+  stage-by-stage migration to the new version.
+---
 
-This page provides a major release upgrade procedure for MariaDB Enterprise ColumnStore. A major release upgrade is an upgrade from an older major release to a newer major release, such as an upgrade from MariaDB Enterprise ColumnStore 5 to MariaDB Enterprise ColumnStore 22.08.
+# Major Release Upgrades for MariaDB ColumnStore
+
+This page provides a major release upgrade procedure for MariaDB ColumnStore. A major release upgrade is an upgrade from an older major release to a newer major release, such as an upgrade from MariaDB ColumnStore 5 to MariaDB ColumnStore 22.08.
 
 ### Compatibility
 
-* Enterprise ColumnStore 5
-* Enterprise ColumnStore 6
-* Enterprise ColumnStore 22.08
+* ColumnStore 5
+* ColumnStore 6
+* ColumnStore 22.08
 
 ### Prerequisites
 
-This procedure assumes that the new Enterprise ColumnStore version will be installed onto new servers.
+This procedure assumes that the new ColumnStore version will be installed onto new servers.
 
-**To reuse existing servers** for the new Enterprise ColumnStore version, you must adapt the procedure detailed below. After step 1, confirm all data has been backed-up and verify backups. The old version of Enterprise ColumnStore should then be uninstalled, and all Enterprise ColumnStore files should be deleted before continuing with step 2.
+**To reuse existing servers** for the new ColumnStore version, you must adapt the procedure detailed below. After step 1, confirm all data has been backed-up and verify backups. The old version of ColumnStore should then be uninstalled, and all ColumnStore files should be deleted before continuing with step 2.
 
 ### Step 1: Backup/Export Schemas and Data
 
@@ -89,6 +96,6 @@ On the **new ColumnStore cluster**, verify that the table schemas and data have 
     SELECT * FROM DATABASE_NAME.TABLE_NAME LIMIT 100;
     ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

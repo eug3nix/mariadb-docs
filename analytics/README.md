@@ -3,23 +3,17 @@ description: >-
   MariaDB Enterprise offers powerful solutions to break down the barriers to
   insight. Whether you need to run ad hoc queries on massive datasets or power
   the most demanding AI workloads.
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
 ---
 
 # Analytics
+
+{% hint style="info" %}
+MariaDB ColumnStore and MariaDB Exa are exclusive to MariaDB Enterprise Server.
+{% endhint %}
+
+{% hint style="info" %}
+📄 Read offline: [mariadb-analytics.pdf](https://github.com/mariadb-corporation/mariadb-docs/releases/latest/download/mariadb-analytics.pdf) (~590 pages, 5.5 MB). The PDF is a point-in-time snapshot; this site is always current.
+{% endhint %}
 
 ## MariaDB ColumnStore
 
@@ -41,6 +35,6 @@ MariaDB Exa erases the barrier between live operational data and high-speed anal
 [mariadb-exa](mariadb-exa/)
 {% endcontent-ref %}
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

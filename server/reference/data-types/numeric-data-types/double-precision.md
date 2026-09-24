@@ -8,7 +8,7 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 DOUBLE PRECISION[(M,D)] [SIGNED | UNSIGNED | ZEROFILL]
 REAL[(M,D)] [SIGNED | UNSIGNED | ZEROFILL]
 ```
@@ -29,10 +29,9 @@ CREATE TABLE double_precision_example (
 
 ```sql
 SHOW CREATE TABLE double_precision_example\G
-<</code>>
+```
 
-<<sql>>
-
+```sql
 *************************** 1. row ***************************
        Table: double_precision_example
 Create Table: CREATE TABLE `double_precision_example` (

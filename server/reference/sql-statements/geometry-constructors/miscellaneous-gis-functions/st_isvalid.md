@@ -7,12 +7,12 @@ description: >-
 # ST\_IsValid
 
 {% hint style="info" %}
-ST\_IsValid is available from [MariaDB 12.0](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/release-notes-mariadb-12.0-rolling-releases/what-is-mariadb-120).
+ST\_IsValid is available from [MariaDB 12.0](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/12.0/what-is-mariadb-120).
 {% endhint %}
 
 ## Syntax
 
-```sql
+```bnf
 ST_IsValid(g)
 ```
 
@@ -40,7 +40,7 @@ SELECT ST_IsValid(ST_GeomFromText('LINESTRING (0 0, 0 0)'));
 +------------------------------------------------------+
 ```
 
-A [POINT](../geometry-constructors/point.md) requires both x and y co-ordinates:
+A [POINT](../geometry-constructors/point.md) requires both x and y coordinates:
 
 ```sql
 SELECT ST_IsValid(ST_GeomFromText('POINT (0)'));  

@@ -1,19 +1,9 @@
 ---
+description: >-
+  MariaDB Cloud AI capabilities: preconfigured Developer/DBA Copilots, custom
+  semantic agents for natural-language queries, REST API integration, and the
+  MCP server for AI development tools.
 icon: brain-circuit
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
 ---
 
 # AI Agents & Copilot
@@ -43,3 +33,5 @@ Learn about MariaDB Cloud Model Context Protocol (MCP) Server, which acts as a s
 {% content-ref url="mcp-server.md" %}
 [mcp-server.md](mcp-server.md)
 {% endcontent-ref %}
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

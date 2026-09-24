@@ -1,14 +1,14 @@
 ---
 description: >-
-  Set or change a user's password. This guide covers the syntax for updating
-  authentication credentials for yourself or other accounts.
+  Complete reference for SET PASSWORD in MariaDB. Complete syntax guide with all
+  options, clauses, and practical examples with comprehensive examples and best.
 ---
 
 # SET PASSWORD
 
 ## Syntax
 
-```sql
+```bnf
 SET PASSWORD [FOR user] =
     {
         PASSWORD('some password')
@@ -16,6 +16,8 @@ SET PASSWORD [FOR user] =
       | 'encrypted password'
     }
 ```
+
+![Railroad diagram of SET PASSWORD — equivalent to the BNF above](../../../.gitbook/assets/set-password-railroad.svg)
 
 ## Description
 

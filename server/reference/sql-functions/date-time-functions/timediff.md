@@ -8,13 +8,13 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 TIMEDIFF(expr1,expr2)
 ```
 
 ## Description
 
-TIMEDIFF() returns `expr1` - `expr2` expressed as a time value. `expr1` and`expr2` are time or date-and-time expressions, but both must be of the\
+TIMEDIFF() returns `expr1` - `expr2` expressed as a time value. `expr1` and`expr2` are time or date-and-time expressions, but both must be of the
 same type.
 
 ## Examples

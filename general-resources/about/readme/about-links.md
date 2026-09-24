@@ -7,10 +7,20 @@ This page is for contributors to the MariaDB Documentation and goes into detail 
 There are three types of links in the MariaDB docs: [external](about-links.md#external-links), [relative](about-links.md#relative-links), and [space](about-links.md#space-links). The general rules for when to use each are:
 
 * If the link is outside of `https://mariadb.com/docs/` → Use an [External Link](about-links.md#external-links)
-* If the link is to a page in the same space → Use a [Relative Link](about-links.md#relativ-links)
+* If the link is to a page in the same space → Use a [Relative Link](about-links.md#relative-links)
 * If the link is to a page in another space → Use a [Space Link](about-links.md#space-links)
 
 See [About Spaces](about-links.md#about-spaces) for information on what Spaces are.
+
+{% hint style="info" %}
+Both relative and space **links require the `.md` extension** when linking to a page.
+
+For instance, to create a link pointing to the [About MariaDB](../about-mariadb.md) page from this page, you write:
+
+```
+[About MariaDB](../about/about-mariadb.md)
+```
+{% endhint %}
 
 ## About Spaces
 
@@ -65,6 +75,47 @@ In this URI, the space name is _`server`_ and the _`path`_, if you were creating
 ```
 
 To convert that into a space link we need to get the Server space identifier and combine it with the path. Rather than list out just the identifiers for our spaces, we have a [List of Space Prefixes](about-links.md#list-of-space-prefixes) that you can copy from when creating space links.
+
+### Space Link Aliases
+
+Space link prefixes are hard to memorize. To make it easier for contributors, a GitHub Action is available that runs automatically on commit. That functionality allows to use space _aliases_ instead of _prefixes_. For instance, to place a link to a page in the _server_ space from, say, the _release-notes_ space, you can write this:
+
+{% code overflow="wrap" %}
+```
+{server}/mariadb-quickstart-guides/installing-mariadb-server-guide.md
+```
+{% endcode %}
+
+On commit, this will be expanded to this:
+
+{% code overflow="wrap" %}
+```
+https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/mariadb-quickstart-guides/installing-mariadb-server-guide.md
+```
+{% endcode %}
+
+These space link aliases are available:
+
+* `{platform}`
+* `{server}`
+* `{maxscale}`
+* `{analytics}`
+* `{galera}`
+* `{connectors}`
+* `{tools}`
+* `{mariadb-cloud}`
+* `{release-notes}`
+* `{general-resources}`
+
+{% hint style="info" %}
+**Remember to use space link aliases only for links across spaces.**
+
+When linking to a page in the same space, use [relative links](about-links.md#relative-links).
+{% endhint %}
+
+### Space Link Prefixes
+
+Instead of using space link aliases, you can use "regular" GitBook link prefixes. That's harder than using link aliases, because they're hard to memorize. Therefore, using link aliases is recommended.
 
 Continuing with our example, a full space link in Markdown for the [Securing MariaDB](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/security/securing-mariadb) page is: _`space prefix`_ (for the Server space) + _`path`_:
 
@@ -148,10 +199,10 @@ Here are some examples of Markdown links to various pages using space links:
 [Options, System & Status Variables](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/full-list-of-mariadb-options-system-and-status-variables)
 ```
 
-#### [MariaDB 12.1 Changes & Improvements](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/release-notes-mariadb-12.1-rolling-releases/changes-and-improvements-in-mariadb-12.1) in the Release Notes space
+#### [MariaDB 12.1 Changes & Improvements](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/12.1/changes-and-improvements-in-mariadb-12.1) in the Release Notes space
 
 ```markdown
-[MariaDB 12.1 Changes & Improvements](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/release-notes-mariadb-12.1-rolling-releases/changes-and-improvements-in-mariadb-12.1)
+[MariaDB 12.1 Changes & Improvements](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/12.1/changes-and-improvements-in-mariadb-12.1)
 ```
 
 #### [MariaDB Connector/C Guide](https://app.gitbook.com/s/CjGYMsT2MVP4nd3IyW2L/connectors-quickstart-guides/mariadb-connector-c-guide) in the Connectors space
@@ -161,3 +212,5 @@ Here are some examples of Markdown links to various pages using space links:
 ```
 
 When Space Links are rendered to the public site, GitBook handles translating Space Links into a link to the correct page. And if a page is moved or renamed then the link will be automatically updated on every page it appears on.
+
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>

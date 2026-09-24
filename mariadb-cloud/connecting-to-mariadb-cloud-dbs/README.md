@@ -1,19 +1,9 @@
 ---
+description: >-
+  MariaDB Cloud connection methods: native MariaDB connectors for major
+  languages, JDBC/ODBC drivers, the MariaDB CLI, third-party database tools,
+  and private VPC connections.
 icon: plug
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
 ---
 
 # Connection Methods
@@ -124,3 +114,4 @@ Extend the MariaDB Cloud's capabilities by integrating with multiple partner pro
 [partner-integrations](partner-integrations/)
 {% endcontent-ref %}
 
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

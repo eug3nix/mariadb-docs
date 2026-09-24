@@ -1,6 +1,13 @@
+---
+description: >-
+  Set a MariaDB ColumnStore node to maintenance mode in MaxScale
+  using the maxctrl set server command, taking the node out of read-write
+  rotation.
+---
+
 # Setting a Node to Maintenance Mode
 
-To set a node to maintenance mode with Enterprise ColumnStore, perform the following procedure.
+To set a node to maintenance mode with ColumnStore, perform the following procedure.
 
 ## Setting the Server State in MaxScale
 
@@ -82,6 +89,6 @@ maxctrl list servers
 
 If the node is no longer in maintenance mode, the `State` column no longer shows `Maintenance` as one of the states.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

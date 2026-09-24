@@ -1,10 +1,49 @@
+---
+description: >-
+  Deploy the MariaDB ColumnStore shared-local-storage topology, a columnar
+  OLAP store for analytical workloads.
+---
+
 # ColumnStore Shared Local Storage
 
 ## Overview
 
-| Software Version                                                                                       | Diagram                                 | Features                                                                                                                                                                                                                                                                                                                                                            |
-| ------------------------------------------------------------------------------------------------------ | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <ul><li>Enterprise Server 10.5</li><li>Enterprise Server 10.6</li><li>Enterprise Server 11.4</li></ul> | ![](/broken/files/aJvgt01OFB9GLT81Y6E1) | <p>Columnar storage engine with S3-compatible object storage</p><ul><li>Highly available</li><li>Automatic failover via MaxScale and CMAPI</li><li>Scales reads via MaxScale</li><li>Bulk data import</li><li>Enterprise Server 10.5, Enterprise ColumnStore 5, MaxScale 2.5</li><li>Enterprise Server 10.6, Enterprise ColumnStore 23.02, MaxScale 22.08</li></ul> |
+```mermaid
+flowchart TD
+    accTitle: MaxScale routing to a three-node ColumnStore cluster on shared NFS storage
+    accDescr {
+        A MaxScale proxy routes read-write traffic to one MariaDB Enterprise Server node and
+        read-only traffic to two others. Each node runs Enterprise ColumnStore, and all three
+        ColumnStore instances read and write their table data over shared NFS storage.
+    }
+    MX["MariaDB MaxScale"]
+    E1["ES"]
+    E2["ES"]
+    E3["ES"]
+    C1["ColumnStore"]
+    C2["ColumnStore"]
+    C3["ColumnStore"]
+    NFS[("NFS")]
+    MX -->|ro| E1
+    MX -->|rw| E2
+    MX -->|ro| E3
+    E1 --- C1
+    E2 --- C2
+    E3 --- C3
+    NFS -.-> C1
+    NFS -.-> C2
+    NFS -.-> C3
+    classDef node fill:#e2f0f2,stroke:#0a5a6b,stroke-width:2px,color:#111;
+    classDef storage fill:#fff4d6,stroke:#8a6d00,stroke-width:2px,color:#111;
+    class MX,E1,E2,E3,C1,C2,C3 node
+    class NFS storage
+```
+
+_MaxScale routes to a three-node ColumnStore cluster sharing NFS storage._
+
+<ul><li>Enterprise Server 10.5</li><li>Enterprise Server 10.6</li><li>Enterprise Server 11.4</li></ul>
+
+<p>Columnar storage engine with S3-compatible object storage</p><ul><li>Highly available</li><li>Automatic failover via MaxScale and CMAPI</li><li>Scales reads via MaxScale</li><li>Bulk data import</li><li>Enterprise Server 10.5, Enterprise ColumnStore 5, MaxScale 2.5</li><li>Enterprise Server 10.6, Enterprise ColumnStore 23.02, MaxScale 22.08</li></ul>
 
 This procedure describes the deployment of the ColumnStore Shared Local Storage topology with MariaDB Enterprise Server 10.5, MariaDB Enterprise ColumnStore 5, and MariaDB MaxScale 2.5.
 
@@ -321,7 +360,7 @@ For additional information on endpoints, see "CMAPI".
 
 MaxScale can be configured using several methods. These methods make use of MaxScale's [REST API](https://app.gitbook.com/s/0pSbu5DcMSW4KwAkUcmX/administrative-tools-for-mariadb-maxscale/administrative-tools-for-mariadb-maxscale-rest-api/).
 
-<table><thead><tr><th width="200.962890625">Method</th><th>Benefits</th></tr></thead><tbody><tr><td><a href="https://app.gitbook.com/s/0pSbu5DcMSW4KwAkUcmX/administrative-tools-for-mariadb-maxscale/administrative-tools-for-mariadb-maxscale-maxctrl/">MaxCtrl</a></td><td>Command-line utility to perform administrative tasks through the REST API. See MaxCtrl Commands.</td></tr><tr><td><a href="https://app.gitbook.com/s/0pSbu5DcMSW4KwAkUcmX/administrative-tools-for-mariadb-maxscale/maxgui/">MaxGUI</a></td><td>MaxGUI is a graphical utility that can perform administrative tasks through the REST API.</td></tr><tr><td><a href="https://app.gitbook.com/s/0pSbu5DcMSW4KwAkUcmX/administrative-tools-for-mariadb-maxscale/administrative-tools-for-mariadb-maxscale-rest-api/">REST API</a></td><td>The REST API can be used directly. For example, the curl utility could be used to make REST API calls from the command-line. Many programming languages also have libraries to interact with REST APIs.</td></tr></tbody></table>
+<table><thead><tr><th width="200.962890625">Method</th><th>Benefits</th></tr></thead><tbody><tr><td><a href="https://app.gitbook.com/s/0pSbu5DcMSW4KwAkUcmX/maxscale-management/administrative-tools-for-mariadb-maxscale-maxctrl">MaxCtrl</a></td><td>Command-line utility to perform administrative tasks through the REST API. See MaxCtrl Commands.</td></tr><tr><td><a href="https://app.gitbook.com/s/0pSbu5DcMSW4KwAkUcmX/maxscale-management/maxgui">MaxGUI</a></td><td>MaxGUI is a graphical utility that can perform administrative tasks through the REST API.</td></tr><tr><td><a href="https://app.gitbook.com/s/0pSbu5DcMSW4KwAkUcmX/administrative-tools-for-mariadb-maxscale/administrative-tools-for-mariadb-maxscale-rest-api/">REST API</a></td><td>The REST API can be used directly. For example, the curl utility could be used to make REST API calls from the command-line. Many programming languages also have libraries to interact with REST APIs.</td></tr></tbody></table>
 
 The procedure on these pages configures MaxScale using MaxCtrl.
 
@@ -339,4 +378,4 @@ Navigation in the procedure Shared Local Storage topology
 
 Next: Step 1: Prepare ColumnStore Nodes.
 
-<sub>_This page is: Copyright © 2025 MariaDB. All rights reserved._</sub>
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

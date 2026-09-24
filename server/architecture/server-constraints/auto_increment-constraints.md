@@ -28,8 +28,8 @@ When designing a schema, `AUTO_INCREMENT` columns should use integer data types.
 | [TINYINT](../../reference/data-types/numeric-data-types/tinyint.md)                                                                                                                                  | -128 - 127                                 | 0 - 255                  |
 | [SMALLINT](../../reference/data-types/numeric-data-types/smallint.md)                                                                                                                                | -32768 - 32767                             | 0 - 65535                |
 | [MEDIUMINT](../../reference/data-types/numeric-data-types/mediumint.md)                                                                                                                              | -8388608 - 8388607                         | 0 - 16777215             |
-| [INT](https://github.com/mariadb-corporation/docs-server/blob/test/server/reference/sql-statements-and-structure/sql-statements/data-manipulation/server-constraints/data-types-int/README.md)       | -2147483648 - 2147483647                   | 0 - 4294967295           |
-| [BIGINT](https://github.com/mariadb-corporation/docs-server/blob/test/server/reference/sql-statements-and-structure/sql-statements/data-manipulation/server-constraints/data-types-bigint/README.md) | -9223372036854775808 - 9223372036854775807 | 0 - 18446744073709551615 |
+| [INT](../../reference/data-types/numeric-data-types/int.md)       | -2147483648 - 2147483647                   | 0 - 4294967295           |
+| [BIGINT](../../reference/data-types/numeric-data-types/bigint.md) | -9223372036854775808 - 9223372036854775807 | 0 - 18446744073709551615 |
 
 To determine which type to use, consider the following points:
 
@@ -46,8 +46,8 @@ If your `AUTO_INCREMENT` column is being used as the table's primary key, then t
 | [TINYINT](../../reference/data-types/numeric-data-types/tinyint.md)                                                                                                                                  | 127                 | 255                  |
 | [SMALLINT](../../reference/data-types/numeric-data-types/smallint.md)                                                                                                                                | 32767               | 65535                |
 | [MEDIUMINT](../../reference/data-types/numeric-data-types/mediumint.md)                                                                                                                              | 8388607             | 16777215             |
-| [INT](https://github.com/mariadb-corporation/docs-server/blob/test/server/reference/sql-statements-and-structure/sql-statements/data-manipulation/server-constraints/data-types-int/README.md)       | 2147483647          | 4294967295           |
-| [BIGINT](https://github.com/mariadb-corporation/docs-server/blob/test/server/reference/sql-statements-and-structure/sql-statements/data-manipulation/server-constraints/data-types-bigint/README.md) | 9223372036854775807 | 18446744073709551615 |
+| [INT](../../reference/data-types/numeric-data-types/int.md)       | 2147483647          | 4294967295           |
+| [BIGINT](../../reference/data-types/numeric-data-types/bigint.md) | 9223372036854775807 | 18446744073709551615 |
 
 If you want to give your table the most room to grow, then it would be best to choose BIGINT UNSIGNED.
 
@@ -76,7 +76,7 @@ SHOW SESSION VARIABLES
 +------------------------+--------+
 ```
 
-3. If the database does not exist, then create the database for the table using the [CREATE DATABASE](https://mariadb.com/kb/en/\[\[create-database) statement:
+3. If the database does not exist, then create the database for the table using the [CREATE DATABASE](../../reference/sql-statements/data-definition/create/create-database.md) statement:
 
 ```sql
 CREATE DATABASE hq_sales;
@@ -394,6 +394,6 @@ The offset and increment values can be configured by setting the [auto\_incremen
 
 When Galera Cluster is used, the offset and increment values are managed automatically by default. They can be managed manually by disabling the [wsrep\_auto\_increment\_control](https://app.gitbook.com/s/3VYeeVGUV4AMqrA3zwy7/reference/galera-cluster-system-variables#wsrep_auto_increment_control) system variable.
 
-{% include "../../.gitbook/includes/license-copyright-mariadb.md" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

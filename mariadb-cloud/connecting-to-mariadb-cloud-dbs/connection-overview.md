@@ -1,3 +1,10 @@
+---
+description: >-
+  Overview of connecting to MariaDB Cloud databases, including supported
+  drivers, connection strings, TLS requirements, IP allowlisting, and
+  recommendations per application stack.
+---
+
 # Connection Overview
 
 This page describes connecting to a MariaDB Cloud database using the following options:
@@ -14,7 +21,7 @@ Access to all services is by default protected by a firewall. You need to whitel
 
 {% hint style="danger" %}
 **Warning**: Using `0.0.0.0/0` will disable the firewall. Never do this for production databases.\
-For more details, go to the [Firewall](<../Security/Configuring Firewall.md>) settings page.
+For more details, go to the [Firewall](../security/configuring-firewall.md) settings page.
 {% endhint %}
 
 ## Connecting Using the MariaDB Client
@@ -33,7 +40,7 @@ Connection parameters include:
 Unlike previous MariaDB Cloud versions, the current version no longer requires clients to supply the Server SSL Certificate for SSL connections. Customers who migrated from MariaDB corporation to MariaDB Cloud Inc can continue to use provided certificates (when using the previous MariaDB Cloud method for connecting). But we strongly recommend moving to the connection properties as shown in the Connect window for your service.
 {% endhint %}
 
-<figure><img src="../.gitbook/assets/connect_window.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/connect_window.png" alt=""><figcaption><p>Connection Window</p></figcaption></figure>
 
 ## Connecting From Your Application
 
@@ -68,8 +75,9 @@ Most of the SQL clients and editors natively support MariaDB. Most often you can
 
 The following GUI clients have been tested to properly connect with MariaDB Cloud and execute queries. Most SQL clients and editors natively support MariaDB. You can often select 'MySQL' as the connection type to connect to your MariaDB Cloud DB service.
 
-* [Connect using DBeaver](database-tools/dbeaver.md) (CloudDBA recommended)
+* [Connect using DBeaver](database-tools/dbeaver.md) (Cloud DBA recommended)
 * [Connect using DBGate](database-tools/dbgate.md)
 * [Connect using HeidiSQL](database-tools/heidisql.md)
 * [Connect using TablePlus](database-tools/tableplus.md)
 
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

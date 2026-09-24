@@ -1,3 +1,10 @@
+---
+description: >-
+  Configuration Manager parameters for the MariaDB Server with Replicas
+  topology in MariaDB Cloud — both MariaDB Server behavior and MaxScale
+  routing for replicated services.
+---
+
 # MariaDB Server With Replicas
 
 For cloud databases with the MariaDB Server with Replica(s) topology, Configuration Manager can be used to configure MariaDB Server behavior and MariaDB MaxScale behavior.
@@ -125,3 +132,4 @@ The following Configuration Manager parameters are used to configure MariaDB Ser
 | [transaction\_isolation](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/server-system-variables#transaction_isolation)                                                                                         | REPEATABLE-READ                                                                                                                                            |
 | [wait\_timeout](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/server-system-variables#wait_timeout)                                                                                                           | 600                                                                                                                                                        |
 
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

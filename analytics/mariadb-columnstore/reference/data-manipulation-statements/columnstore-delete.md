@@ -1,10 +1,17 @@
+---
+description: >-
+  DELETE for MariaDB ColumnStore removes rows but does not reclaim disk space;
+  use TRUNCATE, DROP PARTITION, or a CREATE/RENAME-based rebuild to recover
+  space after deletes.
+---
+
 # ColumnStore DELETE
 
 The `DELETE` statement is used to remove rows from tables.
 
 ## Syntax
 
-```sql
+```bnf
 DELETE 
  [FROM] tbl_name 
     [WHERE where_condition]
@@ -23,6 +30,6 @@ DELETE FROM customer
   WHERE custkey > 1000 AND custkey <2000
 ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

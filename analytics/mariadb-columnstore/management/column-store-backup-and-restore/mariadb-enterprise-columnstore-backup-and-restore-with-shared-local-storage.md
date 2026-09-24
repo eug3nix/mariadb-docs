@@ -1,20 +1,27 @@
+---
+description: >-
+  Backup and restore for MariaDB ColumnStore on shared local
+  storage (NFS): MariaDB data directory via MariaDB Backup, the Storage
+  Manager directory, and each DB Root directory.
+---
+
 # Backup and Restore with Shared Local Storage
 
 ## Overview
 
-MariaDB Enterprise ColumnStore supports backup and restore. If Enterprise ColumnStore uses shared local storage for the DB Root directories, the DB Root directories and the MariaDB data directory must be backed up separately.
+MariaDB ColumnStore supports backup and restore. If ColumnStore uses shared local storage for the DB Root directories, the DB Root directories and the MariaDB data directory must be backed up separately.
 
 ## Recovery Planning
 
-MariaDB Enterprise ColumnStore supports multiple [storage options](../../architecture/columnstore-storage-architecture.md#storage-options).
+MariaDB ColumnStore supports multiple [storage options](../../architecture/columnstore-storage-architecture.md#storage-options).
 
-This page discusses how to backup and restore Enterprise ColumnStore when it uses [shared local storage](../../architecture/columnstore-architectural-overview.md#shared-local-storage) (such as NFS) for the [DB Root directories](../../architecture/columnstore-storage-architecture.md#db-root-directories).
+This page discusses how to backup and restore ColumnStore when it uses [shared local storage](../../architecture/columnstore-architectural-overview.md#shared-local-storage) (such as NFS) for the [DB Root directories](../../architecture/columnstore-storage-architecture.md#db-root-directories).
 
-Any file can become corrupt due to hardware issues, crashes, power loss, and other reasons. If the Enterprise ColumnStore data or metadata become corrupt, Enterprise ColumnStore could become unusable, resulting in data loss.
+Any file can become corrupt due to hardware issues, crashes, power loss, and other reasons. If the ColumnStore data or metadata become corrupt, ColumnStore could become unusable, resulting in data loss.
 
-If Enterprise ColumnStore is your [system of record](backup-and-restore-with-mariadb-enterprise-columnstore.md#system-of-record), it should be backed up regularly.
+If ColumnStore is your [system of record](backup-and-restore-with-mariadb-enterprise-columnstore.md#system-of-record), it should be backed up regularly.
 
-If Enterprise ColumnStore uses [shared local storage](../../architecture/columnstore-architectural-overview.md#shared-local-storage) for the [DB Root directories](../../architecture/columnstore-storage-architecture.md#db-root-directories), the following items must be backed up:
+If ColumnStore uses [shared local storage](../../architecture/columnstore-architectural-overview.md#shared-local-storage) for the [DB Root directories](../../architecture/columnstore-storage-architecture.md#db-root-directories), the following items must be backed up:
 
 * The MariaDB Data directory is backed up using [MariaDB Backup](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/backup-and-restore/mariadb-backup)
 * The [Storage Manager directory](../../architecture/columnstore-storage-architecture.md#storage-manager-directory) must be backed up
@@ -100,7 +107,7 @@ Ensure that the client remains connected to the primary server, so that the lock
 
 4. Make a copy or snapshot of the [Storage Manager directory](../../architecture/columnstore-storage-architecture.md#storage-manager-directory). By default, it is located at `/var/lib/columnstore/storagemanager`.
 
-For example, to make a copy of the directory with rsync:
+For example, to make a copy of the directory with `rsync`:
 
 ```bash
 $ sudo mkdir -p /backups/columnstore/202101291600/
@@ -109,7 +116,7 @@ $ sudo rsync -av /var/lib/columnstore/storagemanager /backups/columnstore/202101
 
 5. Make a copy or snapshot of the [DB Root directories](../../architecture/columnstore-storage-architecture.md#db-root-directories). By default, they are located at `/var/lib/columnstore/dataN`, where the N in dataN represents a range of integers that starts at 1 and stops at the number of nodes in the deployment.
 
-For example, to make a copy of the directories with rsync in a 3-node deployment:
+For example, to make a copy of the directories with `rsync` in a 3-node deployment:
 
 ```bash
 $ sudo rsync -av /var/lib/columnstore/data1 /backups/columnstore/202101291600/
@@ -145,7 +152,7 @@ UNLOCK TABLES;
 
 Use the following process to restore a backup:
 
-1. [Deploy Enterprise ColumnStore](../node-maintenance-for-mariadb-enterprise-columnstore/add-a-node.md#deploy-enterprise-columnstore), so that you can restore the backup to an empty deployment.
+1. [Deploy Enterprise ColumnStore](../node-maintenance-for-mariadb-enterprise-columnstore/add-a-node.md#deploying-columnstore), so that you can restore the backup to an empty deployment.
 2. Ensure that all services are stopped on each node:
 
 ```bash
@@ -191,6 +198,6 @@ $ sudo systemctl start mariadb
 $ sudo systemctl start mariadb-columnstore-cmapi
 ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

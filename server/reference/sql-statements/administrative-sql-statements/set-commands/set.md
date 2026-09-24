@@ -8,7 +8,7 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 SET variable_assignment [, variable_assignment] ...
 
 variable_assignment:
@@ -16,6 +16,10 @@ variable_assignment:
     | [GLOBAL | SESSION] system_var_name = expr
     | [@@global. | @@session. | @@]system_var_name = expr
 ```
+
+![Railroad diagram of SET](../../../../.gitbook/assets/set-railroad.svg)
+
+![Railroad diagram of variable_assignment](../../../../.gitbook/assets/set-variable-assignment-railroad.svg)
 
 One can also set a user variable in any expression with this syntax:
 

@@ -38,7 +38,7 @@ The method to configure the Buffer Pool size depends on whether a server restart
 
 | Product Versions | Server Restart? | Method                                                                      |
 | ---------------- | --------------- | --------------------------------------------------------------------------- |
-| Any ES Any CS    | No              | [Configure size with SET GLOBA](configure-the-innodb-buffer-pool.md).       |
+| Any ES Any CS    | No              | [Configure size with SET GLOBAL](configure-the-innodb-buffer-pool.md).       |
 | Any ES Any CS    | No              | [Configure size in configuration file](configure-the-innodb-buffer-pool.md) |
 
 ## Configure the InnoDB Buffer Pool Size with SET GLOBAL
@@ -141,6 +141,6 @@ $ sudo systemctl restart mariadb
 
 The server can use the configuration change without a restart if you use [SET GLOBAL](../../../../reference/sql-statements/administrative-sql-statements/set-commands/set.md).
 
-<sub>_This page is: Copyright © 2025 MariaDB. All rights reserved._</sub>
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

@@ -1,10 +1,17 @@
+---
+description: >-
+  ALTER TABLE for MariaDB ColumnStore modifies existing tables: add, drop, or
+  rename columns and rename tables, with ColumnStore-specific syntax notes for
+  the columnar engine.
+---
+
 # ColumnStore ALTER TABLE
 
-The `ALTER TABL`E statement modifies existing tables. It includes adding, deleting, and renaming columns as well as renaming tables.
+The `ALTER TABLE` statement modifies existing tables. It includes adding, deleting, and renaming columns as well as renaming tables.
 
 ## Syntax
 
-```sql
+```bnf
 ALTER TABLE tbl_name
     alter_specification [, alter_specification] ...
 
@@ -87,6 +94,6 @@ The `RENAME` clause allows to rename a table. The following example renames the 
 ALTER TABLE orders RENAME TO customer_orders;
 ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

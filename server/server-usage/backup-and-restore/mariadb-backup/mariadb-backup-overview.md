@@ -1,7 +1,7 @@
 ---
 description: >-
-  An introduction to the mariadb-backup utility, detailing its features,
-  installation process, and support for hot online backups of InnoDB tables.
+  Complete MariaDB backup and recovery guide. Complete resource for backup
+  methods, mariadb-backup usage, scheduling, and restoration for production use.
 ---
 
 # mariadb-backup Overview
@@ -39,6 +39,16 @@ MariaDB Backup does **not** support some additional features.
 {% endtab %}
 {% endtabs %}
 
+## Backup Types
+
+mariadb-backup supports various type of backups (and restores from those backups), documented on separate pages:
+
+* [Full backup and restore](full-backup-and-restore-with-mariadb-backup.md)
+* [Incremental backup and restore](incremental-backup-and-restore-with-mariadb-backup.md)
+* [Partial backup and restore](partial-backup-and-restore-with-mariadb-backup.md)
+* Restoring [individual databases](individual-database-restores-with-mariadb-backup-from-full-backup.md), [tables, and partitions](restoring-individual-tables-and-partitions-with-mariadb-backup.md)
+* [Point-in-time recovery (PITR)](point-in-time-recovery-pitr-mariadb-backup.md)
+
 ## Installing `mariadb-backup`
 
 ### Installing on Linux
@@ -53,7 +63,7 @@ In order to do so, your system needs to be configured to install from one of the
 
 You can configure your package manager to install it from MariaDB Corporation's MariaDB Package Repository by using the MariaDB Package Repository setup script.
 
-You can also configure your package manager to install it from MariaDB Foundation's MariaDB Repository by using the [MariaDB Repository Configuration Tool](../../../server-management/install-and-upgrade-mariadb/installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage.md).
+You can also configure your package manager to install it from MariaDB Foundation's MariaDB Repository by using the [MariaDB Repository Configuration Tool](../../../server-management/install-and-upgrade-mariadb/mariadb-package-repository-setup-and-usage.md).
 
 **Installing with yum/dnf**
 
@@ -85,7 +95,7 @@ The `mariadb-backup` executable is included in MSI and ZIP packages on Windows.
 
 When using the [Windows MSI installer](../../../server-management/install-and-upgrade-mariadb/installing-mariadb/binary-packages/installing-mariadb-msi-packages-on-windows.md), `mariadb-backup` can be installed by selecting _Backup utilities_:
 
-<figure><img src="../../../.gitbook/assets/mariadb_backup_windows.png" alt=""><figcaption><p>MariaDB MSI Installer showing the Backup utilites install option</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/mariadb_backup_windows.png" alt=""><figcaption><p>MariaDB MSI Installer showing the Backup utilities install option</p></figcaption></figure>
 
 ## Usage
 
@@ -149,14 +159,14 @@ mariadb-backup reads server options from the following [option groups](../../../
 
 mariadb-backup reads client options from the following option groups from option files:
 
-| Group              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `[mariadb-backup]` | Options read by mariadb-backup. Available starting with [MariaDB 10.1.31](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-1-series/mariadb-10131-release-notes) and [MariaDB 10.2.13](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-2-series/mariadb-10213-release-notes).                                                                                                                                                                                                                                                                                                          |
-| `[mariadb-backup]` | Options read by mariadb-backup. Available starting with [MariaDB 10.4.14](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-4-series/mariadb-10414-release-notes) and [MariaDB 10.5.4](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/mariadb-10-5-series/mariadb-1054-release-notes)                                                                                                                                                                                                                                                                                                                           |
-| `[xtrabackup]`     | Options read by mariadb-backup and Percona XtraBackup.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| `[client]`         | Options read by all MariaDB and MySQL client programs, which includes both MariaDB and MySQL clients. For example, mysqldump.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `[client-server]`  | Options read by all MariaDB client programs and the MariaDB Server. This is useful for options like socket and port, which is common between the server and the clients. Available starting with [MariaDB 10.1.38](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-1-series/mariadb-10138-release-notes), [MariaDB 10.2.22](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-2-series/mariadb-10222-release-notes), and [MariaDB 10.3.13](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-3-series/mariadb-10313-release-notes). |
-| `[client-mariadb]` | Options read by all MariaDB client programs. Available starting with [MariaDB 10.1.38](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-1-series/mariadb-10138-release-notes), [MariaDB 10.2.22](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-2-series/mariadb-10222-release-notes), and [MariaDB 10.3.13](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-3-series/mariadb-10313-release-notes).                                                                                                                             |
+| Group              | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `[mariadb-backup]` | Options read by mariadb-backup. Available starting with [MariaDB 10.1.31](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.1/10.1.31) and [MariaDB 10.2.13](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.2/10.2.13).                                                                                                                                                                                                                                                         |
+| `[mariadb-backup]` | Options read by mariadb-backup. Available starting with [MariaDB 10.4.14](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.4/10.4.14) and [MariaDB 10.5.4](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.5/10.5.4)                                                                                                                                                                                                                                                            |
+| `[xtrabackup]`     | Options read by mariadb-backup and Percona XtraBackup.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `[client]`         | Options read by all MariaDB and MySQL client programs, which includes both MariaDB and MySQL clients. For example, mysqldump.                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `[client-server]`  | Options read by all MariaDB client programs and the MariaDB Server. This is useful for options like socket and port, which is common between the server and the clients. Available starting with [MariaDB 10.1.38](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.1/10.1.38), [MariaDB 10.2.22](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.2/10.2.22), and [MariaDB 10.3.13](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.3/10.3.13). |
+| `[client-mariadb]` | Options read by all MariaDB client programs. Available starting with [MariaDB 10.1.38](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.1/10.1.38), [MariaDB 10.2.22](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.2/10.2.22), and [MariaDB 10.3.13](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.3/10.3.13).                                                                                                                             |
 
 ### Backup History Table
 
@@ -225,7 +235,7 @@ GRANT SELECT, INSERT, CREATE, ALTER ON PERCONA_SCHEMA.xtrabackup_history TO 'mar
 {% endtab %}
 {% endtabs %}
 
-**For Upgrading to 10.11 (One-Time Migration)**&#x20;
+**For Upgrading to 10.11 (One-Time Migration)**
 
 If upgrading from an older version, `mariadb-backup` will attempt to migrate the old table to the new location on the first run. The backup user needs privileges to move and modify the old table:
 
@@ -267,11 +277,11 @@ If you are using Linux and if you installed MariaDB with a package manager, then
 
 ## Using `mariadb-backup` with Data-at-Rest Encryption
 
-`mariadb-backup` supports [Data-at-Rest Encryption](../../../security/securing-mariadb/encryption/data-at-rest-encryption/).
+`mariadb-backup` supports [Data-at-Rest Encryption](../../../security/encryption/data-at-rest-encryption/).
 
-mariadb-backup will query the server to determine which [key management and encryption plugin](../../../security/securing-mariadb/securing-mariadb-encryption/encryption-data-at-rest-encryption/key-management-and-encryption-plugins/encryption-key-management.md) is being used, and then it will load that plugin itself, which means that `mariadb-backup` needs to be able to load the key management and encryption plugin's shared library.
+mariadb-backup will query the server to determine which [key management and encryption plugin](../../../security/encryption/data-at-rest-encryption/key-management-and-encryption-plugins/encryption-key-management.md) is being used, and then it will load that plugin itself, which means that `mariadb-backup` needs to be able to load the key management and encryption plugin's shared library.
 
-mariadb-backup will also query the server to determine which [encryption keys](../../../security/securing-mariadb/securing-mariadb-encryption/encryption-data-at-rest-encryption/key-management-and-encryption-plugins/encryption-key-management.md#using-multiple-encryption-keys) it needs to use.
+mariadb-backup will also query the server to determine which [encryption keys](../../../security/encryption/data-at-rest-encryption/key-management-and-encryption-plugins/encryption-key-management.md#using-multiple-encryption-keys) it needs to use.
 
 In other words, `mariadb-backup` is able to figure out a lot of encryption-related information on its own, so normally one doesn't need to provide any extra options to backup or restore encrypted tables.
 

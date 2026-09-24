@@ -1,9 +1,9 @@
 # Hashicorp Key Management
 
-The [Hashicorp Key Management Plugin](../../../server/security/securing-mariadb/encryption/data-at-rest-encryption/key-management-and-encryption-plugins/hashicorp-key-management-plugin.md) is used to implement encryption using keys stored in the Hashicorp Vault KMS.
+The [Hashicorp Key Management Plugin](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/SsmexDFPv2xG2OTyO5yV/security/encryption/data-at-rest-encryption/key-management-and-encryption-plugins/hashicorp-key-management-plugin) is used to implement encryption using keys stored in the Hashicorp Vault KMS.
 
 {% hint style="info" %}
-For more information about configuring the plugin as well as different capabilities, please check the [documentation](../../../server/security/securing-mariadb/encryption/data-at-rest-encryption/key-management-and-encryption-plugins/hashicorp-key-management-plugin.md). This guide will cover a minimal example for configuring the plugin with the operator.
+For more information about configuring the plugin as well as different capabilities, please check the [documentation](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/SsmexDFPv2xG2OTyO5yV/security/encryption/data-at-rest-encryption/key-management-and-encryption-plugins/hashicorp-key-management-plugin). This guide will cover a minimal example for configuring the plugin with the operator.
 {% endhint %}
 
 ## Configuring TDE in MariaDB Using Hashicorp Key Management Plugin
@@ -23,7 +23,7 @@ Transparent Data Encryption (TDE) can be configured in MariaDB leveraging the Ha
     ```sh
     vault secrets enable -path /mariadb -version=2 kv
     ```
-2.  **Adding necessary secrets.** We will put 2 secrets with ids `1` and `2`. `2` will be used for temporary files, while `1` will be used for everything else. It is not neccessary to create 2 of them and in that case, temporary files will use `1`.
+2.  **Adding necessary secrets.** We will put 2 secrets with ids `1` and `2`. `2` will be used for temporary files, while `1` will be used for everything else. It is not necessary to create 2 of them and in that case, temporary files will use `1`.
 
     Note: Here you should use the `path` we chose in the previous step.
 
@@ -74,7 +74,7 @@ Transparent Data Encryption (TDE) can be configured in MariaDB leveraging the Ha
     export TOKEN="EXAMPLE_TOKEN"
     kubeclt create secret generic mariadb-vault-token --from-literal=token="$TOKEN"
     ```
-5.  **Create a Secret for the Certificate Authority (CA) used to issue the Vault certificate.** For further information, consult [the docs](../../../server/security/securing-mariadb/encryption/data-at-rest-encryption/key-management-and-encryption-plugins/hashicorp-key-management-plugin.md#hashicorp-key-management-vault-ca) If you have the certificate locally in a file called `ca.crt` you can run:
+5.  **Create a Secret for the Certificate Authority (CA) used to issue the Vault certificate.** For further information, consult [the docs](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/SsmexDFPv2xG2OTyO5yV/security/encryption/data-at-rest-encryption/key-management-and-encryption-plugins/hashicorp-key-management-plugin#hashicorp-key-management-vault-ca) If you have the certificate locally in a file called `ca.crt` you can run:
 
     ```sh
     kubectl create secret generic vault-tls --from-file=./ca.crt
@@ -237,7 +237,7 @@ Transparent Data Encryption (TDE) can be configured in MariaDB leveraging the Ha
     kubectl run mariadb-connect --rm -it --image=mariadb:11.4 -- bash -c "mariadb -u root -p'MariaDB11!' --ssl=false -h mariadb"
     ```
 
-    If you check the encrpytion status again:
+    If you check the encryption status again:
 
     ```sql
     SELECT * from information_schema.INNODB_TABLESPACES_ENCRYPTION;
@@ -272,10 +272,10 @@ Make sure when rotating the token, to do so in advance of the token expiring.
     export TOKEN="EXAMPLE_TOKEN"
     kubeclt create secret generic mariadb-vault-token --from-literal=token="$TOKEN"
     ```
-2.  **Restart MariaDB Pods.** MariaDB will continue using the old token until the Pods are restarted. You can add the following annotation to the Pods in order to trigger an update, see the [updates documentation](https://mariadb.com/docs/tools/mariadb-enterprise-operator/updates) for further detail:
+2.  **Restart MariaDB Pods.** MariaDB will continue using the old token until the Pods are restarted. You can add the following annotation to the Pods in order to trigger an update, see the [updates documentation](../updates.md) for further detail:
 
     ```yaml
-    apiVersion: k8s.mariadb.com/v1alpha1
+    apiVersion: enterprise.mariadb.com/v1alpha1
     kind: MariaDB
     metadata:
       name: mariadb
@@ -313,3 +313,5 @@ SELECT * from information_schema.INNODB_TABLESPACES_ENCRYPTION;
 ```
 
 Look for the `CURRENT_KEY_VERSION` and make sure they are in sync with the latest version you have in Vault.
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

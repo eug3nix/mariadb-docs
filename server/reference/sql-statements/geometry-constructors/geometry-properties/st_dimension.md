@@ -8,14 +8,14 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 ST_Dimension(g)
 Dimension(g)
 ```
 
 ## Description
 
-Returns the inherent dimension of the geometry value _`g`_. The result can\
+Returns the inherent dimension of the geometry value _`g`_. The result can
 be
 
 | Dimension | Definition                               |

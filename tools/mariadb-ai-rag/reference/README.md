@@ -1,4 +1,8 @@
 ---
+description: >-
+  MariaDB AI RAG reference section provides complete environment variable
+  documentation, supported file formats, and integration patterns for
+  connecting the REST API to external systems.
 icon: paperclip
 ---
 
@@ -8,7 +12,7 @@ This section provides detailed reference information for configuring and integra
 
 ## Documentation in This Section
 
-### [Environment Variables](environment-variables.md)
+### [Configuration Guide](configuration-guide-config.env.md)
 
 Complete reference for all environment variables:
 
@@ -54,8 +58,7 @@ When configuring your MariaDB AI RAG deployment:
 
 * [API Reference](../api-reference/) - Complete API endpoint documentation
 * [Configuration Guide](../getting-started/configuration.md) - Detailed configuration instructions
-* [Troubleshooting](../performance-and-troubleshooting/troubleshooting.md) - Common issues and solutions
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

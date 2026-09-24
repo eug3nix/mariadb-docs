@@ -1,3 +1,8 @@
+---
+description: >-
+  Techniques for improving performance of data-warehouse-style tables.
+---
+
 # Data Warehousing Techniques
 
 ## Preface
@@ -50,7 +55,7 @@ Case 3: Over time, the application is likely to need new 'reports', which may le
 
 Case 4: You find a flaw in the summarization, and need to rebuild an existing Summary table.
 
-Cases 3 and 4 both need the "raw" data. But they don't necessarily need the data sitting in a database table. It could be in the pre-database format (such as log files). So, consider not building the Fact table, but simply keep the raw data, comressed, on some file system.
+Cases 3 and 4 both need the "raw" data. But they don't necessarily need the data sitting in a database table. It could be in the pre-database format (such as log files). So, consider not building the Fact table, but simply keep the raw data, compressed, on some file system.
 
 ## Batching the load of the Fact table
 
@@ -293,7 +298,7 @@ For those reasons, I started this discussion with a wide margin (10 rows versus 
 
 Rick James graciously allowed us to use this article in the documentation.
 
-[Rick James' site](https://mysql.rjweb.org/) has other useful tips, how-tos,\
+[Rick James' site](https://mysql.rjweb.org/) has other useful tips, how-tos,
 optimizations, and debugging tips.
 
 Original source: [datawarehouse](https://mysql.rjweb.org/doc.php/datawarehouse)

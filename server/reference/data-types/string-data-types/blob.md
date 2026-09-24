@@ -8,11 +8,15 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 BLOB[(M)]
 ```
 
 ## Description
+
+{% hint style="info" %}
+If you are handling large binary data that exceeds the `max_allowed_packet` limit, you can stream the data in chunks using specialized API functions like `mysql_stmt_send_long_data()` or `setBinaryStream()`. See [Handling Large Data via APIs](blob-and-text-data-types.md#handling-large-data-via-apis) for more details.
+{% endhint %}
 
 A `BLOB` column with a maximum length of 65,535 (2¹⁶ - 1) bytes. Each `BLOB` value is stored using a two-byte length prefix that indicates the number of bytes in the value.
 
@@ -20,7 +24,7 @@ An optional length `M` can be given for this type. If this is done, MariaDB crea
 
 `BLOB` values can also be used to store [dynamic columns](../../sql-structure/nosql/dynamic-columns.md).
 
-`BLOB` and `TEXT` columns can both be assigned a [DEFAULT](../../sql-statements/data-definition/create/create-table.md#default) value.
+`BLOB` and `TEXT` columns can both be assigned a [DEFAULT](../../sql-statements/data-definition/create/create-table.md#default-column-option) value.
 
 ### Indexing
 

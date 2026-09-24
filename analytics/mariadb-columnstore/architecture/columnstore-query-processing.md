@@ -1,3 +1,10 @@
+---
+description: >-
+  Query processing in MariaDB ColumnStore: ha_columnstore hands plans to
+  ExeMgr, which dispatches work to PrimProc instances on each node and
+  aggregates results back to the client.
+---
+
 # ColumnStore Query Processing
 
 Clients issue a query to the MariaDB Server, which has the ColumnStore storage engine installed. MariaDB Server parses the SQL, identifies the involved ColumnStore tables, and creates an initial logical query execution plan.
@@ -31,6 +38,6 @@ The completed result set is returned to the MariaDB Server, which performs any r
 \
 Finally, the MariaDB Server returns the result set to the client.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

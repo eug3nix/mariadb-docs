@@ -8,7 +8,7 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 LineString(pt1,pt2,...)
 ```
 
@@ -53,9 +53,9 @@ INSERT INTO linestring_example VALUES
 
 ```sql
 SELECT ST_AsWKT(g) FROM linestring_example;
-<</code>>
+```
 
-<<sql>>
+```sql
 +-------------------------------------------+
 | ST_AsWKT(g)                               |
 +-------------------------------------------+

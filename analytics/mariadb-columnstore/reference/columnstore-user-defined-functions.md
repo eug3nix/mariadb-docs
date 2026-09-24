@@ -1,3 +1,10 @@
+---
+description: >-
+  User-defined scalar functions for MariaDB ColumnStore (1.0.10+) require both
+  the MariaDB server UDF API and the ColumnStore distributed UDF API to
+  execute across PrimProc nodes.
+---
+
 # ColumnStore User Defined Functions
 
 ## Introduction
@@ -125,7 +132,7 @@ MariaDB [test]> select i1, i2 from t1 where mcs_add(i1,i2) = 4;
 1 row in set (0.02 sec)
 ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}
 

@@ -1,22 +1,29 @@
+---
+description: >-
+  MariaDB ColumnStore storage: a columnar engine for OLAP, data
+  warehousing, and HTAP workloads, with columns partitioned into extents for
+  fast analytical query performance.
+---
+
 # ColumnStore Storage Architecture
 
 ## Overview
 
-MariaDB Enterprise ColumnStore's storage architecture is designed to provide great performance for analytical queries.
+MariaDB ColumnStore's storage architecture is designed to provide great performance for analytical queries.
 
 ### Columnar Storage Engine
 
-MariaDB Enterprise ColumnStore is a columnar storage engine for [MariaDB Enterprise Server](columnstore-architectural-overview.md#mariadb-enterprise-server). MariaDB Enterprise ColumnStore enables ES to perform analytical workloads, including online analytical processing (OLAP), data warehousing, decision support systems (DSS), and hybrid transactional-analytical processing (HTAP) workloads.
+MariaDB ColumnStore is a columnar storage engine for [MariaDB Enterprise Server](columnstore-architectural-overview.md#mariadb-enterprise-server). MariaDB ColumnStore enables ES to perform analytical workloads, including online analytical processing (OLAP), data warehousing, decision support systems (DSS), and hybrid transactional-analytical processing (HTAP) workloads.
 
 Most traditional relational databases use row-based storage engines. In row-based storage engines, all columns for a table are stored contiguously. Row-based storage engines perform very well for transactional workloads but are less performant for analytical workloads.
 
 Columnar storage engines store each column separately. Columnar storage engines perform very well for analytical workloads. Analytical workloads are characterized by ad hoc queries on very large data sets by relatively few users.
 
-MariaDB Enterprise ColumnStore automatically partitions each column into extents, which helps improve query performance without using indexes.
+MariaDB ColumnStore automatically partitions each column into extents, which helps improve query performance without using indexes.
 
 ### OLAP Workloads
 
-MariaDB Enterprise ColumnStore enables MariaDB Enterprise Server to perform analytical or online analytical processing (`OLAP`) workloads.
+MariaDB ColumnStore enables MariaDB Enterprise Server to perform analytical or online analytical processing (`OLAP`) workloads.
 
 `OLAP` workloads are generally characterized by ad hoc queries on very large data sets. Some other typical characteristics are:
 
@@ -34,13 +41,13 @@ MariaDB Enterprise ColumnStore enables MariaDB Enterprise Server to perform anal
 
 Row-based storage engines have a disadvantage for `OLAP` workloads. Indexes are not usually very useful for `OLAP` workloads, because the large size of the data set and the ad hoc nature of the queries preclude the use of indexes to optimize queries.
 
-Columnar storage engines are much better suited for `OLAP` workloads. MariaDB Enterprise ColumnStore is a columnar storage engine that is designed for `OLAP` workloads:
+Columnar storage engines are much better suited for `OLAP` workloads. MariaDB ColumnStore is a columnar storage engine that is designed for `OLAP` workloads:
 
-* When a query reads a subset of columns in the table, Enterprise ColumnStore can reduce I/O by reading those columns and ignoring all others, because each column is stored separately
-* When most activity consists of read-only queries that perform aggregations, window functions, and various calculations, Enterprise ColumnStore is able to efficiently execute those queries using extent elimination, distributed query execution, and massively parallel processing (MPP) techniques
-* When only a few concurrent queries are required, Enterprise ColumnStore is able to maximize the use of system resources by using multiple threads and multiple nodes to perform work for each query
-* When scalability of large, complex queries is required, Enterprise ColumnStore is able to achieve horizontal and vertical scalability using distributed query execution and massively parallel processing (MPP) techniques
-* When efficient bulk loads of new data are required, Enterprise ColumnStore is able to bulk load new data without affecting existing data using automatic partitioning with the extent map
+* When a query reads a subset of columns in the table, ColumnStore can reduce I/O by reading those columns and ignoring all others, because each column is stored separately
+* When most activity consists of read-only queries that perform aggregations, window functions, and various calculations, ColumnStore is able to efficiently execute those queries using extent elimination, distributed query execution, and massively parallel processing (MPP) techniques
+* When only a few concurrent queries are required, ColumnStore is able to maximize the use of system resources by using multiple threads and multiple nodes to perform work for each query
+* When scalability of large, complex queries is required, ColumnStore is able to achieve horizontal and vertical scalability using distributed query execution and massively parallel processing (MPP) techniques
+* When efficient bulk loads of new data are required, ColumnStore is able to bulk load new data without affecting existing data using automatic partitioning with the extent map
 
 ### OLTP Workloads
 
@@ -72,7 +79,7 @@ Row-based storage engines have several advantages for OLTP workloads:
 
 ### Hybrid Workloads
 
-MariaDB Enterprise ColumnStore enables MariaDB Enterprise Server to function as a single-stack solution for [Hybrid transactional-analytical processing (HTAP)](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/architecture/topologies/htap) workloads.
+MariaDB ColumnStore enables MariaDB Enterprise Server to function as a single-stack solution for [Hybrid transactional-analytical processing (HTAP)](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/architecture/topologies/htap) workloads.
 
 Hybrid workloads are characterized by a mix of transactional and analytical queries. Hybrid workloads are also known as "Smart Transactions", "Augmented Transactions" "Translytical", or "Hybrid Operational-Analytical Processing (HOAP)".
 
@@ -84,34 +91,108 @@ Hybrid workloads are typically required for applications that require real-time 
 
 MariaDB Enterprise Server provides multiple components to perform hybrid workloads:
 
-* For analytical queries, the Enterprise ColumnStore storage engine can be used.
+* For analytical queries, the ColumnStore storage engine can be used.
 * For transactional queries, row-based storage engines, such as InnoDB, can be used.
-* For queries that reference both analytical and transactional data, ES's cross-engine join functionality can be used to join Enterprise ColumnStore tables with InnoDB tables.
-* [MariaDB MaxScale](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/0pSbu5DcMSW4KwAkUcmX/) is a high-performance database proxy that can dynamically route analytical queries to Enterprise ColumnStore and transactional queries to the transactional storage engine.
+* For queries that reference both analytical and transactional data, ES's cross-engine join functionality can be used to join ColumnStore tables with InnoDB tables.
+* [MariaDB MaxScale](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/0pSbu5DcMSW4KwAkUcmX/) is a high-performance database proxy that can dynamically route analytical queries to ColumnStore and transactional queries to the transactional storage engine.
 
 ## Storage Options
 
-MariaDB Enterprise ColumnStore supports multiple storage types:
+MariaDB ColumnStore supports multiple storage types:
 
 | Storage Type                                                                                     | Description                                                                                                                                                                                                                                                                                                                                                                                        |
 | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [S3-Compatible Object Storage](columnstore-storage-architecture.md#s3-compatible-object-storage) | • S3-compatible object storage is optional but recommended • Enterprise ColumnStore can use S3-compatible object storage to store data. •With multi-node Enterprise ColumnStore, the [Storage Manager directory](columnstore-storage-architecture.md#storage-manager-directory) should use [shared local storage](columnstore-storage-architecture.md#shared-local-storage) for high availability. |
-| [Shared Local Storage](columnstore-storage-architecture.md#shared-local-storage)                 | • Required for multi-node Enterprise ColumnStore with high availability. • Enterprise ColumnStore can use shared local storage to store data and metadata. •If S3-compatible storage is used for data, the shared local storage will only be used for the [Storage Manager directory](columnstore-storage-architecture.md#storage-manager-directory).                                              |
-| Non-Shared Local Storage                                                                         | • Appropriate for single-node Enterprise ColumnStore. • Enterprise ColumnStore can use non-shared local storage to store data and metadata.                                                                                                                                                                                                                                                        |
+| [S3-Compatible Object Storage](columnstore-storage-architecture.md#s3-compatible-object-storage) | • S3-compatible object storage is optional but recommended • ColumnStore can use S3-compatible object storage to store data. •With multi-node ColumnStore, the [Storage Manager directory](columnstore-storage-architecture.md#storage-manager-directory) should use [shared local storage](columnstore-storage-architecture.md#shared-local-storage) for high availability. |
+| [Shared Local Storage](columnstore-storage-architecture.md#shared-local-storage)                 | • Required for multi-node ColumnStore with high availability. • ColumnStore can use shared local storage to store data and metadata. •If S3-compatible storage is used for data, the shared local storage will only be used for the [Storage Manager directory](columnstore-storage-architecture.md#storage-manager-directory).                                              |
+| Non-Shared Local Storage                                                                         | • Appropriate for single-node ColumnStore. • ColumnStore can use non-shared local storage to store data and metadata.                                                                                                                                                                                                                                                        |
 
 ### Deployment with S3-Compatible Storage
 
-![EntColumnStoreTopologyS3-Network-Diagram](../../.gitbook/assets/entcolumnstoretopologys3-network-diagram.png)
+```mermaid
+flowchart TD
+    accTitle: MariaDB Enterprise ColumnStore using S3-compatible storage
+    accDescr {
+        Client and application queries reach a highly available pair of MaxScale instances,
+        which coordinate their configuration through a shared Redis cache. MaxScale routes
+        queries and handles failover to a ColumnStore cluster made up of one primary node and
+        two replica nodes. The cluster stores Enterprise ColumnStore metadata on shared storage
+        and stores the ColumnStore data on S3-compatible object storage.
+    }
+    Client["Client"]
+    Redis[("Shared Redis Cache")]
+    subgraph MX["MaxScale (highly available)"]
+        MX1["MaxScale Instance"]
+        MX2["MaxScale Instance"]
+    end
+    subgraph CS["ColumnStore cluster"]
+        P[("ColumnStore<br/>Primary Node")]
+        R1[("ColumnStore<br/>Replica Node")]
+        R2[("ColumnStore<br/>Replica Node")]
+        P --> R1
+        P --> R2
+    end
+    Meta[("Shared Storage")]
+    S3[("S3-Compatible Storage")]
+    Client -->|"Client / application queries"| MX
+    MX <-->|"Deployment configuration"| Redis
+    MX -->|"Query routing and failover"| CS
+    CS <-->|"Enterprise ColumnStore metadata"| Meta
+    CS <-->|"Enterprise ColumnStore data"| S3
+    classDef node fill:#e2f0f2,stroke:#0a5a6b,stroke-width:2px,color:#111;
+    classDef storage fill:#fff4d6,stroke:#8a6d00,stroke-width:2px,color:#111;
+    classDef client fill:#eeeeee,stroke:#333333,stroke-width:2px,color:#111;
+    class MX1,MX2,P,R1,R2 node
+    class Redis,Meta,S3 storage
+    class Client client
+```
+
+_MaxScale (an HA pair sharing a Redis cache) routes queries to a ColumnStore primary and two replicas; metadata lives on shared storage and data on S3-compatible object storage._
 
 ### Deployment with Shared Storage
 
-![EntColStoreTopologySharedStorageNetworkDiagram](../../.gitbook/assets/entcolstoretopologysharedstoragenetworkdiagram.png)
+```mermaid
+flowchart TD
+    accTitle: MariaDB Enterprise ColumnStore using shared storage
+    accDescr {
+        Client and application queries reach a highly available pair of MaxScale instances,
+        which coordinate their configuration through a shared Redis cache. MaxScale routes
+        queries and handles failover to a ColumnStore cluster made up of one primary node and
+        two replica nodes. The cluster stores both Enterprise ColumnStore metadata and data on
+        shared storage.
+    }
+    Client["Client"]
+    Redis[("Shared Redis Cache")]
+    subgraph MX["MaxScale (highly available)"]
+        MX1["MaxScale Instance"]
+        MX2["MaxScale Instance"]
+    end
+    subgraph CS["ColumnStore cluster"]
+        P[("ColumnStore<br/>Primary Node")]
+        R1[("ColumnStore<br/>Replica Node")]
+        R2[("ColumnStore<br/>Replica Node")]
+        P --> R1
+        P --> R2
+    end
+    Shared[("Shared Storage")]
+    Client -->|"Client / application queries"| MX
+    MX <-->|"Deployment configuration"| Redis
+    MX -->|"Query routing and failover"| CS
+    CS <-->|"Enterprise ColumnStore metadata and data"| Shared
+    classDef node fill:#e2f0f2,stroke:#0a5a6b,stroke-width:2px,color:#111;
+    classDef storage fill:#fff4d6,stroke:#8a6d00,stroke-width:2px,color:#111;
+    classDef client fill:#eeeeee,stroke:#333333,stroke-width:2px,color:#111;
+    class MX1,MX2,P,R1,R2 node
+    class Redis,Shared storage
+    class Client client
+```
+
+_The same topology using shared storage for both ColumnStore metadata and data._
 
 ## S3-Compatible Object Storage
 
-MariaDB Enterprise ColumnStore supports S3-compatible object storage.
+MariaDB ColumnStore supports S3-compatible object storage.
 
-S3-compatible object storage is optional, but highly recommended. If S3-compatible object storage is used, Enterprise ColumnStore requires the [Storage Manager directory](columnstore-storage-architecture.md#storage-manager-directory) to use [Shared Local Storage](columnstore-storage-architecture.md#shared-local-storage) (such as NFS) for high availability.
+S3-compatible object storage is optional, but highly recommended. If S3-compatible object storage is used, ColumnStore requires the [Storage Manager directory](columnstore-storage-architecture.md#storage-manager-directory) to use [Shared Local Storage](columnstore-storage-architecture.md#shared-local-storage) (such as NFS) for high availability.
 
 S3-compatible object storage is:
 
@@ -125,25 +206,25 @@ S3-compatible object storage is:
 
 Many S3-compatible object storage services exist. MariaDB Corporation cannot make guarantees about all S3-compatible object storage services, because different services provide different functionality.
 
-If you have any questions about using specific S3-compatible object storage with MariaDB Enterprise ColumnStore, contact us.
+If you have any questions about using specific S3-compatible object storage with MariaDB ColumnStore, contact us.
 
 ### S3 API
 
-MariaDB Enterprise ColumnStore can use any object store that is compatible with the Amazon S3 API.
+MariaDB ColumnStore can use any object store that is compatible with the Amazon S3 API.
 
 Many object storage services are compatible with the Amazon S3 API, and compatible object storage services are available for cloud deployments and on-premises deployments, so vendor lock-in is not a concern.
 
 ### Storage Manager
 
-MariaDB Enterprise ColumnStore's Storage Manager enables remote S3-compatible object storage to be efficiently used. The Storage Manager uses a persistent local disk cache for read/write operations, so that network latency has minimal performance impact on Enterprise ColumnStore. In some cases, it will even perform better than local disk operations.
+MariaDB ColumnStore's Storage Manager enables remote S3-compatible object storage to be efficiently used. The Storage Manager uses a persistent local disk cache for read/write operations, so that network latency has minimal performance impact on ColumnStore. In some cases, it will even perform better than local disk operations.
 
-Enterprise ColumnStore only uses the Storage Manager when S3-compatible storage is used for data.
+ColumnStore only uses the Storage Manager when S3-compatible storage is used for data.
 
 Storage Manager is configured using [storagemanager.cnf](../clients-and-tools/storagemanager/storagemanager-sample-storagemanagercnf.md).
 
 ### Storage Manager Directory
 
-MariaDB Enterprise ColumnStore's Storage Manager directory is at the following path by default:
+MariaDB ColumnStore's Storage Manager directory is at the following path by default:
 
 `/var/lib/columnstore/storagemanager`
 
@@ -151,9 +232,9 @@ To enable high availability when S3-compatible object storage is used, the Stora
 
 ### Configure the S3 Storage Manager
 
-When you want to use S3-compatible storage for Enterprise ColumnStore, you must configure Enterprise ColumnStore's S3 Storage Manager to use S3-compatible storage.
+When you want to use S3-compatible storage for ColumnStore, you must configure ColumnStore's S3 Storage Manager to use S3-compatible storage.
 
-To configure Enterprise ColumnStore to use S3-compatible storage, edit `/etc/columnstore/storagemanager.cnf`:
+To configure ColumnStore to use S3-compatible storage, edit `/etc/columnstore/storagemanager.cnf`:
 
 ```sql
 [ObjectStorage]
@@ -270,6 +351,65 @@ The N in dataN represents a range of integers that starts at 1 and stops at the 
 
 To enable high availability for the DB Root directories, each directory should be mounted on every ColumnStore node using [Shared Local Storage](columnstore-storage-architecture.md#shared-local-storage).
 
+### Expand Storage for DB Roots
+
+In MariaDB ColumnStore 5 and later, the concept of [DB Roots](columnstore-storage-architecture.md#db-root-directories) differs from that in previous versions. A DB Root represents the storage associated with a single ColumnStore node. &#x20;
+
+In addition, DB Roots are no longer storage partitions that can be manually configured. Instead:
+
+* **Each DB Root** = **one node** in the ColumnStore Cluster
+* A 3-node cluster has exactly 3 DB Roots
+* A 5-node cluster has exactly 5 DB Roots&#x20;
+* While a down node recovers during node failover, DB Roots may potentially function with fewer nodes
+
+In ColumnStore 5 and later, there are no commands for manually creating, moving, or deleting DB Roots. Expanding the node's disk storage is necessary to increase storage capacity.
+
+#### How Storage Expansion Works
+
+ColumnStore's storage capacity can be extended using one of the following methods:
+
+**Expand disk on an existing node**
+
+To add storage to an existing DB Root, expand the underlying filesystem on the node where it occurs.
+
+1. Stop ColumnStore on the Node.&#x20;
+
+```sql
+mcs shutdown
+```
+
+2. Expand the disk using standard operating system tools. For example (on a Linux-based system):
+   1.  Expand the partition on the instance.<br>
+
+       ```
+       sudo yum install cloud-utils-growpart -y   # Amazon Linux / RHEL
+       sudo apt install cloud-guest-utils -y      # Ubuntu
+       lsblk                                      # Identify disk and partition
+       sudo growpart /dev/nvme0n1                 # Adjust device/partition as needed
+       ```
+   2.  Resize the filesystem.<br>
+
+       ```
+       # For XFS
+       sudo xfs_growfs -d /
+
+       # For ext4
+       sudo resize2fs /dev/nvme0n1p1
+       ```
+3. Restart ColumnStore.
+
+```
+msc start
+```
+
+**Scaling storage by adding nodes**
+
+Every node in a multi-node deployment has its own [DB Root directory](columnstore-storage-architecture.md#db-root-directories). To increase storage capacity and processing capability, [add additional nodes](../management/node-maintenance-for-mariadb-enterprise-columnstore/add-a-node.md) to the cluster. The new node automatically becomes a new DB Root in the cluster.
+
+**Legacy behavior**
+
+DB Root directories could be managed with `mcsadmin` in previous versions of ColumnStore 1.x. This behavior does not apply to ColumnStore version 5 and later.
+
 ### Extents
 
 ![EColumnStorePhysicalDataOrganizationColumnExtents](../../.gitbook/assets/ecolumnstorephysicaldataorganizationcolumnextents.png)
@@ -383,6 +523,12 @@ In Extent Elimination, ColumnStore scans the columns in join and filter conditio
 
 This behavior is automatic and well suited for series, ordered, patterned and time-based data, where the data is loaded frequently and often referenced by time. Any column with clustered values is a good candidate for Extent Elimination.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+## See Also
+
+* [ColumnStore Architectural Overview](columnstore-architectural-overview.md)
+* [Adding a Node to a ColumnStore Cluster](../management/node-maintenance-for-mariadb-enterprise-columnstore/add-a-node.md)
+* [Topologies Overview](topologies-overview.md)
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

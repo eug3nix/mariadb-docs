@@ -7,3 +7,12 @@ icon: rabbit-running
 
 # Quickstart Guides
 
+{% content-ref url="mariadb-columnstore-guide.md" %}
+[mariadb-columnstore-guide.md](mariadb-columnstore-guide.md)
+{% endcontent-ref %}
+
+{% content-ref url="mariadb-columnstore-hardware-guide.md" %}
+[mariadb-columnstore-hardware-guide.md](mariadb-columnstore-hardware-guide.md)
+{% endcontent-ref %}
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

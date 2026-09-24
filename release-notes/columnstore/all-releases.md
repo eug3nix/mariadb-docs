@@ -8,6 +8,7 @@ description: A list of all MariaDB ColumnStore releases
 
 | Version                     | Release Date | Release Status |
 | --------------------------- | ------------ | -------------- |
+| [25.10.1](25.10/25.10.1.md) | 2025-11-06   | Stable (GA)    |
 | [25.10.0](25.10/25.10.0.md) | 2025-10-22   | Alpha          |
 
 ## ColumnStore 23.10
@@ -27,6 +28,8 @@ description: A list of all MariaDB ColumnStore releases
 
 | Version                       | Release Date | Release Status |
 | ----------------------------- | ------------ | -------------- |
+| [23.02.17](23.02/23.02.17.md) | 2025-12-19   | Stable (GA)    |
+| [23.02.16](23.02/23.02.16.md) | 2025-10-14   | Stable (GA)    |
 | [23.02.15](23.02/23.02.15.md) | 2025-07-03   | Stable (GA)    |
 | [23.02.14](23.02/23.02.14.md) | 2025-05-07   | Stable (GA)    |
 | [23.02.13](23.02/23.02.13.md) | 2025-03-26   | Stable (GA)    |
@@ -169,3 +172,5 @@ description: A list of all MariaDB ColumnStore releases
 | [1.0.3](old-releases/columnstore-1-0/mariadb-columnstore-103-alpha-release-notes.md)             | 2016-09-20   | Alpha          |
 | [1.0.2](old-releases/columnstore-1-0/mariadb-columnstore-102-alpha-release-notes.md)             | 2016-08-23   | Alpha          |
 | [1.0.1](old-releases/columnstore-1-0/mariadb-columnstore-101-alpha-release-notes.md)             | 2016-06-14   | Alpha          |
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

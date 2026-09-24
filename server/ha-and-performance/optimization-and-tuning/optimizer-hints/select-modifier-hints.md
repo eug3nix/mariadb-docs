@@ -1,3 +1,9 @@
+---
+description: >-
+  SELECT modifier hints such as HIGH_PRIORITY, SQL_CACHE, SQL_NO_CACHE, and
+  SQL_BUFFER_RESULT that adjust how individual SELECT statements are executed.
+---
+
 # SELECT Modifier Hints
 
 ## HIGH PRIORITY
@@ -6,7 +12,7 @@
 
 ## SQL\_CACHE / SQL\_NO\_CACHE
 
-If the [query\_cache\_type](../system-variables/server-system-variables.md#query_cache_type) system variable is set to 2 or `DEMAND`, and the current statement is cacheable, `SQL_CACHE` causes the query to be cached and `SQL_NO_CACHE` causes the query not to be cached. For `UNION`s, `SQL_CACHE` or `SQL_NO_CACHE` should be specified for the first query. See also [The Query Cache](../buffers-caches-and-threads/query-cache.md) for more detail and a list of the types of statements that aren't cacheable.
+`SQL_CACHE` and `SQL_NO_CACHE` control whether a cacheable statement uses the [query cache](../buffers-caches-and-threads/query-cache.md), and which of them applies depends on the [query\_cache\_type](../system-variables/server-system-variables.md#query_cache_type) system variable. When `query_cache_type` is `ON`, `SQL_NO_CACHE` keeps the query out of the cache. When it is `DEMAND`, `SQL_CACHE` is what puts the query in, and every other query bypasses the cache. Neither modifier has any effect when `query_cache_type` is `OFF`. For `UNION`s, `SQL_CACHE` or `SQL_NO_CACHE` should be specified for the first query. See also [The Query Cache](../buffers-caches-and-threads/query-cache.md) for more detail and a list of the types of statements that aren't cacheable.
 
 ## SQL\_BUFFER\_RESULT
 
@@ -18,7 +24,7 @@ If the [query\_cache\_type](../system-variables/server-system-variables.md#query
 
 ## STRAIGHT\_JOIN
 
-`STRAIGHT_JOIN` applies to the [JOIN](../../../reference/sql-statements/data-manipulation/selecting-data/joins-subqueries/joins/join-syntax.md) queries, and tells the optimizer that the tables must be read in the order they appear in the `SELECT`. For `const` and `system` table this options is sometimes ignored.
+`STRAIGHT_JOIN` applies to the [JOIN](../../../reference/sql-statements/data-manipulation/selecting-data/joins/join-syntax.md) queries, and tells the optimizer that the tables must be read in the order they appear in the `SELECT`. For `const` and `system` table this options is sometimes ignored.
 
 ## SQL\_CALC\_FOUND\_ROWS
 
@@ -27,3 +33,5 @@ If the [query\_cache\_type](../system-variables/server-system-variables.md#query
 ## USE/FORCE/IGNORE INDEX
 
 `USE INDEX`, `FORCE INDEX` and `IGNORE INDEX` constrain the query planning to a specific index. For further information about some of these options, see [How to force query plans](../query-optimizations/index-hints-how-to-force-query-plans.md).
+
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>

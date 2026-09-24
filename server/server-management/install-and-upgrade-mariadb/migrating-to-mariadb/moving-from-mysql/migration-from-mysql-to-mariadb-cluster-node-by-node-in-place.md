@@ -1,9 +1,18 @@
-# Migration from MySQL to MariaDB Cluster (Node-by-Node In-Place)
+---
+description: >-
+  Instructions for a rolling migration where individual nodes in a MySQL cluster
+  are taken offline, wiped, and replaced with MariaDB nodes, eventually forming
+  a new cluster.
+---
+
+# Migrating from MySQL to MariaDB Galera Cluster (Node-by-Node In-Place)
 
 {% hint style="warning" %}
 **Version Requirement**
 
 This guide provides instructions for migrating a **MySQL 8.0 Galera Cluster** to a **MariaDB Galera Cluster 11.4**. Ensure that your systems meet or exceed these version requirements before proceeding. Please refer to the [Prerequisites](migration-from-mysql-to-mariadb-cluster-node-by-node-in-place.md#prerequisites) for detailed version information.
+
+The **End-of-Life (EOL)** date for continued maintenance and regular binary releases of MySQL Galera Cluster will be **September 30, 2026**.
 {% endhint %}
 
 This guide outlines the procedure for migrating a live MySQL Galera Cluster to a MariaDB Galera Cluster. It follows the process for migrating a live MySQL Galera Cluster to a MariaDB Galera Cluster by replacing the binaries on each node sequentially. This "In-Place" method maintains cluster availability during the migration, although the cluster capacity will be reduced while individual nodes are being processed.
@@ -42,13 +51,13 @@ MySQL 8.0 defaults to `caching_sha256_password`. MariaDB does not support the `c
 
 **Support Status:**
 
-* Implemented via [MDEV-9804](https://www.google.com/search?q=https://jira.mariadb.org/browse/MDEV-9804) for version 12.1.1.
+* Implemented via [MDEV-9804](https://jira.mariadb.org/browse/MDEV-9804) for version 12.1.1.
 * Available in the CS release based on [MDEV-37600](https://jira.mariadb.org/browse/MDEV-37600).
 * Already supported in 11.8 Enterprise Server via [MENT-2359](https://jira.mariadb.org/browse/MENT-2359).
 * Available in 11.4 Enterprise Server with the December 2025 release as a rebase of [MDEV-37600](https://jira.mariadb.org/browse/MDEV-37600).
 
 {% hint style="info" %}
-**For MySQL 8.4 Users**&#x20;
+**For MySQL 8.4 Users**
 
 Ensure `mysql_native_password=ON` is set in your configuration, or you will receive the error: `Plugin 'mysql_native_password' is not loaded`.
 {% endhint %}
@@ -200,7 +209,7 @@ This is the most complex step. This node will bridge the gap between the MySQL c
 
 {% stepper %}
 {% step %}
-### Isolate and Shutdown
+**Isolate and Shutdown**
 
 1. **Remove from Load Balancer:** Ensure no application traffic is hitting this node.
 2.  **Clean Shutdown Prep:**
@@ -215,7 +224,7 @@ This is the most complex step. This node will bridge the gap between the MySQL c
 {% endstep %}
 
 {% step %}
-### Swap Binaries & Wipe Data
+**Swap Binaries & Wipe Data**
 
 1. **Uninstall MySQL:** Remove all MySQL server and client packages using your OS package manager (e.g., `apt remove`, `dnf remove`).
 2.  **Clean Data Directory:** One way is to move all files under `datadir` to a new directory.
@@ -229,7 +238,7 @@ This is the most complex step. This node will bridge the gap between the MySQL c
 {% endstep %}
 
 {% step %}
-### Configure MariaDB (`my.cnf`)
+**Configure MariaDB (`my.cnf`)**
 
 Update the configuration file to work with both MariaDB and MySQL.
 
@@ -266,7 +275,7 @@ wsrep_sst_auth=sst_user:strong_password
 {% endstep %}
 
 {% step %}
-### Start and Join
+**Start and Join**
 
 Start the MariaDB service:
 
@@ -278,7 +287,7 @@ When initiated, the node connects to the MySQL cluster and automatically trigger
 {% endstep %}
 
 {% step %}
-### Post-Join Upgrade
+**Post-Join Upgrade**
 
 Once the node is `Synced`, run `mariadb-upgrade` to fix system tables.
 
@@ -294,7 +303,7 @@ Once the first node (Node A) is successfully running MariaDB, you can migrate No
 
 {% stepper %}
 {% step %}
-### Shutdown and Replace
+**Shutdown and Replace**
 
 1.  **Set Fast Shutdown:**
 
@@ -308,7 +317,7 @@ Once the first node (Node A) is successfully running MariaDB, you can migrate No
 {% endstep %}
 
 {% step %}
-### Configure MariaDB
+**Configure MariaDB**
 
 The configuration differs slightly for subsequent nodes. We switch back to **Physical Backups** for speed.
 
@@ -334,7 +343,7 @@ wsrep_provider_options="gcs.check_appl_proto=0"
 {% endstep %}
 
 {% step %}
-### Start and Join
+**Start and Join**
 
 Start the service. The node will perform a binary snapshot transfer (`mariabackup`) from the first MariaDB node.
 
@@ -389,4 +398,6 @@ Currently, migration from 8.0.x has been verified to work on a simple `sysbench`
 For developers or those compiling from source, the following changes were relevant to this migration path:
 
 * [codership-mariadb-server Pull Request #519](https://github.com/mariadb-corporation/codership-mariadb-server/pull/519)
-* [codership-mysql Pull Request #2062](https://github.com/mariadb-corporation/codership-mysql/pull/2062)
+* codership-mysql Pull Request #2062 (the `mariadb-corporation/codership-mysql` repository has been retired, so this change is no longer publicly browsable)
+
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>

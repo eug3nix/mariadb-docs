@@ -1,8 +1,15 @@
+---
+description: >-
+  User-defined aggregate and window functions for MariaDB ColumnStore 1.1 and
+  later using a C++ SDK, with distributed execution across PrimProc nodes;
+  examples include median and SSQ.
+---
+
 # ColumnStore User Defined Aggregate and Window Functions
 
 ## Introduction
 
-Starting with MariaDB ColumnStore 1.1, the ability to create and use user-defined aggregate and window functions is supported in addition to scalar functions. With Columnstore 1.2, multiple parameters are supported. A C++ SDK is provided, as well as 3 reference examples that provide additional functions that may be of general use:
+Starting with MariaDB ColumnStore 1.1, the ability to create and use user-defined aggregate and window functions is supported in addition to scalar functions. With ColumnStore 1.2, multiple parameters are supported. A C++ SDK is provided, as well as 3 reference examples that provide additional functions that may be of general use:
 
 * **median—mathematical median**, equivalent to percentile\_cont(0.5).
 * **avg\_mode—mathematical mode**, i.e., the most frequent value in the set.
@@ -43,7 +50,7 @@ This requires a MariaDB ColumnStore source tree and the necessary tools to compi
 
 * The implementation of the median and `avg_mode` functions will scale in memory consumption to the size of the set of unique values in the aggregation.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}
 

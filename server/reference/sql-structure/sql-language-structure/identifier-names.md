@@ -1,3 +1,9 @@
+---
+description: >-
+  Rules for naming identifiers such as databases, tables, columns, and other
+  objects.
+---
+
 # Identifier Names
 
 Databases, tables, indexes, columns, aliases, views, stored routines, triggers, events, variables, partitions, tablespaces, savepoints, labels, users, roles, are collectively known as identifiers, and have certain rules for naming.
@@ -26,7 +32,7 @@ The following characters are valid, but identifiers using them must be quoted:
 There are a number of other rules for identifiers:
 
 * Identifiers are stored as Unicode (UTF-8)
-* Identifiers may or may not be case-sensitive. See [Indentifier Case-sensitivity](identifier-case-sensitivity.md).
+* Identifiers may or may not be case-sensitive. See [Identifier Case-sensitivity](identifier-case-sensitivity.md).
 * Database, table and column names can't end with space characters
 * Identifier names may begin with a numeral, but can't only contain numerals unless quoted.
 * An identifier starting with a numeral, followed by an 'e', may be parsed as a floating point number, and needs to be quoted.

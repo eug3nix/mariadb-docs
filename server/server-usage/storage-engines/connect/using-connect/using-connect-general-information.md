@@ -1,12 +1,8 @@
 ---
-description: The CONNECT storage engine has been deprecated.
+description: The CONNECT storage engine.
 ---
 
 # Using CONNECT - General Information
-
-{% hint style="warning" %}
-This storage engine has been deprecated.
-{% endhint %}
 
 The main characteristic of [CONNECT](../) is to enable accessing data scattered on a machine as if it was a centralized database. This, and the fact that locking is not used by connect (data files are open and closed for each query) makes CONNECT very useful for importing or exporting data into or from a MariaDB database and also for all types of Business Intelligence applications. However, it is not suited for transactional applications.
 
@@ -18,7 +14,7 @@ This means also that CONNECT is not designed to be used by centralized servers, 
 
 ### Performance
 
-Performances vary a great deal depending on the table type. For instance, ODBC tables are only\
+Performances vary a great deal depending on the table type. For instance, ODBC tables are only
 retrieved as fast as the other DBMS can do. If you have a lot of queries to execute, the best way to optimize your work can be sometime to translate the data from one type to another. Fortunately this is very simple with CONNECT. Fixed formats like FIX, BIN or VEC tables can be created from slower ones by commands such as:
 
 ```

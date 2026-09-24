@@ -19,7 +19,7 @@ MariaDB provides options that can be used on a [replication primary](replication
 
 ### Binary Log Filter Options
 
-The following options are available, and they are evaluated in the order that they are listed below. If there are conflicting settings, _binlog\_do\_db_ prevails. Before [MariaDB 11.2.0](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-2-series/mariadb-11-2-0-release-notes), they are only available as options; from [MariaDB 11.2.0](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-2-series/mariadb-11-2-0-release-notes) they are also available as system variables.
+The following options are available, and they are evaluated in the order that they are listed below. If there are conflicting settings, _`binlog_do_db`_ prevails. Before [MariaDB 11.2.0](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.2/11.2.0), they are only available as options; from [MariaDB 11.2.0](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.2/11.2.0) they are also available as system variables.
 
 #### `binlog_do_db`
 
@@ -31,7 +31,7 @@ This option cannot be set dynamically.
 
 When setting it on the command-line or in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md), the option does not accept a comma-separated list. If you would like to specify multiple filters, then you need to specify the option multiple times. For example:
 
-```
+```ini
 [mariadb]
 ...
 binlog_do_db=db1
@@ -93,7 +93,7 @@ Until [MariaDB 10.11](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-s
 
 When setting it on the command-line or in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md), the option does not accept a comma-separated list. If you would like to specify multiple filters, then you need to specify the option multiple times. For example:
 
-```
+```ini
 [mariadb]
 ...
 replicate_rewrite_db=db1->db3
@@ -116,9 +116,9 @@ See the [Statement-Based Logging](replication-filters.md#statement-based-logging
 
 When setting it dynamically with [SET GLOBAL](../../reference/sql-statements/administrative-sql-statements/set-commands/set.md#global-session), the system variable accepts a comma-separated list of filters.
 
-When setting it dynamically, it is not possible to specify database names that contain commas. If you need to specify database names that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](https://mariadb.com/kb/en/).
+When setting it dynamically, it is not possible to specify database names that contain commas. If you need to specify database names that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](../../server-management/starting-and-stopping-mariadb/).
 
-When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-slave) must be stopped. For example:
+When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-replica) must be stopped. For example:
 
 ```sql
 STOP SLAVE;
@@ -128,7 +128,7 @@ START SLAVE;
 
 When setting it on the command-line or in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md), the system variable does not accept a comma-separated list. If you would like to specify multiple filters, then you need to specify the system variable multiple times. For example:
 
-```
+```ini
 [mariadb]
 ...
 replicate_do_db=db1
@@ -152,9 +152,9 @@ See the [Statement-Based Logging](replication-filters.md#statement-based-logging
 
 When setting it dynamically with [SET GLOBAL](../../reference/sql-statements/administrative-sql-statements/set-commands/set.md#global-session), the system variable accepts a comma-separated list of filters.
 
-When setting it dynamically, it is not possible to specify database names that contain commas. If you need to specify names or patterns that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](https://mariadb.com/kb/en/).
+When setting it dynamically, it is not possible to specify database names that contain commas. If you need to specify names or patterns that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](../../server-management/starting-and-stopping-mariadb/).
 
-When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-slave) must be stopped. For example:
+When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-replica) must be stopped. For example:
 
 ```sql
 STOP SLAVE;
@@ -164,7 +164,7 @@ START SLAVE;
 
 When setting it on the command-line or in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md), the system variable does not accept a comma-separated list. If you would like to specify multiple filters, then you need to specify the system variable multiple times. For example:
 
-```
+```ini
 [mariadb]
 ...
 replicate_ignore_db=db1
@@ -191,10 +191,10 @@ This option only affects statements that involve tables. This option does not af
 
 When setting it dynamically with [SET GLOBAL](../../reference/sql-statements/administrative-sql-statements/set-commands/set.md#global-session), the system variable accepts a comma-separated list of filters.
 
-When setting it dynamically, it is not possible to specify database or table names\
-or patterns that contain commas. If you need to specify database or table names that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](https://mariadb.com/kb/en/).
+When setting it dynamically, it is not possible to specify database or table names
+or patterns that contain commas. If you need to specify database or table names that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](../../server-management/starting-and-stopping-mariadb/).
 
-When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-slave) must be stopped. For example:
+When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-replica) must be stopped. For example:
 
 ```sql
 STOP SLAVE;
@@ -204,7 +204,7 @@ START SLAVE;
 
 When setting it on the command-line or in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md), the system variable does not accept a comma-separated list. If you would like to specify multiple filters, then you need to specify the system variable multiple times. For example:
 
-```
+```ini
 [mariadb]
 ...
 replicate_do_table=db1.tab
@@ -227,9 +227,9 @@ This system variable will **not** work with cross-database updates with [stateme
 
 When setting it dynamically with [SET GLOBAL](../../reference/sql-statements/administrative-sql-statements/set-commands/set.md#global-session), the system variable accepts a comma-separated list of filters.
 
-When setting it dynamically, it is not possible to specify database or table names that contain commas. If you need to specify database or table names that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](https://mariadb.com/kb/en/).
+When setting it dynamically, it is not possible to specify database or table names that contain commas. If you need to specify database or table names that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](../../server-management/starting-and-stopping-mariadb/).
 
-When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-slave) must be stopped. For example:
+When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-replica) must be stopped. For example:
 
 ```sql
 STOP SLAVE;
@@ -239,7 +239,7 @@ START SLAVE;
 
 When setting it on the command-line or in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md), the system variable does not accept a comma-separated list. If you would like to specify multiple filters, then you need to specify the system variable multiple times. For example:
 
-```
+```ini
 [mariadb]
 ...
 replicate_ignore_table=db1.tab
@@ -276,9 +276,9 @@ If the table name pattern for a filter is just specified as `%`, then all tables
 
 When setting it dynamically with [SET GLOBAL](../../reference/sql-statements/administrative-sql-statements/set-commands/set.md#global-session), the system variable accepts a comma-separated list of filters.
 
-When setting it dynamically, it is not possible to specify database or table names or patterns that contain commas. If you need to specify database or table names or patterns that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](https://mariadb.com/kb/en/).
+When setting it dynamically, it is not possible to specify database or table names or patterns that contain commas. If you need to specify database or table names or patterns that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](../../server-management/starting-and-stopping-mariadb/).
 
-When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-slave) must be stopped. For example:
+When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-replica) must be stopped. For example:
 
 ```sql
 STOP SLAVE;
@@ -288,7 +288,7 @@ START SLAVE;
 
 When setting it on the command-line or in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md), the system variable does not accept a comma-separated list. If you would like to specify multiple filters, then you need to specify the system variable multiple times. For example:
 
-```
+```ini
 [mariadb]
 ...
 replicate_wild_do_table=db%.tab%
@@ -323,9 +323,9 @@ If the table name pattern for a filter is just specified as `%`, then all tables
 
 When setting it dynamically with [SET GLOBAL](../../reference/sql-statements/administrative-sql-statements/set-commands/set.md#global-session), the system variable accepts a comma-separated list of filters.
 
-When setting it dynamically, it is not possible to specify database or table names or patterns that contain commas. If you need to specify database or table names or patterns that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](https://mariadb.com/kb/en/).
+When setting it dynamically, it is not possible to specify database or table names or patterns that contain commas. If you need to specify database or table names or patterns that contain commas, then you will need to specify them by either providing the command-line options or configuring them in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md) when the server is [started](../../server-management/starting-and-stopping-mariadb/).
 
-When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-slave) must be stopped. For example:
+When setting it dynamically, the [replica threads](replication-threads.md#threads-on-the-replica) must be stopped. For example:
 
 ```sql
 STOP SLAVE;
@@ -335,7 +335,7 @@ START SLAVE;
 
 When setting it on the command-line or in a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md), the system variable does not accept a comma-separated list. If you would like to specify multiple filters, then you need to specify the system variable multiple times. For example:
 
-```
+```ini
 [mariadb]
 ...
 replicate_wild_ignore_table=db%.tab%
@@ -385,7 +385,7 @@ START SLAVE;
 
 If you are using [multi-source replication](multi-source-replication.md) and if you would like to make this filter persist server restarts by adding it to a server [option group](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md#option-groups) in an [option file](../../server-management/install-and-upgrade-mariadb/configuring-mariadb/configuring-mariadb-with-option-files.md), then the option file can also include the connection name that each filter would apply to. For example:
 
-```
+```ini
 [mariadb]
 ...
 gandalf.replicate_do_db=database1
@@ -398,7 +398,7 @@ The [CHANGE MASTER](../../reference/sql-statements/administrative-sql-statements
 
 #### `IGNORE_SERVER_IDS`
 
-The [IGNORE\_SERVER\_IDS](../../reference/sql-statements/administrative-sql-statements/replication-statements/change-master-to.md#ignore_server_ids) option for `CHANGE MASTER` can be used to configure a [replica](replication-overview.md) to ignore [binary log](https://mariadb.com/kb/en/binary_log) events that originated from certain servers. Filtered binary log events will not get logged to the replica’s [relay log](../../server-management/server-monitoring-logs/binary-log/relay-log.md), and they will not be applied by the replica.
+The [IGNORE\_SERVER\_IDS](../../reference/sql-statements/administrative-sql-statements/replication-statements/change-master-to.md#ignore_server_ids) option for `CHANGE MASTER` can be used to configure a [replica](replication-overview.md) to ignore [binary log](../../server-management/server-monitoring-logs/binary-log/) events that originated from certain servers. Filtered binary log events will not get logged to the replica’s [relay log](../../server-management/server-monitoring-logs/binary-log/relay-log.md), and they will not be applied by the replica.
 
 #### `DO_DOMAIN_IDS`
 
@@ -406,7 +406,7 @@ The [DO\_DOMAIN\_IDS](../../reference/sql-statements/administrative-sql-statemen
 
 #### `IGNORE_DOMAIN_IDS`
 
-The [IGNORE\_DOMAIN\_IDS](../../reference/sql-statements/administrative-sql-statements/replication-statements/change-master-to.md#ignore_domain_ids) option for `CHANGE MASTER` can be used to configure a [replica](replication-overview.md) to ignore [binary log](https://github.com/mariadb-corporation/docs-server/blob/test/server/server-usage/replication-cluster-multi-master/standard-replication/binary_log/README.md) events if the transaction's [GTID](gtid.md) is in a specific [gtid\_domain\_id](gtid.md#gtid_domain_id) value. Filtered [binary log](../../server-management/server-monitoring-logs/binary-log/) events will not get logged to the replica’s [relay log](../../server-management/server-monitoring-logs/binary-log/relay-log.md), and they will not be applied by the replica.
+The [IGNORE\_DOMAIN\_IDS](../../reference/sql-statements/administrative-sql-statements/replication-statements/change-master-to.md#ignore_domain_ids) option for `CHANGE MASTER` can be used to configure a [replica](replication-overview.md) to ignore [binary log](../../server-management/server-monitoring-logs/binary-log/README.md) events if the transaction's [GTID](gtid.md) is in a specific [gtid\_domain\_id](gtid.md#gtid_domain_id) value. Filtered [binary log](../../server-management/server-monitoring-logs/binary-log/) events will not get logged to the replica’s [relay log](../../server-management/server-monitoring-logs/binary-log/relay-log.md), and they will not be applied by the replica.
 
 ## Replication Filters and Binary Log Formats
 
@@ -427,7 +427,7 @@ When an event is logged in its statement-based format, many replication filters 
 * [replicate\_do\_table](replication-filters.md#replicate_do_table)
 * [replicate\_ignore\_table](replication-filters.md#replicate_ignore_table)
 
-This means that cross-database updates **do not work** with replication filters and statement-based binary logging. For example, if [replicate\_do\_table=db2.tab](https://mariadb.com/kb/en/replicate_do_table%3Ddb2.tab) were set, then the following would not replicate with statement-based binary logging:
+This means that cross-database updates **do not work** with replication filters and statement-based binary logging. For example, if `replicate_do_table=db2.tab` were set, then the following would not replicate with statement-based binary logging:
 
 ```sql
 USE db1;

@@ -1,10 +1,17 @@
+---
+description: >-
+  CMAPI is the REST API for administering MariaDB ColumnStore in
+  multi-node topologies, accessed with curl or any standard REST client and
+  authenticated via x-api-key.
+---
+
 # CMAPI
 
-**CMAPI** is a REST API for administering MariaDB Enterprise ColumnStore in multi-node topologies.
+**CMAPI** is a REST API for administering MariaDB ColumnStore in multi-node topologies.
 
-Reference material is available for MariaDB Enterprise ColumnStore.
+Reference material is available for MariaDB ColumnStore.
 
-MariaDB Enterprise ColumnStore is included with MariaDB Enterprise Server.
+MariaDB ColumnStore is included with MariaDB Enterprise Server.
 
 ## Clients
 
@@ -14,7 +21,7 @@ CMAPI examples throughout the documentation use `curl` as the REST client. The e
 
 ## Endpoint
 
-The endpoint for CMAPI contains the hostname and port for the primary node running Enterprise ColumnStore, `/cmapi/`, the CMAPI API version (`0.4.0`), and a action-specific endpoint path.
+The endpoint for CMAPI contains the hostname and port for the primary node running ColumnStore, `/cmapi/`, the CMAPI API version (`0.4.0`), and a action-specific endpoint path.
 
 Example: `https://mcs1:8640/cmapi/0.4.0/cluster/node`
 
@@ -46,7 +53,7 @@ The API key is stored in `/etc/columnstore/cmapi_server.conf`.
 
 ### Generate an API Key
 
-The API key is a shared secret that can be used to add nodes to multi-node Enterprise ColumnStore. The API key can be any string, but it is recommended to use a long, random string. The API key should be stored securely and kept confidential.
+The API key is a shared secret that can be used to add nodes to multi-node ColumnStore. The API key can be any string, but it is recommended to use a long, random string. The API key should be stored securely and kept confidential.
 
 For example, to create a random 256-bit API key using `openssl rand`:
 
@@ -57,7 +64,7 @@ openssl rand -hex 32
 
 ### Set the API Key
 
-To set the API key for the first time, provide the desired API key when you add the first node using the [node](http://localhost:8000/docs/columnstore/ref/cmapi/add-node/) PUT command. Since Enterprise ColumnStore does not yet have an API key, CMAPI will write the first API key it receives to `/etc/columnstore/cmapi_server.conf`.
+To set the API key for the first time, provide the desired API key when you add the first node using the [node](node-put.md) PUT command. Since Enterprise ColumnStore does not yet have an API key, CMAPI will write the first API key it receives to `/etc/columnstore/cmapi_server.conf`.
 
 For example, if the primary server's host name is `mcs1` and its IP address is `192.0.2.1`, the following command will add the primary server to Enterprise ColumnStore and write the provided API key to the node's CMAPI configuration file:
 
@@ -89,7 +96,7 @@ These aliases are available if your `bash` shell is configured to source the `co
 
 These aliases execute `curl` and `jq`, so both programs must be installed on the system.
 
-These aliases automatically retrieve the IP address for the primary node using the [mcsGetConfig](http://localhost:8000/docs/columnstore/ref/col/cli/mcsGetConfig/) command. The aliases automatically retrieve the API key by reading `/etc/columnstore/cmapi_server.conf`.
+These aliases automatically retrieve the IP address for the primary node using the [mcsGetConfig](../../architecture/columnstore-system-paths-and-logs.md#mcsgetconfig) command. The aliases automatically retrieve the API key by reading `/etc/columnstore/cmapi_server.conf`.
 
 Available aliases:
 
@@ -142,7 +149,7 @@ auto_failover = False
 
 ## Logging
 
-Starting with Enterprise ColumnStore 5.5.2, the [CMAPI logs](http://localhost:8000/docs/columnstore/ref/col/logging/cmapi/) can be found at `/var/log/mariadb/columnstore/cmapi_server.log`.
+Starting with Enterprise ColumnStore 5.5.2, the [CMAPI logs](../../architecture/columnstore-system-paths-and-logs.md#cmapi-and-mcs-logs) can be found at `/var/log/mariadb/columnstore/cmapi_server.log`.
 
 In previous versions, CMAPI's log messages can be viewed in the `systemd` journal:
 
@@ -188,6 +195,6 @@ The final part of the standard HTTP response message is the body.
 | Success     | JSON Data                             |
 | Failure     | Undefined Depends on specific failure |
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

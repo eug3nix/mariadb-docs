@@ -14,7 +14,7 @@ A variant of this partitioning method, [RANGE COLUMNS](range-columns-and-list-co
 
 The last part of a [CREATE TABLE](../../../reference/sql-statements/data-definition/create/create-table.md) statement can be definition of the new table's partitions. In the case of `RANGE` partitioning, the syntax is the following:
 
-```sql
+```bnf
 PARTITION BY RANGE (partitioning_expression)
 (
 	PARTITION partition_name VALUES LESS THAN (value),
@@ -22,6 +22,8 @@ PARTITION BY RANGE (partitioning_expression)
 	[ PARTITION partition_name VALUES LESS THAN MAXVALUE ]
 )
 ```
+
+![Railroad diagram of RANGE partitioning — equivalent to the BNF above](../../../.gitbook/assets/range-partitioning-railroad.svg)
 
 `PARTITION BY RANGE` indicates that the partitioning type is `RANGE`.
 

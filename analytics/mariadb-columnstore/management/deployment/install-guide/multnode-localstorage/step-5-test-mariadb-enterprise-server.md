@@ -1,5 +1,6 @@
 ---
 description: 'Step 5: Test MariaDB Enterprise Server'
+hidden: true
 ---
 
 # Step 5: Test MariaDB Enterprise Server
@@ -8,13 +9,15 @@ description: 'Step 5: Test MariaDB Enterprise Server'
 
 This page details step 5 of the 9-step procedure "Deploy ColumnStore Shared Local Storage Topology".
 
-This step tests MariaDB Enterprise Server and MariaDB Enterprise ColumnStore 23.10.
+This step tests MariaDB Enterprise Server and MariaDB ColumnStore.
+
+{% include "../../../../../.gitbook/includes/the-instructions-were-teste....md" %}
 
 Interactive commands are detailed. Alternatively, the described operations can be performed using automation.
 
 ## Test Enterprise Server Service
 
-Use Systemd to test whether the MariaDB Enterprise Server service is running. This action is performed **on each Enterprise ColumnStore node**.
+Use Systemd to test whether the MariaDB Enterprise Server service is running. This action is performed **on each ColumnStore node**.
 
 Check if the MariaDB Enterprise Server service is running by executing the following:
 
@@ -30,7 +33,7 @@ $ sudo systemctl start mariadb
 
 ## Test Local Client Connections
 
-Use [MariaDB Client](broken-reference) to test the local connection to the Enterprise Server node.
+Use [MariaDB Client](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/SsmexDFPv2xG2OTyO5yV/clients-and-utilities/mariadb-client) to test the local connection to the Enterprise Server node.
 
 This action is performed **on each Enterprise ColumnStore node**:
 
@@ -293,6 +296,6 @@ This page was step 5 of 9.
 
 [Next: Step 6: Install MariaDB MaxScale](step-6-install-mariadb-maxscale.md).
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

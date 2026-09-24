@@ -1,42 +1,62 @@
 ---
 description: >-
-  Define a trigger on a table. This statement creates a routine that
-  automatically executes in response to INSERT, UPDATE, or DELETE events.
+  Complete CREATE TRIGGER reference: OR REPLACE, DEFINER, IF NOT EXISTS,
+  FOLLOWS/PRECEDES options for BEFORE/AFTER INSERT, UPDATE, or DELETE triggers
+  rules.
 ---
 
 # CREATE TRIGGER
 
 ## Syntax
 
-```sql
+```bnf
 CREATE [OR REPLACE]
     [DEFINER = { user | CURRENT_USER | role | CURRENT_ROLE }]
-    TRIGGER [IF NOT EXISTS] 
-            trigger_name trigger_time {trigger_event [ OR trigger_event] [...]}
+    TRIGGER [IF NOT EXISTS]
+            trigger_name trigger_time {trigger_event [OR trigger_event] ...}
     ON tbl_name FOR EACH ROW
-   [{ FOLLOWS | PRECEDES } other_trigger_name ]
-   trigger_stmt;
+    [{ FOLLOWS | PRECEDES } other_trigger_name]
+    trigger_stmt
 
-trigger time:
+trigger_time:
     BEFORE
   | AFTER
 
 trigger_event:
     INSERT
-  | UPDATE [ OF column_name [, colunm_name [, ...]]
+  | UPDATE [OF column_name [, column_name] ...]
   | DELETE
 ```
 
+![Railroad diagram of CREATE TRIGGER — equivalent to the BNF above](../../../.gitbook/assets/create-trigger-railroad.svg)
+
+![Railroad diagram of trigger\_time](../../../.gitbook/assets/create-trigger-time-railroad.svg)
+
+![Railroad diagram of trigger\_event](../../../.gitbook/assets/create-trigger-event-railroad.svg)
+
+{% hint style="info" %}
+MariaDB Enterprise Server 12.3 adds a third trigger form for replicas: `CREATE TRIGGER ... FOR CONFLICT`, which fires when a row-based replication event conflicts with the replica's local data. The `FOR CONFLICT` clause replaces the `BEFORE`/`AFTER` timing keyword and cannot be combined with the trigger events above. See [Conflict Detection and Resolution (CDR) Triggers](../../../ha-and-performance/standard-replication/conflict-detection-and-resolution-triggers.md).
+{% endhint %}
+
 ## Description
 
-This statement creates a new [trigger](./). A trigger is a named database object that is associated with a table, and that activates when a particular event occurs for the table. The trigger becomes associated\
-with the table named `tbl_name`, which must refer to a permanent table. You cannot associate a trigger with a `TEMPORARY` table or a view.
+This statement creates a new [trigger](./). A trigger is a named database object that is associated with a table, and that activates when a particular event occurs for the table. The trigger becomes associated with the table named `tbl_name`, which must refer to a permanent table. You cannot associate a trigger with a `TEMPORARY` table or a view.
 
 `CREATE TRIGGER` requires the [TRIGGER](../../../reference/sql-statements/account-management-sql-statements/grant.md#table-privileges) privilege for the table associated with the trigger.
 
 You can have multiple triggers for the same _`trigger_time`_ and _`trigger_event`_.
 
 For valid identifiers to use as trigger names, see [Identifier Names](../../../reference/sql-structure/sql-language-structure/identifier-names.md).
+
+`trigger_stmt` is the statement executed when the trigger activates. Here, you can refer to columns in the table associated with the trigger using the aliases `OLD` and `NEW`. `OLD.`_`col_name`_ refers to a column of an existing row before it is updated or deleted. `NEW.`_`col_name`_ refers to the column of a new row to be inserted or an existing row after it is updated.
+
+`OLD` and `NEW` are MariaDB (and MySQL) extensions to triggers. They are not case-sensitive.
+
+Triggers cannot use `NEW.`_`col_name`_ or use `OLD.`_`col_name`_ to refer to generated columns. For information about generated columns, see [Generated Columns](../../../reference/sql-statements/data-definition/create/generated-columns.md).
+
+In an `INSERT` trigger, only `NEW.`_`col_name`_ can be used, because there is no old row. In a `DELETE` trigger, only `OLD.`_`col_name`_ can be used, because there is no new row. In an `UPDATE` trigger, use `OLD.`_`col_name`_ to refer to the columns of a row before it is updated, and `NEW.`_`col_name`_ to refer to the columns of the row after it is updated.
+
+A column referenced with `OLD` is read-only. If you have the `SELECT` privilege, this means you can refer to it, but not modify it. You can refer to a column named with `NEW` if you have the `SELECT` privilege. In a `BEFORE` trigger, you can also change its value with `SET NEW.`_`col_name`_` ``=`` `_`value`_ if you have the `UPDATE` privilege. This means you can use a trigger to modify the values to be inserted as a new row or to update a row. In an `AFTER` trigger, a `SET` statement has no effect, because the row change has already occurred.
 
 ### OR REPLACE
 
@@ -72,6 +92,29 @@ Only one _`trigger_event`_ can be specified.
 * `UPDATE`: The trigger is activated whenever a row is modified; for example, through [UPDATE](../../../reference/sql-statements/data-manipulation/changing-deleting-data/update.md) statements.
 * `DELETE`: The trigger is activated whenever a row is deleted from the table; for example, through [DELETE](../../../reference/sql-statements/data-manipulation/changing-deleting-data/delete.md) and [REPLACE](../../../reference/sql-statements/data-manipulation/changing-deleting-data/replace.md) statements. However, `DROP TABLE` and `TRUNCATE` statements on the table do not activate this trigger, because they do not use `DELETE`. Dropping a partition does not activate `DELETE` triggers, either.
 
+#### `INSERTING`, `UPDATING`, and `DELETING` Predicates
+
+When a trigger is defined for multiple events, the `INSERTING`, `UPDATING`, and `DELETING` predicates can be used within the trigger body to determine which event fired the trigger:
+
+* `INSERTING`: Evaluates to `TRUE` when the `trigger_event` is `INSERT`
+* `UPDATING`: Evaluates to `TRUE` when the `trigger_event` is `UPDATE`
+* `DELETING`: Evaluates to `TRUE` when the `trigger_event` is `DELETE`
+
+**Example**
+
+```sql
+CREATE TRIGGER t1_b_any BEFORE INSERT OR UPDATE OR DELETE ON t1 FOR EACH ROW
+BEGIN
+  IF INSERTING THEN
+    INSERT INTO t2 VALUES (NEW.a, 'INSERTING');
+  ELSEIF UPDATING THEN
+    INSERT INTO t2 VALUES (NEW.a, 'UPDATING');
+  ELSEIF DELETING THEN
+    INSERT INTO t2 VALUES (OLD.a, 'DELETING');
+  END IF;
+END
+```
+
 #### FOLLOWS/PRECEDES _other\_trigger\_name_
 
 The ` FOLLOWS`` `` `_`other_trigger_name`_ and ` PRECEDES`` `` `_`other_trigger_name`_ options support multiple triggers per action time.
@@ -100,13 +143,15 @@ MariaDB does **not** support [Atomic DDL](../../../reference/sql-statements/data
 
 ## Examples
 
+### Creating a Trigger
+
 ```sql
 CREATE DEFINER=`root`@`localhost` TRIGGER increment_animal
   AFTER INSERT ON animals FOR EACH ROW 
    UPDATE animal_count SET animal_count.animals = animal_count.animals+1;
 ```
 
-`OR REPLACE` and `IF NOT EXISTS`:
+### `OR REPLACE` and `IF NOT EXISTS`
 
 ```sql
 CREATE DEFINER=`root`@`localhost` TRIGGER increment_animal
@@ -131,6 +176,27 @@ SHOW WARNINGS;
 | Note  | 1359 | Trigger already exists |
 +-------+------+------------------------+
 1 row in set (0.00 sec)
+```
+
+### Referencing NEW Column Values
+
+```sql
+DELIMITER //
+
+CREATE TRIGGER trg_limit_population BEFORE UPDATE ON country_stats
+FOR EACH ROW
+BEGIN
+    -- Ensure population is at least 1
+    IF NEW.population < 1 THEN
+        SET NEW.population = 1;
+    -- Cap population at 2 billion for data integrity
+    ELSEIF NEW.population > 2000000000 THEN
+        SET NEW.population = 2000000000;
+    END IF;
+END;
+//
+
+DELIMITER ;
 ```
 
 ## See Also

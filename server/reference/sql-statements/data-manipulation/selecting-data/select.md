@@ -1,14 +1,14 @@
 ---
 description: >-
-  Retrieve data from the database. This fundamental statement selects columns
-  and rows from tables, supporting filtering, joining, and aggregation.
+  Complete guide to SELECT queries in MariaDB. Complete syntax reference for
+  joins, subqueries, WHERE clauses, GROUP BY, and aggregate functions.
 ---
 
 # SELECT
 
 ## Syntax
 
-```sql
+```bnf
 SELECT
     [/*+ hints */]
     [/*+ JOIN_PREFIX(argument_list) */]
@@ -31,7 +31,7 @@ SELECT
       [ROWS EXAMINED rows_limit] } |
         [OFFSET start { ROW | ROWS }]
         [FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } { ONLY | WITH TIES }] ]
-      procedure|[PROCEDURE procedure_name(argument_list)]
+      [PROCEDURE procedure_name(argument_list)]
       [INTO OUTFILE 'file_name' [CHARACTER SET charset_name] [export_options] |
         INTO DUMPFILE 'file_name' | INTO var_name [, var_name] ]
       [FOR UPDATE lock_option | LOCK IN SHARE MODE lock_option]
@@ -49,6 +49,26 @@ lock_option:
     [WAIT n | NOWAIT | SKIP LOCKED]
 ```
 
+The SELECT grammar is broken out into named sub-clauses for readability. Each clause has its own diagram below.
+
+![Railroad diagram of SELECT — top-level](../../../../.gitbook/assets/select-railroad.svg)
+
+![Railroad diagram of from_clause](../../../../.gitbook/assets/select-from-clause-railroad.svg)
+
+![Railroad diagram of group_by_clause](../../../../.gitbook/assets/select-group-by-clause-railroad.svg)
+
+![Railroad diagram of order_by_clause](../../../../.gitbook/assets/select-order-by-clause-railroad.svg)
+
+![Railroad diagram of limit_clause](../../../../.gitbook/assets/select-limit-clause-railroad.svg)
+
+![Railroad diagram of into_clause](../../../../.gitbook/assets/select-into-clause-railroad.svg)
+
+![Railroad diagram of locking_clause](../../../../.gitbook/assets/select-locking-clause-railroad.svg)
+
+![Railroad diagram of export_options](../../../../.gitbook/assets/select-export-options-railroad.svg)
+
+![Railroad diagram of lock_option](../../../../.gitbook/assets/select-lock-option-railroad.svg)
+
 {% tabs %}
 {% tab title="Current" %}
 `[/*+ hints */]` syntax is available.
@@ -61,7 +81,7 @@ lock_option:
 
 {% tabs %}
 {% tab title="Current" %}
-Available join order hints [can be found here](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/#join-order-hints).
+Available join order hints [can be found here](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/expanded-optimizer-hints.md#join-order-hints).
 {% endtab %}
 
 {% tab title="< 12.0" %}
@@ -83,10 +103,10 @@ The hint limits the time of statement execution to the number of milliseconds gi
 
 ## Description
 
-`SELECT` is used to retrieve rows selected from one or more tables, and can include [UNION](joins-subqueries/union.md) statements and [subqueries](joins-subqueries/subqueries/).
+`SELECT` is used to retrieve rows selected from one or more tables, and can include [UNION](set-operations/union.md) statements and [subqueries](joins-subqueries/subqueries/).
 
 * Each `select_expr` expression indicates a column or data that you want to retrieve. You must have at least one select expression. See [Select Expressions](select.md#select-expressions) below.
-* The `FROM` clause indicates the table or tables from which to retrieve rows. Use either a single table name or a `JOIN` expression. See [JOIN](joins-subqueries/joins/join-syntax.md) for details. If no table is involved, [FROM DUAL](dual.md) can be specified.
+* The `FROM` clause indicates the table or tables from which to retrieve rows. Use either a single table name or a `JOIN` expression. See [JOIN](joins/join-syntax.md) for details. If no table is involved, [FROM DUAL](dual.md) can be specified.
 * Each table can also be specified as `db_name`.`tabl_name`. Each column can also be specified as `tbl_name`.`col_name` or even `db_name`.`tbl_name`.`col_name`. This allows one to write queries which involve multiple databases. See [Identifier Qualifiers](../../../sql-structure/sql-language-structure/identifier-qualifiers.md) for syntax details.
 * The `WHERE` clause, if given, indicates the condition or conditions that rows must satisfy to be selected. The `where_condition` is an expression that evaluates to true for each row to be selected. The statement selects all rows if there is no WHERE clause.
   * In the `WHERE` clause, you can use any of the functions and operators that MariaDB supports, except for aggregate (summary) functions. See [Functions and Operators](../../../sql-functions/) and [Functions and Modifiers for use with GROUP BY](../../../sql-functions/aggregate-functions/) (aggregate).
@@ -171,7 +191,7 @@ The clause doesn't exist.
 
 ### Optimizer Hints
 
-These include [HIGH\_PRIORITY](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/#high-priority), [STRAIGHT\_JOIN](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/#straight_join), [SQL\_SMALL\_RESULT | SQL\_BIG\_RESULT](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/#sql_small_result-sql_big_result), [SQL\_BUFFER\_RESULT](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/#sql_buffer_result), [SQL\_CACHE | SQL\_NO\_CACHE](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/#sql_cache-sql_no_cache), and [SQL\_CALC\_FOUND\_ROWS](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/#sql_calc_found_rows).
+These include [HIGH\_PRIORITY](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/select-modifier-hints.md#high-priority), [STRAIGHT\_JOIN](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/select-modifier-hints.md#straight_join), [SQL\_SMALL\_RESULT | SQL\_BIG\_RESULT](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/select-modifier-hints.md#sql_small_result-sql_big_result), [SQL\_BUFFER\_RESULT](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/select-modifier-hints.md#sql_buffer_result), [SQL\_CACHE | SQL\_NO\_CACHE](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/select-modifier-hints.md#sql_cache-sql_no_cache), and [SQL\_CALC\_FOUND\_ROWS](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/select-modifier-hints.md#sql_calc_found_rows).
 
 See [Optimizer Hints](../../../../ha-and-performance/optimization-and-tuning/optimizer-hints/) for details.
 
@@ -194,12 +214,12 @@ Set the lock wait timeout. See [WAIT and NOWAIT](../../transactions/wait-and-now
 SELECT f1,f2 FROM t1 WHERE (f3<=10) AND (f4='y');
 ```
 
-See [Getting Data from MariaDB](../../../../server-usage/data-handling/mariadb-selecting-data-guide-1.md) (Beginner tutorial), or the various sub-articles, for more examples.
+See [Getting Data from MariaDB](../../../../mariadb-quickstart-guides/mariadb-selecting-data-guide.md) (Beginner tutorial), or the various sub-articles, for more examples.
 
 ## See Also
 
-* [Getting Data from MariaDB](../../../../server-usage/data-handling/mariadb-selecting-data-guide-1.md) (Beginner tutorial)
-* [Joins and Subqueries](joins-subqueries/)
+* [Getting Data from MariaDB](../../../../mariadb-quickstart-guides/mariadb-selecting-data-guide.md) (Beginner tutorial)
+* [Joins and Subqueries](set-operations/)
 * [LIMIT](limit.md)
 * [ORDER BY](order-by.md)
 * [GROUP BY](group-by.md)

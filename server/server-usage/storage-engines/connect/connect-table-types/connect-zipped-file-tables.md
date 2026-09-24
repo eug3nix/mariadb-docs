@@ -1,12 +1,8 @@
 ---
-description: The CONNECT storage engine has been deprecated.
+description: The CONNECT storage engine.
 ---
 
 # CONNECT Zipped File Tables
-
-{% hint style="warning" %}
-This storage engine has been deprecated.
-{% endhint %}
 
 Connect can work on table files that are compressed in one or several zip files.
 
@@ -137,7 +133,7 @@ CREATE TABLE XSERVZIP (
 NUMERO VARCHAR(4) NOT NULL,
 LIEU VARCHAR(15) NOT NULL,
 CHEF VARCHAR(5) NOT NULL,
-FONCTION VARCHAR(12) NOT NULL,
+FUNCTION VARCHAR(12) NOT NULL,
 NOM VARCHAR(21) NOT NULL)
 ENGINE=CONNECT table_type=XML file_name='E:/Xml/perso.zip' zipped=1
 option_list='entry=services,load=E:/Xml/serv2.xml';

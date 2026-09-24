@@ -1,10 +1,17 @@
+---
+description: >-
+  ColumnStore is a MariaDB Enterprise Server storage engine for columnar
+  analytics: ACID-compliant and indexless, with compression, lockless reads,
+  online schema changes, and HA support.
+---
+
 # ColumnStore Storage Engine
 
 ## Overview
 
-MariaDB Enterprise ColumnStore integrates with MariaDB Enterprise Server using the ColumnStore storage engine plugin. The ColumnStore storage engine plugin enables MariaDB Enterprise Server to interact with ColumnStore tables.
+MariaDB ColumnStore integrates with MariaDB Enterprise Server using the ColumnStore storage engine plugin. The ColumnStore storage engine plugin enables MariaDB Enterprise Server to interact with ColumnStore tables.
 
-For deployment instructions and available documentation, see "MariaDB Enterprise ColumnStore."
+For deployment instructions and available documentation, see "MariaDB ColumnStore."
 
 The ColumnStore storage engine has the following features:
 
@@ -70,6 +77,6 @@ sudo mcsSetConfig CrossEngineSupport User cross_engine
 sudo mcsSetConfig CrossEngineSupport Password cross_engine_passwd
 ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

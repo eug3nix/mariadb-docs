@@ -1,3 +1,10 @@
+---
+description: >-
+  MariaDB Connector/J 3.0 and later support failover and high availability
+  through sequential, loadbalance, replication, and load-balance-read modes
+  with optional transaction replay.
+---
+
 # Failover and High availability with MariaDB Connector/J
 
 _This guide will cover:_
@@ -199,5 +206,7 @@ Each parameter corresponds to a specific use case:
 * Description: This mode supports connection failover in an Amazon Aurora cluster. This mode does support load-balancing reads on replica instances if the connection is set to read-only before executing the read. The connector performs load-balancing by randomly picking a replica instance to execute read queries for a connection.
 * Introduced: 1.2.0
 * Note: Not supported since version 3.0
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

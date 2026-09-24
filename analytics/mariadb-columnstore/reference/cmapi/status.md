@@ -1,3 +1,10 @@
+---
+description: >-
+  The CMAPI status endpoint returns a JSON payload with detailed MariaDB
+  Enterprise Cluster status via HTTPS GET; available as the mcsStatus bash
+  alias from CS 5.5.2.
+---
+
 # status
 
 Checks the status of ColumnStore.
@@ -10,7 +17,7 @@ Upon successful `status` call CMAPI returns JSON payload containing detailed inf
 
 Call made via HTTPS `GET`, with authentication via shared secret using the `x-api-key` header.
 
-Bash alias `mcsStatus` is available starting with Enterprise ColumnStore 5.5.2.
+Bash alias `mcsStatus` is available starting with ColumnStore 5.5.2.
 
 ## Examples
 
@@ -144,6 +151,6 @@ mcsStatus
 
 In this example, `jq` produces human-readable output from the returned JSON response.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

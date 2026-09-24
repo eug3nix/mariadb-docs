@@ -16,7 +16,7 @@ InnoDB versions in MySQL 5.7 and above also support an additional type of tables
 
 By default, InnoDB's file-per-table tablespaces are created in the system's data directory, which is defined by the [datadir](../../../../ha-and-performance/optimization-and-tuning/system-variables/server-system-variables.md#datadir) system variable. The system variable [innodb\_data\_home\_dir](../innodb-system-variables.md#innodb_data_home_dir) will not change the location of file-per-table tablespaces.
 
-In the event that you have a specific tablespace that you need stored in a dedicated path, you can set the location using the [DATA DIRECTORY](../../../../reference/sql-statements/data-definition/create/create-table.md#data-directoryindex-directory) table option when you create the table.
+In the event that you have a specific tablespace that you need stored in a dedicated path, you can set the location using the [DATA DIRECTORY](../../../../reference/sql-statements/data-definition/create/create-table.md#data-directory-index-directory) table option when you create the table.
 
 For instance,
 
@@ -47,9 +47,9 @@ InnoDB's file-per-table tablespaces are transportable, which means that you can 
 
 You can copy the transportable tablespace of a non-partitioned table from one server to another by exporting the tablespace file from the original server, and then importing the tablespace file into the new server.
 
-**MariaDB starting with** [**11.2.1**](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-2-series/mariadb-11-2-1-release-notes)
+**MariaDB starting with** [**11.2.1**](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.2/11.2.1)
 
-The workflow is simplified starting from [MariaDB 11.2.1](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-11-2-series/mariadb-11-2-1-release-notes). On the source server, simply do:
+The workflow is simplified starting from [MariaDB 11.2.1](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/11.2/11.2.1). On the source server, simply do:
 
 ```sql
 FLUSH TABLES t1 FOR EXPORT;
@@ -219,7 +219,7 @@ PARTITION BY RANGE (employee_id) (
 );
 ```
 
-* Then, using this table as a model, we need to create a placeholder of this table with the same structure that does not use partitioning. This can be done with a [CREATE TABLE... AS SELECT](../../../../reference/sql-statements/data-definition/create/create-table.md#create-select) statement:
+* Then, using this table as a model, we need to create a placeholder of this table with the same structure that does not use partitioning. This can be done with a [CREATE TABLE... AS SELECT](../../../../reference/sql-statements/data-definition/create/create-table.md#create-table-...-select) statement:
 
 ```sql
 CREATE TABLE test.t2_placeholder LIKE test.t2;
@@ -335,7 +335,7 @@ ALTER TABLE t0 IMPORT TABLESPACE;
 ERROR 1808 (HY000): Schema mismatch (Expected FSP_SPACE_FLAGS=0x21, .ibd file contains 0x0.)
 ```
 
-The error message is a bit more descriptive in [MariaDB 10.2.17](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-2-series/mariadb-10217-release-notes) and later:
+The error message is a bit more descriptive in [MariaDB 10.2.17](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.2/10.2.17) and later:
 
 ```sql
 ALTER TABLE t0 IMPORT TABLESPACE;
@@ -361,11 +361,11 @@ IMPORT on the other hand does not enforce foreign key constraints. So when impor
 
 MariaDB supports data-at-rest encryption for the InnoDB storage engine. When enabled, the Server encrypts data before writing it to the tablespace and decrypts reads from the tablespace before returning result-sets. This means that a malicious user attempting to exfiltrate sensitive data won't be able to import the tablespace onto a different server as shown above without the encryption key.
 
-For more information on data encryption, see [Encrypting Data for InnoDB](../../../../security/securing-mariadb/encryption/data-at-rest-encryption/innodb-encryption/innodb-encryption-overview.md).
+For more information on data encryption, see [Encrypting Data for InnoDB](../../../../security/encryption/data-at-rest-encryption/innodb-encryption/innodb-encryption-overview.md).
 
 ## See Also
 
-* [Geoff Montee:Importing InnoDB Partitions in MySQL 5.6 and MariaDB 10.0/10.1](https://www.geoffmontee.com/importing-innodb-partitions-in-mysql-5-6-and-mariadb-10-010-1/)
+* [Geoff Montee:Importing InnoDB Partitions in MySQL 5.6 and MariaDB 10.0/10.1](https://web.archive.org/web/20210731145246/https://www.geoffmontee.com/importing-innodb-partitions-in-mysql-5-6-and-mariadb-10-010-1/)
 
 <sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 

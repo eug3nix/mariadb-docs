@@ -1,3 +1,10 @@
+---
+description: >-
+  Dedicated dashboard for monitoring MaxScale proxies, detailing service status,
+  query routing efficiency, client connections, and resource usage across the
+  proxy layer.
+---
+
 # MariaDB MaxScale
 
 This dashboard shows MaxScale’s health and load, how backend servers are seen by each MaxScale, and the traffic/query volume flowing through it—plus cache efficiency from the Query Classifier.
@@ -54,6 +61,6 @@ Evaluate query routing efficiency by tracking and optimizing cache metrics like 
 | **Cache Hits vs Misses** | Per-second hits and misses in the Query Classifier cache. Analyze the relationship to assess effectiveness. |
 | **Cache Size**           | Current size of the Query Classifier cache (bytes). Monitor growth with Hits/Misses for tuning insights.    |
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

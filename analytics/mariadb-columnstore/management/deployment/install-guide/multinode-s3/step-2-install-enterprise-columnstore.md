@@ -1,14 +1,17 @@
 ---
-description: 'Step 2: Install Enterprise ColumnStore'
+description: 'Step 2: Install ColumnStore'
+hidden: true
 ---
 
-# Step 2: Install Enterprise ColumnStore
+# Step 2: Install ColumnStore
 
 ## Overview
 
-This page details step 2 of a 5-step procedure for deploying Single-Node Enterprise ColumnStore with Object storage.
+This page details step 2 of a 5-step procedure for deploying Multi-Node ColumnStore with Object Storage.
 
-This step installs MariaDB Enterprise Server and MariaDB Enterprise ColumnStore 23.10.
+This step installs MariaDB Enterprise Server and MariaDB ColumnStore.
+
+{% include "../../../../../.gitbook/includes/the-instructions-were-teste....md" %}
 
 Interactive commands are detailed. Alternatively, the described operations can be performed using automation.
 
@@ -28,7 +31,7 @@ Substitute your token for `CUSTOMER_DOWNLOAD_TOKEN` when configuring the package
 
 ## Set Up Repository
 
-1. On each Enterprise ColumnStore node, install the prerequisites for downloading the software from the Web.\
+1. On each ColumnStore node, install the prerequisites for downloading the software from the Web.\
    Install on CentOS / RHEL (YUM):
 
 ```bash
@@ -64,7 +67,7 @@ $ sudo ./mariadb_es_repo_setup --token="CUSTOMER_DOWNLOAD_TOKEN" --apply \
       --mariadb-server-version="11.4"
 ```
 
-_Checksums of the various releases of the `mariadb_es_repo_setup` script can be found in the_ [_Versions_](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-functions/secondary-functions/information-functions/version) _section at the bottom of the_ [_MariaDB Package Repository Setup and Usage_](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/install-and-upgrade-mariadb/installing-mariadb/binary-packages/mariadb-package-repository-setup-and-usage) _page. Substitute `${checksum}` in the example above with the latest checksum._
+_Checksums of the various releases of the `mariadb_es_repo_setup` script can be found in the_ [_Versions_](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/install-and-upgrade-mariadb/mariadb-package-repository-setup-and-usage#versions) _section at the bottom of the_ [_MariaDB Package Repository Setup and Usage_](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/install-and-upgrade-mariadb/mariadb-package-repository-setup-and-usage) _page. Substitute `${checksum}` in the example above with the latest checksum._
 
 ## Install Enterprise ColumnStore
 
@@ -114,12 +117,12 @@ $ sudo apt install mariadb-server \
 
 ## Next Step
 
-Navigation in the Single-Node Enterprise ColumnStore topology with Object storage deployment procedure:
+Navigation in the Single-Node ColumnStore topology with Object storage deployment procedure:
 
 This page was step 2 of 5.
 
-[Next: Step 3: Start and Configure MariaDB Enterprise ColumnStore.](step-4-test-enterprise-columnstore.md)
+[Next: Step 3: Start and Configure MariaDB ColumnStore.](step-4-test-enterprise-columnstore.md)
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

@@ -1,4 +1,11 @@
-# Incrementing of the access\_denied\_errors status variable
+---
+description: >-
+  Describes the conditions that trigger the access_denied_errors status
+  variable, such as failed logins, invalid privileges, or missing SSL
+  requirements, aiding in security monitoring.
+---
+
+# Incrementing of the access\_denied\_errors Status Variable
 
 The [access\_denied\_errors](../../ha-and-performance/optimization-and-tuning/system-variables/server-status-variables.md#access_denied_errors) status variable is incremented when someone tries to access something they do not have rights to.
 
@@ -11,7 +18,7 @@ This happens in the following cases:
 * Users try to use a `SHOW` command to access an object they do not have rights to see. The error is sent to the client.
 * Users access something that requires global access, like "CREATE SERVER". The error is sent to the client.
 
-Login failures can be found in the [general log](../../server-management/server-monitoring-logs/general-query-log.md). Errors that are sent to the client can be found by using the [SQL Error Log Plugin](../../server-management/server-monitoring-logs/sql-error-log-plugin.md). The plugin captures all errors sent to the client. Starting from [MariaDB 10.11.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-10-11-series/mariadb-10-11-5-release-notes), it can also optionally capture all warnings sent to the client.
+Login failures can be found in the [general log](../../server-management/server-monitoring-logs/general-query-log.md). Errors that are sent to the client can be found by using the [SQL Error Log Plugin](../../server-management/server-monitoring-logs/sql-error-log-plugin.md). The plugin captures all errors sent to the client. Starting from [MariaDB 10.11.5](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.11/10.11.5), it can also optionally capture all warnings sent to the client.
 
 ### See Also
 

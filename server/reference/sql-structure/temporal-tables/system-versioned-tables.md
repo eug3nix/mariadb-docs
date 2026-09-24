@@ -1,3 +1,9 @@
+---
+description: >-
+  Complete system-versioned tables: WITH SYSTEM VERSIONING syntax, FOR
+  SYSTEM_TIME AS OF/BETWEEN/ALL queries, and ROW_START/ROW_END columns.
+---
+
 # System-Versioned Tables
 
 MariaDB supports temporal data tables in the form of system-versioning tables (allowing you to query and operate on historic data, discussed below), [application-time periods](application-time-periods.md) (allow you to query and operate on a temporal range of data), and [bitemporal tables](bitemporal-tables.md) (which combine both system-versioning and [application-time periods](application-time-periods.md)).
@@ -11,6 +17,12 @@ System-versioned tables store the history of all changes, not only data which is
 * Point-in-time recovery - recover a table state as of particular point in time.
 
 System-versioned tables were first introduced in the SQL:2011 standard.
+
+{% hint style="info" %}
+The keyword `SYSTEM` is used in the `SYSTEM VERSIONING` clause. Using `SYSTEM` as an unquoted column name in an `ALTER TABLE` is not permitted by some parser rules. Even though `SYSTEM` is not a fully reserved word in Oracle mode, the `ADD` statement will result in a syntax error.
+
+Always provide `SYSTEM` when using it as a column name: `system`. See the [Reserved Words](../sql-language-structure/reserved-words.md) page for additional examples and a detailed explanation.
+{% endhint %}
 
 ### Creating a System-Versioned Table
 
@@ -98,8 +110,6 @@ Create Table: CREATE TABLE `t` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 WITH SYSTEM VERSIONING
 ```
 
-**MariaDB starting with** [**11.7**](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/mariadb-11-7-rolling-releases/what-is-mariadb-117)
-
 {% tabs %}
 {% tab title="Current" %}
 It is possible to convert a versioned table from implicit to explicit `row_start`/`row_end` columns. Note that, in order to do any `ALTER` on a system versioned table, [system\_versioning\_alter\_history](system-versioned-tables.md#system_versioning_alter_history) must be set to `KEEP`.
@@ -161,6 +171,29 @@ SELECT a,row_start,row_end FROM t;
 |    3 | 2022-10-24 23:09:38.961857 | 2038-01-19 05:14:07.999999 |
 +------+----------------------------+----------------------------+
 ```
+
+### Updating Data
+
+When an `UPDATE` statement modifies a row in a system-versioned table, the server writes a new history row capturing the previous state of the row.
+
+**A history row is created for every `UPDATE` statement that includes a versioned column in its `SET` list, regardless of whether any column value actually changes.** Running `UPDATE t SET x = x` against an existing row of a versioned table still produces a new history row — what determines history-row creation is the presence of a versioned column in the `SET` list, not whether the supplied values differ from the stored values. `UPDATE` statements whose `SET` list references only columns declared `WITHOUT SYSTEM VERSIONING` do not produce a history row.
+
+```sql
+CREATE OR REPLACE TABLE t (x INT) WITH SYSTEM VERSIONING;
+INSERT INTO t VALUES (1);
+
+-- This UPDATE changes nothing about the stored value of x,
+-- but still produces a new history row:
+UPDATE t SET x = 1;
+
+SELECT x, ROW_START, ROW_END FROM t FOR SYSTEM_TIME ALL;
+```
+
+This statement-level behavior applies to the default timestamp-based versioning. For [transaction-precise versioning](system-versioned-tables.md#transaction-precise-history-in-innodb), history generation is handled at the storage-engine level by InnoDB's MVCC and is tied to actual row-level changes.
+
+**Reasoning for the behavior:** Logging updates that do not change data values ensures a complete audit trail and maintains consistent server behavior. In MariaDB, an `UPDATE` statement executes its associated triggers regardless of whether the data values actually change. Recording a historical row for these statements ensures that system-versioned tables follow this standard query logic. Furthermore, capturing the exact timestamp of these updates provides vital context for auditing and troubleshooting. It proves that an application explicitly targeted and processed a specific record at that exact moment—valuable information that would be lost if the server silently ignored the event.
+
+See [MDEV-23446](https://jira.mariadb.org/browse/MDEV-23446) for related discussion.
 
 ### Querying Historical Data
 
@@ -348,6 +381,10 @@ This shows the data, exactly as it was seen by the transaction with the identifi
 
 Data for this feature is stored in the [mysql.transaction\_registry table](../../system-tables/the-mysql-database-tables/mysql-transaction_registry-table.md).
 
+**Limitations**
+
+`PARTITION BY SYSTEM_TIME` is not supported when using transaction-precise system versioning. Transaction-precise history tracks row versions using transaction identifiers instead of timestamps, so, `SYSTEM_TIME` cannot be used to partition transaction-precise system history. If partitioning is required, use the default timestamp-based versioning.
+
 ### Storing the History Separately
 
 When the history is stored together with the current data, it increases the size of the table, so current data queries — table scans and index searches — will take more time, because they will need to skip over historical data. If most queries on that table use only current data, it might make sense to store the history separately, to reduce the overhead from versioning.
@@ -378,6 +415,8 @@ CREATE TABLE t (x INT) WITH SYSTEM VERSIONING
 ```
 
 MariaDB starts writing history rows into partition `p0`, and at the end of the statement that wrote the 100000th row, MariaDB will switch to partition `p1`. There are only two historical partitions, so when `p1` overflows, MariaDB will issue a warning, but will continue writing into it.
+
+**Note on `LIMIT` precision**: When using `LIMIT` to specify partition rotation, the specified value is just an estimate of the partition size. Although the partition's intended size is specified by the `LIMIT` setting, the actual number of rows may differ. This occurs because partition rotation is triggered during internal operations rather than when the specified row count is met. Partitions may therefore contain significantly more or fewer rows than the set `LIMIT` value.
 
 Similarly, one can rotate partitions by time:
 
@@ -497,6 +536,8 @@ ALTER TABLE t1 PARTITION BY SYSTEM_TIME INTERVAL 1 HOUR AUTO;
 ```
 
 If the rest of the partitioning specification is identical to `CREATE TABLE`, no repartitioning will be done (for details see [MDEV-27328](https://jira.mariadb.org/browse/MDEV-27328)).
+
+> Partitioning by SYSTEM\_TIME is not available for tables that use transaction-precise history. If partitioning is required, use the default timestamp-based system versioning instead.
 
 ### Removing Old History
 
@@ -618,7 +659,8 @@ A number of system variables are related to system-versioned tables:
 ## Limitations
 
 * Versioning clauses cannot be applied to [generated (virtual and persistent) columns](../../sql-statements/data-definition/create/generated-columns.md).
-* [mariadb-dump](../../../clients-and-utilities/legacy-clients-and-utilities/mysqldump.md) did not read historical rows from versioned tables, and so historical data would not be backed up. Also, a restore of the timestamps would not be possible as they cannot be defined by an insert/a user. From [MariaDB 10.11](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.11/what-is-mariadb-1011), use the `-H` or `--dump-history` options to include the history.
+* [mariadb-dump](../../../clients-and-utilities/backup-restore-and-import-clients/mariadb-dump.md) did not read historical rows from versioned tables, and so historical data would not be backed up. Also, a restore of the timestamps would not be possible as they cannot be defined by an insert/a user. From [MariaDB 10.11](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.11/what-is-mariadb-1011), use the `-H` or `--dump-history` options to include the history.
+* Transaction-precise system-versioned tables do not support partitioning by `SYSTEM_TIME`. See [Transaction-Precise History in InnoDB](system-versioned-tables.md#transaction-precise-history-in-innodb) for details.
 
 ## See Also
 

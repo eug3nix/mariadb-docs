@@ -1,19 +1,9 @@
 ---
+description: >-
+  MariaDB Cloud data loading and backup overview: migrating from other
+  databases, loading data, configuring backups and restores, and offloading
+  data to external storage.
 icon: cloud-binary
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
 ---
 
 # Data Loading & Backup
@@ -44,3 +34,4 @@ MariaDB Cloud provides complete backup and restore features to protect your data
 [backup-and-restore](backup-and-restore/)
 {% endcontent-ref %}
 
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

@@ -1,14 +1,17 @@
 ---
 description: 'Step 5: Bulk Import of Data'
+hidden: true
 ---
 
 # Step 5: Bulk Import of Data
 
 ## Overview
 
-This page details step 5 of a 5-step procedure for deploying Single-Node Enterprise ColumnStore with Object storage.
+This page details step 5 of a 5-step procedure for deploying Multi-Node ColumnStore with Object Storage.
 
-This step bulk imports data to Enterprise ColumnStore.
+This step bulk imports data to ColumnStore.
+
+{% include "../../../../../.gitbook/includes/the-instructions-were-teste....md" %}
 
 Interactive commands are detailed. Alternatively, the described operations can be performed using automation.
 
@@ -24,7 +27,7 @@ Before data can be imported into the tables, create a matching schema.
 CREATE DATABASE inventory;
 ```
 
-2. For each table that you are importing, create the table with the [CREATE TABLE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-definition/create/create-table) statement:
+2. For each table that you are importing, create the table with the [CREATE TABLE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/tables/create-table) statement:
 
 ```sql
 CREATE TABLE inventory.products (
@@ -75,12 +78,12 @@ $ mariadb --quick \
 
 ## Next Step
 
-Navigation in the Single-Node Enterprise ColumnStore topology with Object storage deployment procedure:
+Navigation in the Single-Node ColumnStore topology with Object storage deployment procedure:
 
 This page was step 5 of 5.
 
 This procedure is complete.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

@@ -1,3 +1,10 @@
+---
+description: >-
+  Disk-based joins let MariaDB ColumnStore spill join intermediates to disk
+  when in-memory join space is exhausted, controlled via AllowDiskBasedJoin in
+  ColumnStore.xml; not for aggregation.
+---
+
 # ColumnStore Disk-Based Joins
 
 ## Overview
@@ -31,8 +38,12 @@ For modification at the global level: In `my.cnf file` (example: `/etc/my.cnf.d/
 ```ini
 [mysqld]
 ...
-columnstore_um_mem_limit = value
+loose-columnstore_um_mem_limit = value
 ```
+
+{% hint style="warning" %}
+The `loose-` prefix is required for ColumnStore system variables in the configuration file. Without it, MariaDB Server will fail to start if the ColumnStore plugin is not installed or has been removed.
+{% endhint %}
 
 where value is the value in MB for in memory limitation per user.
 
@@ -42,6 +53,6 @@ For modification at the session level, before issuing your join query from the S
 SET columnstore_um_mem_limit = value
 ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

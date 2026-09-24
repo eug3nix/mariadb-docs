@@ -1,3 +1,10 @@
+---
+description: >-
+  MariaDB AI RAG orchestration endpoints coordinate multi-step RAG workflows
+  in one request, covering ingestion, chunking, retrieval, streaming
+  generation, and an end-to-end pipeline call.
+---
+
 # Orchestration
 
 ## Overview
@@ -26,22 +33,38 @@ POST /orchestrate/ingestion
 
 ```json
 {
-  "chunking_method": "recursive",
+  "chunking_method": "semantic",
   "chunk_size": 512,
-  "chunk_overlap": 128,
-  "threshold": 0.8,
-  "embedding_provider": "openai",
-  "embedding_model": "text-embedding-3-small",
-  "embedding_batch_size": 32
+  "cloud_storage_sources": [
+    {
+      "integration_id": "int_abc123",
+      "prefix": "financial_reports/Q3/",
+      "recursive": true,
+      "file_extensions": [".pdf"]
+    }
+  ],
+  "document_processing": {
+    "processor_type": "layout_aware_standard",
+    "enable_ocr": true,
+    "ocr_provider": "rapidocr",
+    "enable_table_extraction": true,
+    "table_structure_mode": "accurate"
+  }
 }
 ```
 
-**Chunking Methods**:
+**Parameters:**
 
-* `recursive`: Recursive text splitting (default)
-* `sentence`: Sentence-based chunking
-* `token`: Token-based chunking
-* `semantic`: Semantic similarity-based chunking (requires `threshold`)
+* `chunking_method`
+  * `recursive`: Recursive text splitting (default)
+  * `sentence`: Sentence-based chunking
+  * `token`: Token-based chunking
+  * `semantic`: Semantic similarity-based chunking (requires `threshold`)
+* `chunk_size`: Number of tokens/characters per chunk (default: 512).
+* `cloud_storage_sources` (optional): A JSON array used to ingest from an external integration (S3, GCS, or MinIO). Requires an `integration_id` and a `prefix`.
+* `document_processing` (optional): A stringified JSON object defining the extraction tier:
+  * `processor_type`: `"base"`, `"layout_aware_standard"` (Docling), or `"layout_aware_advanced"` (LlamaParse).
+  * `enable_ocr`: Boolean to turn on OCR for scanned documents.
 
 **Response**:
 
@@ -79,19 +102,22 @@ POST /orchestrate/generation
 
 **Purpose**: Orchestrates the complete RAG workflow: retrieval and text generation in a single request. Automatically retrieves relevant chunks and generates a response.
 
-**Request body**:
+**Request body (with a `reranking` object)**:
 
 ```json
 {
-  "query": "What are the key features?",
-  "document_ids": [42, 43],
+  "query": "What are the key findings?",
+  "document_ids": [1, 2, 3],
   "retrieval_method": "hybrid",
   "top_k": 5,
+  "reranking": {
+    "enabled": true,
+    "model_type": "flashrank",
+    "model_name": "ms-marco-MiniLM-L-12-v2",
+    "top_k": 5
+  },
   "llm_provider": "openai",
-  "llm_model": "gpt-4",
-  "temperature": 0.7,
-  "top_p": 0.9,
-  "max_tokens": 1000
+  "llm_model": "gpt-4"
 }
 ```
 
@@ -100,12 +126,18 @@ POST /orchestrate/generation
 * `query` (required): The user's question or prompt
 * `document_ids` (optional): Filter retrieval to specific documents (default: all documents)
 * `retrieval_method` (optional): `semantic`, `fulltext`, or `hybrid` (default: `hybrid`)
+* `model_type` (optional): The backend library to use. Valid values: `"flashrank"`, `"sentence-transformers"`, `"cohere"`, `"hybrid"` (default: `"flashrank"`).
+* `model_name` (optional): The specific reranker model to load (default: `"ms-marco-MiniLM-L-12-v2"`)
 * `top_k` (optional): Number of chunks to retrieve (default: 5)
+* `reranking` (optional): A JSON object to enable a high-accuracy second pass.
+  * `enabled` (optional): Set to `true` to activate reranking (default: `false`).
+  * `model_type` (optional): The backend library (`flashrank`, `sentence-transformers`, `cohere`, `hybrid`) (default: `"flashrank"`).
+  * `model_name` (optional): The specific reranker model to load (default: `"ms-marco-MiniLM-L-12-v2"`).
+  * `top_k` (optional): Number of reranked results to return to the LLM.
 * `llm_provider` (optional): LLM provider - `openai`, `anthropic`, `gemini`, `cohere`, `ollama`, `azure`, `bedrock`
-* `llm_model` (optional): Specific model to use
 * `temperature` (optional): Controls randomness (0.0-2.0, default: 0.7)
 * `top_p` (optional): Nucleus sampling (0.0-1.0, default: 0.9)
-* `max_tokens` (optional): Maximum tokens to generate (1-8192, default: 1000)
+* `max_tokens` (optional): Maximum tokens to generate (1-8192, default: 500)
 * `stream` (optional): Enable streaming (default: false)
 
 **Response**:
@@ -272,6 +304,6 @@ curl -X POST "http://localhost:8000/orchestrate/full-pipeline" \
   -F 'config={"chunking_method":"recursive","llm_model":"gpt-4"}'
 ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

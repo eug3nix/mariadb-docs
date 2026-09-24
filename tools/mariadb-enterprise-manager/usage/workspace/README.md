@@ -1,3 +1,10 @@
+---
+description: >-
+  Overview of the Workspace environment, which provides collaborative tools for
+  DBAs and developers including a Query Editor, ERD Designer, and Database
+  Administration tools.
+---
+
 # Workspace
 
 Workspace enhances MariaDB Enterprise Manager by adding query editing, visual schema management, and ERD design. It provides a collaborative environment for DBAs, developers, and analysts.
@@ -40,6 +47,6 @@ Workspace enhances MariaDB Enterprise Manager by adding query editing, visual sc
 | User Management     | View, edit, create, delete database users and privileges.                                                              |
 | Process List Viewer | View and manage live sessions/commands.                                                                                |
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

@@ -1,25 +1,24 @@
 ---
 description: >-
-  Define a stored function. This command creates a routine that accepts
-  parameters, executes logic, and returns a single value for use in SQL
-  expressions.
+  Complete CREATE FUNCTION reference: OR REPLACE/IF NOT EXISTS, DEFINER/SQL
+  SECURITY clauses, RETURNS type, DETERMINISTIC/NO SQL characteristics.
 ---
 
 # CREATE FUNCTION
 
 ## Syntax
 
-```sql
+```bnf
 CREATE [OR REPLACE]
     [DEFINER = {user | CURRENT_USER | role | CURRENT_ROLE }]
     [AGGREGATE] FUNCTION [IF NOT EXISTS] func_name ([func_parameter[,...]])
     RETURNS type
     [characteristic ...]
-    RETURN func_body
-    [RETURN SYS_REFCURSOR]
+    func_body
 
 func_parameter:
-    [ IN | OUT | INOUT | IN OUT ]  param_name type
+    [ OUT | INOUT | IN OUT ] param_name type |
+    [ IN ] param_name type [DEFAULT value or expression]
 
 type:
     Any valid MariaDB data type
@@ -35,6 +34,12 @@ func_body:
     Valid SQL procedure statement
 ```
 
+![Railroad diagram of CREATE FUNCTION — equivalent to the BNF above](../../../../.gitbook/assets/create-function-railroad.svg)
+
+![Railroad diagram of func\_parameter](../../../../.gitbook/assets/create-function-parameter-railroad.svg)
+
+![Railroad diagram of characteristic](../../../../.gitbook/assets/create-function-characteristic-railroad.svg)
+
 ## Description
 
 Use the `CREATE FUNCTION` statement to create a new [stored function](../../../../server-usage/stored-routines/stored-functions/). You must have the [CREATE ROUTINE](../../account-management-sql-statements/grant.md#database-privileges) database privilege to use `CREATE FUNCTION`. A function takes any number of arguments and returns a value from the function body. The function body can be any valid SQL expression as you would use, for example, in any select expression. If you have the appropriate privileges, you can call the function exactly as you would any built-in function. See [Security](create-function.md#security) below for details on privileges.
@@ -49,8 +54,6 @@ By default, a function is associated with the current database. To associate the
 
 The parameter list enclosed within parentheses must always be present. If there are no parameters, an empty parameter list of `()` should be used. Parameter names are not case-sensitive.
 
-Each parameter can be declared to use any valid data type, except that the `COLLATE` attribute cannot be used.
-
 For valid identifiers to use as function names, see [Identifier Names](../../../sql-structure/sql-language-structure/identifier-names.md).
 
 ### RETURN
@@ -59,6 +62,10 @@ The `RETURN` clause can return a function body. In newer versions of MariaDB, it
 
 {% tabs %}
 {% tab title="Current" %}
+{% hint style="info" %}
+From Community Server (CS) 12.0 / Enterprise Server (ES) 11.4:
+{% endhint %}
+
 **RETURN `func_body`**
 
 The `RETURN` clause can return a function body (a valid SQL `PROCEDURE` statement).
@@ -80,7 +87,11 @@ END;
 Alternatively, a cursor can be returned in an `OUT` parameter, see [this section](create-function.md#in-or-out-or-inout-or-in-out).
 {% endtab %}
 
-{% tab title="< Community Server 12.0 / Enterprise Server 11.8" %}
+{% tab title="< CS 12.0 / ES 11.8" %}
+{% hint style="info" %}
+Before Community Server (CS) 12.0 / Enterprise Server (ES) 11.8:
+{% endhint %}
+
 **RETURN `func_body`**
 
 The `RETURN` clause can return a function body (a valid SQL `PROCEDURE` statement).
@@ -247,9 +258,7 @@ A subset of Oracle's PL/SQL language is supported in addition to the traditional
 
 You must have the [EXECUTE](../../account-management-sql-statements/grant.md#function-privileges) privilege on a function to call it. MariaDB automatically grants the `EXECUTE` and `ALTER ROUTINE` privileges to the account that called `CREATE FUNCTION`, even if the `DEFINER` clause was used.
 
-Each function has an account associated as the definer. By default, the definer is the account\
-that created the function. Use the `DEFINER` clause to specify a different account as the\
-definer. You must have the [SET USER](../../account-management-sql-statements/grant.md#set-user) privilege to use the `DEFINER` clause. See [Account Names](../../account-management-sql-statements/create-user.md#account-names) for details on specifying accounts.
+Each function has an account associated as the definer. By default, the definer is the account that created the function. Use the `DEFINER` clause to specify a different account as the definer. You must have the [SET USER](../../account-management-sql-statements/grant.md#set-user) privilege to use the `DEFINER` clause. See [Account Names](../../account-management-sql-statements/create-user.md#account-names) for details on specifying accounts.
 
 The `SQL SECURITY` clause specifies what privileges are used when a function is called. If `SQL SECURITY` is `INVOKER`, the function body will be evaluated using the privileges of the user calling the function. If `SQL SECURITY` is `DEFINER`, the function body is always evaluated using the privileges of the definer account. `DEFINER` is the default.
 
@@ -278,8 +287,7 @@ If the character set and collation are not specifically set in the statement, th
 
 ## Examples
 
-The following example function takes a parameter, performs an operation using\
-an SQL function, and returns the result.
+The following example function takes a parameter, performs an operation using an SQL function, and returns the result.
 
 ```sql
 CREATE FUNCTION hello (s CHAR(20))

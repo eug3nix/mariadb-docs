@@ -1,7 +1,7 @@
 ---
 description: >-
-  Create new database accounts. This guide covers the syntax for defining users,
-  setting authentication methods, and establishing initial resource limits.
+  Complete guide to creating MariaDB user accounts. Complete CREATE USER syntax
+  for authentication methods and password policies with comprehensive examples.
 ---
 
 # CREATE USER
@@ -51,8 +51,23 @@ password_option:
 lock_option:
     ACCOUNT LOCK
   | ACCOUNT UNLOCK
-}
 ```
+
+![Railroad diagram of CREATE USER — equivalent to the BNF above](../../../.gitbook/assets/create-user-railroad.svg)
+
+![Railroad diagram of user_specification](../../../.gitbook/assets/create-user-specification-railroad.svg)
+
+![Railroad diagram of authentication_option](../../../.gitbook/assets/create-user-authentication-option-railroad.svg)
+
+![Railroad diagram of authentication_rule](../../../.gitbook/assets/create-user-authentication-rule-railroad.svg)
+
+![Railroad diagram of tls_option](../../../.gitbook/assets/create-user-tls-option-railroad.svg)
+
+![Railroad diagram of resource_option](../../../.gitbook/assets/create-user-resource-option-railroad.svg)
+
+![Railroad diagram of password_option](../../../.gitbook/assets/create-user-password-option-railroad.svg)
+
+![Railroad diagram of lock_option](../../../.gitbook/assets/create-user-lock-option-railroad.svg)
 
 ## Description
 
@@ -135,9 +150,9 @@ For example, if our password is `mariadb`, then we can create the user with:
 CREATE USER foo2@test IDENTIFIED BY 'mariadb';
 ```
 
-If you do not specify a password with the `IDENTIFIED BY` clause, the user\
-will be able to connect without a password. A blank password is not a wildcard\
-to match any password. The user must connect without providing a password if no\
+If you do not specify a password with the `IDENTIFIED BY` clause, the user
+will be able to connect without a password. A blank password is not a wildcard
+to match any password. The user must connect without providing a password if no
 password is set.
 
 The only [authentication plugins](../../plugins/authentication-plugins/) that this clause supports are [mysql\_native\_password](../../plugins/authentication-plugins/authentication-plugin-mysql_native_password.md) and [mysql\_old\_password](../../plugins/authentication-plugins/authentication-plugin-mysql_old_password.md).
@@ -218,7 +233,7 @@ To mitigate this concern, MariaDB allows you to encrypt data in transit between 
 {% endtab %}
 {% endtabs %}
 
-See [Secure Connections Overview](../../../security/securing-mariadb/encryption/data-in-transit-encryption/secure-connections-overview.md) for more information about how to determine whether your MariaDB server has TLS support.
+See [Secure Connections Overview](../../../security/encryption/data-in-transit-encryption/secure-connections-overview.md) for more information about how to determine whether your MariaDB server has TLS support.
 
 You can set certain TLS-related restrictions for specific user accounts. For instance, you might use this with user accounts that require access to sensitive data while sending it across networks that you do not control. These restrictions can be enabled for a user account with the [CREATE USER](create-user.md), [ALTER USER](alter-user.md), or [GRANT](grant.md) statements. The following options are available:
 
@@ -244,13 +259,13 @@ CREATE USER 'alice'@'%'
 
 If any of these options are set for a specific user account, then any client who tries to connect with that user account will have to be configured to connect with TLS.
 
-See [Securing Connections for Client and Server](../../../security/securing-mariadb/encryption/data-in-transit-encryption/securing-connections-for-client-and-server.md) for information on how to enable TLS on the client and server.
+See [Securing Connections for Client and Server](../../../security/encryption/data-in-transit-encryption/securing-connections-for-client-and-server.md) for information on how to enable TLS on the client and server.
 
 ## Resource Limit Options
 
 It is possible to set per-account limits for certain server resources. The following table shows the values that can be set per account:
 
-| Limit Type                  | Decription                                                                                                                                                                                                                      |
+| Limit Type                  | Description                                                                                                                                                                                                                     |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | MAX\_QUERIES\_PER\_HOUR     | Number of statements that the account can issue per hour (including updates)                                                                                                                                                    |
 | MAX\_UPDATES\_PER\_HOUR     | Number of updates (not queries) that the account can issue per hour                                                                                                                                                             |
@@ -278,25 +293,29 @@ Per account resource limits are stored in the [user](../../system-tables/the-mys
 
 Account names have both a user name component and a host name component, and are specified as `'user_name'@'host_name'`.
 
-The user name and host name may be unquoted, quoted as strings using double quotes (`"`) or\
-single quotes (`'`), or quoted as identifiers using backticks (\`\`\`). You must use quotes\
-when using special characters (such as a hyphen) or wildcard characters. If you quote, you\
+The user name and host name may be unquoted, quoted as strings using double quotes (`"`) or
+single quotes (`'`), or quoted as identifiers using backticks (\`\`\`). You must use quotes
+when using special characters (such as a hyphen) or wildcard characters. If you quote, you
 must quote the user name and host name separately (for example `'user_name'@'host_name'`).
 
 ### Host Name Component
 
 If the host name is not provided, it is assumed to be `'%'`.
 
-Host names may contain the wildcard characters `%` and `_`. They are matched as if by\
-the [LIKE](../../sql-functions/string-functions/like.md) clause. If you need to use a wildcard character literally (for example, to\
-match a domain name with an underscore), prefix the character with a backslash. See `LIKE`\
+Host names may contain the wildcard characters `%` and `_`. They are matched as if by
+the [LIKE](../../sql-functions/string-functions/like.md) clause. If you need to use a wildcard character literally (for example, to
+match a domain name with an underscore), prefix the character with a backslash. See `LIKE`
 for more information on escaping wildcard characters.
 
-Host name matches are case-insensitive. Host names can match either domain names or IP\
+Before [MariaDB 10.4.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/changelogs/changelogs-mariadb-10-4-series/mariadb-1046-changelog), when multiple host patterns could match a connecting client, the sort order among wildcard patterns was determined only by the position of the first wildcard character. This approach often produced incorrect results or made the outcome dependent on insertion order.
+
+Starting with [MariaDB 10.4.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/changelogs/changelogs-mariadb-10-4-series/mariadb-1046-changelog) ([MDEV-14735](https://jira.mariadb.org/browse/MDEV-14735)), the matching algorithm correctly ranks host patterns by specificity, the number of hosts a pattern can match, ensuring deterministic and accurate privilege resolution.
+
+Host name matches are case-insensitive. Host names can match either domain names or IP
 addresses. Use `'localhost'` as the host name to allow only local client connections. On Linux, the loopback interface (127.0.0.1) will not match 'localhost' as it is not considered a local connection: this means that only connections via UNIX-domain sockets will match 'localhost'.
 
-You can use a netmask to match a range of IP addresses using `'base_ip/netmask'` as the\
-host name. A user with an IP address _ip\_addr_ will be allowed to connect if the following\
+You can use a netmask to match a range of IP addresses using `'base_ip/netmask'` as the
+host name. A user with an IP address _ip\_addr_ will be allowed to connect if the following
 condition is true:
 
 ```bash
@@ -315,7 +334,7 @@ Using `255.255.255.255` is equivalent to not using a netmask at all. Netmasks ca
 
 Note that the credentials added when creating a user with the `'%'` wildcard host will not grant access in all cases. For example, some systems come with an anonymous localhost user, and when connecting from localhost this will take precedence.
 
-Before [MariaDB 10.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-10-6-series/what-is-mariadb-106), the host name component could be up to 60 characters in length. Starting from [MariaDB 10.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-10-6-series/what-is-mariadb-106), it can be up to 255 characters.
+Before [MariaDB 10.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.6/what-is-mariadb-106), the host name component could be up to 60 characters in length. Starting from [MariaDB 10.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.6/what-is-mariadb-106), it can be up to 255 characters.
 
 ### User Name Component
 
@@ -323,14 +342,14 @@ User names must match exactly, including case. A user name that is empty is know
 
 For valid identifiers to use as user names, see [Identifier Names](../../sql-structure/sql-language-structure/identifier-names.md).
 
-It is possible for more than one account to match when a user connects. MariaDB selects\
+It is possible for more than one account to match when a user connects. MariaDB selects
 the first matching account after sorting according to the following criteria:
 
-* Accounts with an exact host name are sorted before accounts using a wildcard in the\
+* Accounts with an exact host name are sorted before accounts using a wildcard in the
   host name. Host names using a netmask are considered to be exact for sorting.
-* Accounts with a wildcard in the host name are sorted according to the position of\
-  the first wildcard character. Those with a wildcard character later in the host name\
-  sort before those with a wildcard character earlier in the host name.
+* Accounts with a wildcard in the host name are sorted by specificity: a hostname that can match fewer hosts is considered more specific and is sorted first. Exact hostnames (no wildcards) are most specific; a bare `%` (matches any host) is least specific. Among patterns with wildcards, those that can match a narrower set of hosts sort before those that match a broader set. For example, `%.foo.bar` sorts before `%.bar` because it matches fewer hosts. \
+  \
+  Starting with [MariaDB 10.4.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/changelogs/changelogs-mariadb-10-4-series/mariadb-1046-changelog), this ordering is handled correctly by the improved `get_sort()` algorithm ([MDEV-14735](https://jira.mariadb.org/browse/MDEV-14735)). In earlier versions, sorting was based only on the length of the prefix before the first wildcard, which led to indeterminate ordering for patterns such as `%.bar` versus `%.foo.bar`.
 * Accounts with a non-empty user name sort before accounts with an empty user name.
 * Accounts with an empty user name are sorted last. As mentioned previously, these are known as anonymous accounts. These are described more in the next section.
 
@@ -347,22 +366,37 @@ The following table shows a list of example account as sorted by these criteria:
 +---------+-------------+
 ```
 
-Once connected, you only have the privileges granted to the account that matched,\
-not all accounts that could have matched. For example, consider the following\
-commands:
+The account that matched determines your identity and your global privileges. Privileges below the global level are looked up separately, and at each level only the most specific matching grant applies — grants belonging to less specific accounts are not added to it. For the full rule, see [Account Name Matching for Privilege Checks](grant.md#account-name-matching-for-privilege-checks) on the `GRANT` page.
+
+For example, consider the following commands:
 
 ```sql
 CREATE USER 'joffrey'@'192.168.0.3';
 CREATE USER 'joffrey'@'%';
 GRANT SELECT ON test.t1 TO 'joffrey'@'192.168.0.3';
-GRANT SELECT ON test.t2 TO 'joffrey'@'%';
+GRANT INSERT ON test.t1 TO 'joffrey'@'%';
 ```
 
-If you connect as joffrey from `192.168.0.3`, you will have the `SELECT`\
-privilege on the table `test.t1`, but not on the table `test.t2`. If you connect as joffrey from any other IP address, you will have the `SELECT` privilege on the table `test.t2`, but not\
-on the table `test.t1`.
+If you connect as joffrey from `192.168.0.3`, you will have the `SELECT` privilege on the table `test.t1`, but not `INSERT`. If you connect as joffrey from any other IP address, you will have the `INSERT` privilege on the table `test.t1`, but not `SELECT`.
+
+If the matching account has no grant at all at a given level, a grant belonging to a less specific account can still apply. Without the `test.t1` grant to `'joffrey'@'192.168.0.3'`, the grant to `'joffrey'@'%'` would be the only match, and a connection from `192.168.0.3` would have the `INSERT` privilege on `test.t1`.
 
 Usernames can be up to 80 characters long before 10.6 and starting from 10.6 it can be 128 characters long.
+
+Starting with [MariaDB 10.4.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/changelogs/changelogs-mariadb-10-4-series/mariadb-1046-changelog),  patterns are ranked according to how many hosts they can match; those that match fewer hosts are considered more specific and take precedence in the ordering. The following example shows how domain-name wildcard patterns are sorted by specificity.
+
+```sql
++---------+-------------+
+| User    | Host        |
++---------+-------------+
+| alice   | db.foo.bar  |  <- exact, matched first
+| alice   | %.foo.bar   |  <- more specific wildcard
+| alice   | %.bar       |  <- less specific wildcard
+| alice   | %           |  <- least specific, matched last
++---------+-------------+
+```
+
+**Note:** The ordering of wildcard host patterns shown above reflects the behavior introduced in [MariaDB 10.4.6](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/changelogs/changelogs-mariadb-10-4-series/mariadb-1046-changelog) ([MDEV-14735](https://jira.mariadb.org/browse/MDEV-14735)). In earlier versions, `%.foo.bar` and `%.bar` could sort indeterminately because the algorithm only compared the length of the prefix before the first wildcard character, both patterns have an empty prefix, so their relative order was undefined and could depend on insertion order in `mysql.user`. &#x20;
 
 ### Anonymous Accounts
 
@@ -430,11 +464,11 @@ The _lock\_option_ and _password\_option_ clauses can occur in either order.
 {% endtab %}
 
 {% tab title="<10.4.7, <10.5.8" %}
-Prior to [MariaDB 10.4.7](https://mariadb.com/docs/release-notes/mariadb-community-server-release-notes/old-releases/release-notes-mariadb-10-4-series/mariadb-1047-release-notes) and [MariaDB 10.5.8](https://mariadb.com/docs/release-notes/mariadb-community-server-release-notes/mariadb-10-5-series/mariadb-1058-release-notes), the _lock\_option_ must be placed before the _password\_option_.
+Prior to [MariaDB 10.4.7](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.4/10.4.7) and [MariaDB 10.5.8](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.5/10.5.8), the _lock\_option_ must be placed before the _password\_option_.
 {% endtab %}
 {% endtabs %}
 
-From [MariaDB 10.4.7](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/release-notes-mariadb-10-4-series/mariadb-1047-release-notes) and [MariaDB 10.5.8](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/mariadb-10-5-series/mariadb-1058-release-notes), the _lock\_option_ and _password\_option_ clauses can occur in either order.
+From [MariaDB 10.4.7](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.4/10.4.7) and [MariaDB 10.5.8](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.5/10.5.8), the _lock\_option_ and _password\_option_ clauses can occur in either order.
 
 ## See Also
 

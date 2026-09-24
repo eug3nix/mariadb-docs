@@ -1,10 +1,16 @@
+---
+description: >-
+  INSERT for MariaDB ColumnStore adds rows to a table; use cpimport or batch
+  INSERT INTO .. SELECT for high-volume bulk loads on the columnar engine.
+---
+
 # ColumnStore INSERT
 
 The `INSERT` statement allows you to add data to tables.
 
 ## Syntax
 
-```sql
+```bnf
 INSERT 
  INTO tbl_name [(col,...)]
  {VALUES | VALUE} ({expr | DEFAULT},...),(...),...
@@ -47,6 +53,6 @@ INSERT INTO autoinc_test (name) VALUES ('John');
 INSERT INTO autoinc_test (name) VALUES ('Doe');
 ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

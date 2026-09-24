@@ -1,16 +1,15 @@
 # MariaDB Galera 5.5.32 Changelog
 
-The most recent [MariaDB Galera Cluster 5.5](https://github.com/mariadb-corporation/docs-release-notes/blob/test/kb/en/galera/README.md) release is:[**MariaDB Galera Cluster 5.5.63**](../mariadb-galera-55-release-notes/mariadb-galera-cluster-5563-release-notes.md) [Download Now](https://downloads.mariadb.org/mariadb-galera/5.5.63)
+The most recent [MariaDB Galera Cluster 5.5](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/3VYeeVGUV4AMqrA3zwy7/) release is:[**MariaDB Galera Cluster 5.5.63**](../mariadb-galera-55-release-notes/mariadb-galera-cluster-5563-release-notes.md) [Download Now](https://downloads.mariadb.org/mariadb-galera/5.5.63)
 
-[Download](https://downloads.mariadb.org/mariadb-galera/5.5.32) |[Release Notes](../mariadb-galera-55-release-notes/mariadb-galera-5532-release-notes.md) |**Changelog** |[Overview of Galera](https://github.com/mariadb-corporation/docs-release-notes/blob/test/kb/en/what-is-mariadb-galera-cluster/README.md)
+[Download](https://downloads.mariadb.org/mariadb-galera/5.5.32) |[Release Notes](../mariadb-galera-55-release-notes/mariadb-galera-5532-release-notes.md) |**Changelog** |[Overview of Galera](https://app.gitbook.com/s/3VYeeVGUV4AMqrA3zwy7/readme/mariadb-galera-cluster-guide)
 
 **Release date:** 30 Aug 2013
 
 For the highlights of this release, see the [release notes](../mariadb-galera-55-release-notes/mariadb-galera-5532-release-notes.md).
 
 The revision number links will take you to the revision's page on Launchpad. On\
-Launchpad you can view more details of the revision and view diffs of the code\
-modified in that revision.
+Launchpad you can view more details of the revision and view diffs of the code modified in that revision.
 
 * [Revision #3417](https://bazaar.launchpad.net/~maria-captains/maria/maria-5.5-galera/revision/3417)\
   Tue 2013-08-27 23:40:49 +0300
@@ -29,7 +28,7 @@ modified in that revision.
   * References [MDEV-4404](https://jira.mariadb.org/browse/MDEV-4404) - Added log message to catch information of log event corruption
 * [Revision #3412](https://bazaar.launchpad.net/~maria-captains/maria/maria-5.5-galera/revision/3412) \[merge]\
   Wed 2013-08-21 16:34:31 +0300
-  * Merge with [mariadb 5.5](https://mariadb.com/docs/release-notes/mariadb-community-server-release-notes/old-releases/mariadb-galera-cluster-releases/mariadb-galera-55-release-notes): `bzr merge lp:maria/5.5 --rtag:mariadb-5.5.32`
+  * Merge with [mariadb 5.5](../mariadb-galera-55-release-notes/): `bzr merge lp:maria/5.5 --rtag:mariadb-5.5.32`
   * [Revision #3334.1.504](https://bazaar.launchpad.net/~maria-captains/maria/maria-5.5-galera/revision/3334.1.504)\
     Wed 2013-07-17 17:03:59 +0300
     * Revert of marko.makela@oracle.com-20130430103950-j353faze84zzk9xf for xtradb (fix of [bug.php?id=69623](https://bugs.mysql.com/bug.php?id=69623))
@@ -1266,7 +1265,7 @@ Tue 2013-03-05 12:19:07 +0100
   * References [Bug #1012138](https://bugs.launchpad.net/bugs/1012138) - merged fix from lp:codership-mysql
 * [Revision #3395](https://bazaar.launchpad.net/~maria-captains/maria/maria-5.5-galera/revision/3395) \[merge]\
   Sun 2013-05-26 11:26:58 +0300
-  * References: [MDEV-4572](https://jira.mariadb.org/browse/MDEV-4572) - merge with [mariaDB 5.5.31](../../release-notes-mariadb-5-5-series/mariadb-5531-release-notes.md) bzr merge lp:maria/5.5 -rtag:mariadb-5.5.31
+  * References: [MDEV-4572](https://jira.mariadb.org/browse/MDEV-4572) - merge with [mariaDB 5.5.31](../../5.5/5.5.31.md) bzr merge lp:maria/5.5 -rtag:mariadb-5.5.31
   * [Revision #3334.1.444](https://bazaar.launchpad.net/~maria-captains/maria/maria-5.5-galera/revision/3334.1.444)\
     Tue 2013-05-21 18:56:35 +0200
     * fix for compiled-in FederatedX
@@ -2030,7 +2029,7 @@ Tue 2013-03-05 12:19:07 +0100
     * Merge 5.3 -> 5.5
     * [Revision #2502.567.91](https://bazaar.launchpad.net/~maria-captains/maria/maria-5.5-galera/revision/2502.567.91)\
       Mon 2013-04-01 18:03:14 +0400
-      * [MDEV-4240](https://jira.mariadb.org/browse/MDEV-4240): [mariadb 5.3.12](../../release-notes-mariadb-5-3-series/mariadb-5312-release-notes.md) using more memory than MySQL 5.1 for an inefficient query - Let index\_merge allocate table handlers on quick select's MEM\_ROOT, not on statement's MEM\_ROOT. This is crucial for big "range checked for each record" queries, where index\_merge can be created and deleted many times during query exection. We should not make O(#rows) allocations on statement's MEM\_ROOT.
+      * [MDEV-4240](https://jira.mariadb.org/browse/MDEV-4240): [mariadb 5.3.12](../../5.3/5.3.12.md) using more memory than MySQL 5.1 for an inefficient query - Let index\_merge allocate table handlers on quick select's MEM\_ROOT, not on statement's MEM\_ROOT. This is crucial for big "range checked for each record" queries, where index\_merge can be created and deleted many times during query exection. We should not make O(#rows) allocations on statement's MEM\_ROOT.
     * [Revision #2502.567.90](https://bazaar.launchpad.net/~maria-captains/maria/maria-5.5-galera/revision/2502.567.90)\
       Fri 2013-03-29 19:27:06 +0400
       * [MDEV-4335](https://jira.mariadb.org/browse/MDEV-4335): Unexpected results when selecting on information\_schema - When converting a subquery to a semi-join, propagate OPTION\_SCHEMA\_TABLE.
@@ -2171,7 +2170,7 @@ Tue 2013-03-05 12:19:07 +0100
   * References: [MDEV-4572](https://jira.mariadb.org/browse/MDEV-4572) - merge with lp:codership-mysql/5.5-23 revisions 3858..3867
 * [Revision #3393](https://bazaar.launchpad.net/~maria-captains/maria/maria-5.5-galera/revision/3393) \[merge]\
   Fri 2013-05-24 15:29:01 +0300
-  * References: [MDEV-4572](https://jira.mariadb.org/browse/MDEV-4572) - merge with [mariaDB 5.5.30](../../release-notes-mariadb-5-5-series/mariadb-5530-release-notes.md)
+  * References: [MDEV-4572](https://jira.mariadb.org/browse/MDEV-4572) - merge with [mariaDB 5.5.30](../../5.5/5.5.30.md)
   * [Revision #3334.1.356](https://bazaar.launchpad.net/~maria-captains/maria/maria-5.5-galera/revision/3334.1.356)\
     Mon 2013-03-11 13:50:17 +0400
     * The i386 specific code improving character set conversion on the ASCII range was not enabled on x86\_64 machines. Enabling it. Gives up to 18 times conversion performance improvement.
@@ -2914,6 +2913,6 @@ Tue 2013-03-05 12:19:07 +0100
 
 {% include "../../../../.gitbook/includes/announce.md" %}
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/7hzG0V6AUK8DqF4oiVaW/" %}
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
 
 {% @marketo/form formid="4316" formId="4316" %}

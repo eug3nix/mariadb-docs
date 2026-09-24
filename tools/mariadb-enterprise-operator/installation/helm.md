@@ -1,3 +1,10 @@
+---
+description: >-
+  Official Helm install MariaDB Enterprise Operator:
+  mariadb-enterprise-operator-crds chart, values.yaml imagePullSecrets,
+  --version, helm upgrade/uninstall.
+---
+
 # Helm
 
 Helm is the preferred way to install MariaDB Enterprise Kubernetes Operator in Kubernetes clusters. This documentation aims to provide guidance on how to manage the installation and upgrades of both the CRDs and the operator via Helm charts.
@@ -8,7 +15,7 @@ Configure your [customer credentials as described in the documentation](../custo
 
 ## Charts
 
-MariaDB Enterprise Kubernetes Operator is splitted into two different helm charts for better convenience:
+MariaDB Enterprise Kubernetes Operator is split into two different helm charts for better convenience:
 
 * `mariadb-enterprise-operator-crds`: Bundles the [CustomResourceDefinitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) required by the operator.
 * `mariadb-enterprise-operator`: Contains all the template manifests required to install the operator. Refer to the [operator helm values](helm.md#operator-helm-values) section for detailed information about the supported values.
@@ -65,15 +72,16 @@ helm install mariadb-enterprise-operator mariadb-enterprise-operator/mariadb-ent
   -f values.yaml \
   --set metrics.enabled=true --set webhook.cert.certManager.enabled=true
 ```
+
 Refer to the [operator helm values](helm.md#operator-helm-values) section for detailed information about the supported values.
 
 ## Long-Term Support Versions
 
 MariaDB Enterprise Kubernetes Operator provides stable Long-Term Support (LTS) versions.
 
-| Version | Supported Kubernetes Versions | Description |
-|---------|------------------------------|-------------|
-| `25.10` | `>=1.32.0-0 <= 1.34.0-0` | LTS 25.10. It was tested to work up to kubernetes v1.34. |
+| Version | Supported Kubernetes Versions | Description                                              |
+| ------- | ----------------------------- | -------------------------------------------------------- |
+| `25.10` | `>=1.32.0-0 <= 1.34.0-0`      | LTS 25.10. It was tested to work up to kubernetes v1.34. |
 
 If you instead wish to install a specific LTS release, you can do:
 
@@ -119,8 +127,7 @@ Make sure you read and understand the [updates documentation](../updates.md) bef
 {% endhint %}
 
 {% hint style="warning" %}
-To install a [Long-Term Support (LTS)](#long-term-support-versions) version instead, replace `<new-version>` with your desired LTS release.
-For example: `--version "25.10.*"` will automatically install the latest available patch within that LTS series.
+To install a [Long-Term Support (LTS)](helm.md#long-term-support-versions) version instead, replace `<new-version>` with your desired LTS release. For example: `--version "25.10.*"` will automatically install the latest available patch within that LTS series.
 {% endhint %}
 
 The first step is upgrading the CRDs that the operator depends on:
@@ -141,7 +148,7 @@ helm upgrade --install mariadb-enterprise-operator \
   mariadb-enterprise-operator/mariadb-enterprise-operator
 ```
 
-Whenever a new version of the operator is released, an upgrade guide is linked in the [release notes](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/mariadb-enterprise-operator) if additional upgrade steps are required. Be sure to review the [release notes](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/mariadb-enterprise-operator) and follow the version-specific upgrade guides accordingly.
+Whenever a new version of the operator is released, an upgrade guide is linked in the [release notes](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/enterprise-operator) if additional upgrade steps are required. Be sure to review the [release notes](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/enterprise-operator) and follow the version-specific upgrade guides accordingly.
 
 ## Operator high availability
 
@@ -207,7 +214,7 @@ helm uninstall mariadb-enterprise-operator-crds
 | certController.caLifetime | string | `"26280h"` | CA certificate lifetime. It must be greater than certLifetime. |
 | certController.certLifetime | string | `"2160h"` | Certificate lifetime. |
 | certController.enabled | bool | `true` | Specifies whether the cert-controller should be created. |
-| certController.extrArgs | list | `[]` | Extra arguments to be passed to the cert-controller entrypoint |
+| certController.extraArgs | list | `[]` | Extra arguments to be passed to the cert-controller entrypoint |
 | certController.extraVolumeMounts | list | `[]` | Extra volumes to mount to cert-controller container |
 | certController.extraVolumes | list | `[]` | Extra volumes to pass to cert-controller Pod |
 | certController.ha.enabled | bool | `false` | Enable high availability |
@@ -242,17 +249,17 @@ helm uninstall mariadb-enterprise-operator-crds
 | certController.tolerations | list | `[]` | Tolerations to add to cert-controller container |
 | certController.topologySpreadConstraints | list | `[]` | topologySpreadConstraints to add to cert-controller container |
 | clusterName | string | `"cluster.local"` | Cluster DNS name |
-| config.exporterImage | string | `"mariadb/mariadb-prometheus-exporter-ubi:1.1.0"` | Default MariaDB exporter image |
-| config.exporterMaxscaleImage | string | `"mariadb/maxscale-prometheus-exporter-ubi:1.1.0"` | Default MaxScale exporter image |
+| config.exporterImage | string | `"mariadb/mariadb-prometheus-exporter-ubi:1.1.1"` | Default MariaDB exporter image |
+| config.exporterMaxscaleImage | string | `"mariadb/maxscale-prometheus-exporter-ubi:1.1.1"` | Default MaxScale exporter image |
 | config.galeraLibPath | string | `"/usr/lib64/galera/libgalera_enterprise_smm.so"` | Galera Enterprise library path to be used with Galera |
 | config.mariadbDefaultVersion | string | `"11.8"` | Default MariaDB Enterprise version to be used when unable to infer it via image tag |
-| config.mariadbImage | string | `"docker.mariadb.com/enterprise-server:11.8.3-1"` | Default MariaDB Enterprise image |
+| config.mariadbImage | string | `"docker.mariadb.com/enterprise-server:11.8.5-2"` | Default MariaDB Enterprise image |
 | config.mariadbImageName | string | `"docker.mariadb.com/enterprise-server"` | Default MariaDB Enterprise image name |
-| config.maxscaleImage | string | `"docker.mariadb.com/maxscale:25.10.0"` | Default MaxScale Enterprise image |
+| config.maxscaleImage | string | `"docker.mariadb.com/maxscale:25.10.1"` | Default MaxScale Enterprise image |
 | crds | object | `{"enabled":false}` | CRDs |
 | crds.enabled | bool | `false` | Whether the helm chart should create and update the CRDs. It is false by default, which implies that the CRDs must be managed independently with the mariadb-enterprise-operator-crds helm chart. **WARNING** This should only be set to true during the initial deployment. If this chart manages the CRDs and is later uninstalled, all MariaDB instances will be DELETED. |
 | currentNamespaceOnly | bool | `false` | Whether the operator should watch CRDs only in its own namespace or not. |
-| extrArgs | list | `[]` | Extra arguments to be passed to the controller entrypoint |
+| extraArgs | list | `[]` | Extra arguments to be passed to the controller entrypoint |
 | extraEnv | list | `[]` | Extra environment variables to be passed to the controller |
 | extraEnvFrom | list | `[]` | Extra environment variables from preexiting ConfigMap / Secret objects used by the controller using envFrom |
 | extraVolumeMounts | list | `[]` | Extra volumes to mount to the container. |
@@ -281,7 +288,7 @@ helm uninstall mariadb-enterprise-operator-crds
 | pprof.enabled | bool | `false` | Enable the pprof HTTP server. |
 | pprof.port | int | `6060` | The port where the pprof HTTP server listens. |
 | priorityClassName | string | `""` | priorityClassName to add to controller Pod |
-| rbac.aggregation.enabled | bool | `true` | Specifies whether the cluster roles aggrate to view and edit predefinied roles |
+| rbac.aggregation.enabled | bool | `true` | Specifies whether the cluster roles aggregate to view and edit predefinied roles |
 | rbac.enabled | bool | `true` | Specifies whether RBAC resources should be created |
 | resources | object | `{}` | Resources to add to controller container |
 | securityContext | object | `{}` | Security context to add to controller container |
@@ -307,7 +314,7 @@ helm uninstall mariadb-enterprise-operator-crds
 | webhook.cert.secretAnnotations | object | `{}` | Annotatioms to be added to webhook TLS secret. |
 | webhook.cert.secretLabels | object | `{}` | Labels to be added to webhook TLS secret. |
 | webhook.enabled | bool | `true` | Specifies whether the webhook should be created. |
-| webhook.extrArgs | list | `[]` | Extra arguments to be passed to the webhook entrypoint |
+| webhook.extraArgs | list | `[]` | Extra arguments to be passed to the webhook entrypoint |
 | webhook.extraVolumeMounts | list | `[]` | Extra volumes to mount to webhook container |
 | webhook.extraVolumes | list | `[]` | Extra volumes to pass to webhook Pod |
 | webhook.ha.enabled | bool | `false` | Enable high availability |
@@ -340,6 +347,6 @@ helm uninstall mariadb-enterprise-operator-crds
 | webhook.tolerations | list | `[]` | Tolerations to add to webhook Pod |
 | webhook.topologySpreadConstraints | list | `[]` | topologySpreadConstraints to add to webhook Pod |
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

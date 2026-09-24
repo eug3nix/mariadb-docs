@@ -1,10 +1,16 @@
+---
+description: >-
+  MariaDB optimization options and defaults that differ from MySQL, for users
+  migrating from MySQL.
+---
+
 # MariaDB Optimization for MySQL Users
 
-MariaDB contains many new options and optimizations which, for\
+MariaDB contains many new options and optimizations which, for
 compatibility or other reasons, are not enabled in the default install.\
-Enabling them helps you gain extra performance from the same hardware\
-when upgrading from MySQL to MariaDB. This article contains information\
-on options and settings which you should enable, or at least look in\
+Enabling them helps you gain extra performance from the same hardware
+when upgrading from MySQL to MariaDB. This article contains information
+on options and settings which you should enable, or at least look in
 to, when making the switch.
 
 ```
@@ -17,7 +23,7 @@ If you are using a log of on-disk temporary tables, increase the above to as muc
 key-cache-segments=8
 ```
 
-If you use/have a lot of MyISAM files, increase the above to 4 or 8. See [Segmented Key Cache](segmented-key-cache.md) and [Segmented Key Cache Performance](https://app.gitbook.com/s/WCInJQ9cmGjq1lsTG91E/development-articles/general-info/quality/benchmarks-and-long-running-tests/benchmarks/segmented-key-cache-performance) for more information.
+If you use/have a lot of MyISAM files, increase the above to 4 or 8. See [Segmented Key Cache](segmented-key-cache.md) and [Segmented Key Cache Performance](../../../reference/product-development/server-development/quality/benchmarks-and-long-running-tests/benchmarks/segmented-key-cache-performance.md) for more information.
 
 ```
 thread-handling=pool-of-threads

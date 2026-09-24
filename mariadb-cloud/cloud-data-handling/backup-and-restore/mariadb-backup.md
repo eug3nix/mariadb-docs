@@ -1,3 +1,10 @@
+---
+description: >-
+  MariaDB Backup is the open-source file-level backup tool for MariaDB Cloud,
+  capturing data from the MariaDB Server data directory across InnoDB,
+  MyRocks, and Aria storage engines.
+---
+
 # MariaDB Backup
 
 Regular and reliable backups are essential to successful recovery of mission critical applications. [MariaDB Server](https://mariadb.org/en/#mariadb-server) backup and restore operations are performed using MariaDB Backup, an [open source backup tool](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/backup-and-restore/mariadb-backup/mariadb-backup-overview).
@@ -138,7 +145,7 @@ Once a full backup has been [prepared](https://app.gitbook.com/s/SsmexDFPv2xG2OT
 To restore from a full backup:
 
 1. Stop the MariaDB Server.
-2. [Empty](https://mariadb.com/docs/server/data-operations/backups/community-server/mariadb-backup/#Restore_Requires_Empty_Data_Directory) the data directory.
+2. [Empty](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/backup-and-restore/mariadb-backup/full-backup-and-restore-with-mariadb-backup#restoring-the-backup) the data directory.
 3.  Restore from the "full" directory using the `--copy-back` option:
 
     `$ sudo mariabackup --copy-back --target-dir=/data/backups/full`
@@ -187,7 +194,7 @@ Once the incremental backup has been applied to the full backup, the full backup
 
 ### **Restoring from Incremental Backups**
 
-Once you have prepared the full backup directory with all the incremental changes you need (as described above), stop the MariaDB Server, [empty](https://mariadb.com/docs/server/data-operations/backups/community-server/mariadb-backup/#Restore_Requires_Empty_Data_Directory) its data directory, and restore from the original full backup directory using the `--copy-back` option:
+Once you have prepared the full backup directory with all the incremental changes you need (as described above), stop the MariaDB Server, [empty](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/backup-and-restore/mariadb-backup/incremental-backup-and-restore-with-mariadb-backup#restoring-the-backup) its data directory, and restore from the original full backup directory using the `--copy-back` option:
 
 `$ sudo mariabackup --copy-back --target-dir=/data/backups/full`
 
@@ -528,3 +535,5 @@ $ mysql -u root -p < mariadb-binlog.sql
 ```
 {% endstep %}
 {% endstepper %}
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

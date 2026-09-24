@@ -1,3 +1,10 @@
+---
+description: >-
+  Configure asynchronous MariaDB replication from a Galera Cluster source to a
+  MariaDB Server replica, including the cluster server_id, log_slave_updates,
+  and wsrep GTID-mode setup.
+---
+
 # Configuring MariaDB Replication between MariaDB Galera Cluster and MariaDB Server
 
 [MariaDB replication](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/ha-and-performance/standard-replication) can be used to replicate between [MariaDB Galera Cluster](../../) and MariaDB Server. This article will discuss how to do that.
@@ -6,7 +13,7 @@
 
 Before we set up replication, we need to ensure that the cluster is configured properly. This involves the following steps:
 
-* Set [log\_slave\_updates=ON](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/ha-and-performance/standard-replication/replication-and-binary-log-system-variables#log_slave_updates) on all nodes in the cluster. See [Configuring MariaDB Galera Cluster: Writing Replicated Write Sets to the Binary Log](../../galera-management/configuration/configuring-mariadb-galera-cluster.md#writing-replicated-write-sets-to-the-binary-log) and [Using MariaDB Replication with MariaDB Galera Cluster: Configuring a Cluster Node as a Replication Master](using-mariadb-replication-with-mariadb-galera-cluster-using-mariadb-replica.md#configuring-a-cluster-node-as-a-replication-master) for more information on why this is important. It is also needed to [enable wsrep GTID mode](using-mariadb-gtids-with-mariadb-galera-cluster.md#enabling-wsrep-gtid-mode).
+* Set [log\_slave\_updates=ON](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/ha-and-performance/standard-replication/replication-and-binary-log-system-variables#log_slave_updates) on all nodes in the cluster. See [Configuring MariaDB Galera Cluster: Writing Replicated Write Sets to the Binary Log](../../galera-management/configuration/configuring-mariadb-galera-cluster.md#writing-replicated-write-sets-to-the-binary-log) and [Using MariaDB Replication with MariaDB Galera Cluster: Configuring a Cluster Node as a Replication Master](using-mariadb-replication-with-mariadb-galera-cluster-using-mariadb-replica.md#configuring-a-cluster-node-as-a-replication-primary) for more information on why this is important. It is also needed to [enable wsrep GTID mode](using-mariadb-gtids-with-mariadb-galera-cluster.md#enabling-wsrep-gtid-mode).
 * Set [server\_id](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/ha-and-performance/standard-replication/gtid#server_id) to the same value on all nodes in the cluster. See [Using MariaDB Replication with MariaDB Galera Cluster: Setting server\_id on Cluster Nodes](using-mariadb-replication-with-mariadb-galera-cluster-using-mariadb-replica.md#setting-server_id-on-cluster-nodes) for more information on what this means.
 
 ### Configuring Wsrep GTID Mode
@@ -42,7 +49,7 @@ Once the nodes are started, you need to pick a specific node that will act as th
 
 {% stepper %}
 {% step %}
-### Backup the Database on the Cluster's Primary Node and Prepare It
+#### Backup the Database on the Cluster's Primary Node and Prepare It
 
 The first step is to simply take and prepare a fresh [full backup](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/backup-and-restore/mariadb-backup/full-backup-and-restore-with-mariadb-backup) of the node that you have chosen to be the replication primary. For example:
 
@@ -61,7 +68,7 @@ $ mariadb-backup --prepare \
 {% endstep %}
 
 {% step %}
-### Copy the Backup to the Replica
+#### Copy the Backup to the Replica
 
 Once the backup is done and prepared, you can copy it to the MariaDB Server that will be acting as replica. For example:
 
@@ -71,7 +78,7 @@ $ rsync -avrP /var/mariadb/backup dc2-dbserver1:/var/mariadb/backup
 {% endstep %}
 
 {% step %}
-### Restore the Backup on the Second Cluster's Replica
+#### Restore the Backup on the Second Cluster's Replica
 
 At this point, you can restore the backup to the [datadir](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/variables-and-modes/server-system-variables#datadir), as you normally would. For example:
 
@@ -94,7 +101,7 @@ Now that the backup has been restored to the MariaDB Server replica, you can sta
 
 {% stepper %}
 {% step %}
-### Create a Replication User on the Cluster's Primary
+#### Create a Replication User on the Cluster's Primary
 
 Before the MariaDB Server replica can begin replicating from the cluster's primary, you need to [create a user account](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/security/authentication-with-enterprise-server/authentication-with-gssapi#create-user) on the primary that the replica can use to connect, and you need to [grant](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/account-management-sql-statements/grant) the user account the [REPLICATION SLAVE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/account-management-sql-statements/grant#replication-slave) privilege. For example:
 
@@ -105,7 +112,7 @@ GRANT REPLICATION SLAVE ON *.*  TO 'repl'@'dc2-dbserver1';
 {% endstep %}
 
 {% step %}
-### Start Replication on the New Replica
+#### Start Replication on the New Replica
 
 At this point, you need to get the replication coordinates of the primary from the original backup.
 
@@ -119,7 +126,7 @@ For example:
 mariadb-bin.000096 568 0-1-2
 ```
 
-Regardless of the coordinates you use, you will have to set up the primary connection using [CHANGE MASTER TO](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/administrative-sql-statements/replication-statements/change-master-to) and then start the replication threads with [START SLAVE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/administrative-sql-statements/replication-statements/legacy-replication-statements/legacy-commands-start-slave).
+Regardless of the coordinates you use, you will have to set up the primary connection using [CHANGE MASTER TO](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/administrative-sql-statements/replication-statements/change-master-to) and then start the replication threads with START SLAVE.
 
 {% tabs %}
 {% tab title="GTIDs" %}
@@ -155,9 +162,9 @@ START SLAVE;
 {% endstep %}
 
 {% step %}
-### Check the Status of the New Replica
+#### Check the Status of the New Replica
 
-You should be done setting up the replica now, so you should check its status with [SHOW SLAVE STATUS](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/administrative-sql-statements/replication-statements/legacy-replication-statements/legacy-commands-show-slave-status). For example:
+You should be done setting up the replica now, so you should check its status with SHOW SLAVE STATUS. For example:
 
 ```sql
 SHOW SLAVE STATUS\G
@@ -173,7 +180,7 @@ You can also set up [circular replication](https://app.gitbook.com/s/SsmexDFPv2x
 
 {% stepper %}
 {% step %}
-### Create a Replication User on the MariaDB Server Primary
+#### Create a Replication User on the MariaDB Server Primary
 
 Before circular replication can begin, you also need to [create a user account](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/security/authentication-with-enterprise-server/authentication-with-gssapi#create-user) on the MariaDB Server, since it will be acting as the replication primary to the cluster's replica, and you need to [grant](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/account-management-sql-statements/grant) the user account the [REPLICATION SLAVE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/account-management-sql-statements/grant#replication-slave) privilege. For example:
 
@@ -184,7 +191,7 @@ GRANT REPLICATION SLAVE ON *.*  TO 'repl'@'c1dbserver1';
 {% endstep %}
 
 {% step %}
-### Start Circular Replication on the Cluster
+#### Start Circular Replication on the Cluster
 
 How this is done would depend on whether you want to use the [GTID](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/ha-and-performance/standard-replication/gtid) coordinates or the [binary log](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/server-monitoring-logs/binary-log) file and position coordinates.
 
@@ -236,9 +243,9 @@ START SLAVE;
 {% endstep %}
 
 {% step %}
-### Check the Status of the Circular Replication
+#### Check the Status of the Circular Replication
 
-You should be done setting up the circular replication on the node in the first cluster now, so you should check its status with [SHOW SLAVE STATUS](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/administrative-sql-statements/replication-statements/legacy-replication-statements/legacy-commands-show-slave-status). For example:
+You should be done setting up the circular replication on the node in the first cluster now, so you should check its status with SHOW SLAVE STATUS. For example:
 
 ```sql
 SHOW SLAVE STATUS\G

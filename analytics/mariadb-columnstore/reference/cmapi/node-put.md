@@ -1,3 +1,10 @@
+---
+description: >-
+  The CMAPI node PUT endpoint adds a new MariaDB ColumnStore node
+  and configures a dbroot for it, called via HTTPS PUT with x-api-key
+  authentication.
+---
+
 # node PUT
 
 Adds a ColumnStore node.
@@ -6,7 +13,7 @@ See [CMAPI](./) for detail on REST API endpoint, required headers, and other ava
 
 ## Description
 
-Upon successful `node` PUT call CMAPI configures MariaDB Enterprise ColumnStore to add the new node and a dbroot for that node.
+Upon successful `node` PUT call CMAPI configures MariaDB ColumnStore to add the new node and a dbroot for that node.
 
 Call made via HTTPS `PUT`, with authentication via shared secret using the `x-api-key` header.
 
@@ -42,6 +49,6 @@ In this example, `jq` produces human-readable output from the returned JSON resp
 }
 ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

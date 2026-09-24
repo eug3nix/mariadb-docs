@@ -1,3 +1,9 @@
+---
+description: >-
+  Connect to MariaDB Cloud from MongoDB clients via MariaDB's X Protocol
+  compatibility layer, mapping MongoDB-style operations onto MariaDB Server.
+---
+
 # Connect From MongoDB Clients
 
 The NoSQL protocol module allows a MariaDB server or cluster to execute transactions for applications using MongoDB client libraries, transparently converting MongoDB API calls into the equivalent SQL. The MariaDB responses are then converted into the format expected by the MongoDB® client library and application.
@@ -25,6 +31,8 @@ From the Dashboard, the details needed to connect to your MariaDB Cloud service 
 
 The "NoSQL port" is the TCP port used to connect to the NoSQL interface.
 
-The [firewall](<../Security/Configuring Firewall.md>) must be configured to allowlist the client's IP address or netblock before connections can occur.
+The [firewall](../security/configuring-firewall.md) must be configured to allowlist the client's IP address or netblock before connections can occur.
 
 See the "Connecting using Mongosh" section of the Connect page for an example `mongosh` command-line, authentication instructions, and instructions to change the default password.
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

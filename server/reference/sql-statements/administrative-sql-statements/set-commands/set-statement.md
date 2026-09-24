@@ -9,7 +9,7 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 SET STATEMENT var1=value1 [, var2=value2, ...] 
   FOR <statement>
 ```
@@ -33,7 +33,7 @@ The server parses the whole statement before executing it, so any variables set 
 
 ## Examples
 
-One can limit statement execution time [max\_statement\_time](../../../../../server-usage/replication-cluster-multi-master/optimization-and-tuning/system-variables/server-system-variables.md#max_statement_time):
+One can limit statement execution time [max\_statement\_time](../../../../ha-and-performance/optimization-and-tuning/system-variables/server-system-variables.md#max_statement_time):
 
 ```sql
 SET STATEMENT max_statement_time=1000 FOR SELECT ... ;
@@ -69,25 +69,13 @@ There are a number of variables that cannot be set on per-query basis. These inc
 * `character_set_connection`
 * `character_set_filesystem`
 * `collation_connection`
-* `default_master_connection`
 * `debug_sync`
 * `interactive_timeout`
-* `gtid_domain_id`
-* `last_insert_id`
-* `log_slow_filter`
-* `log_slow_rate_limit`
-* `log_slow_verbosity`
-* `long_query_time`
-* `min_examined_row_limit`
 * `profiling`
 * `profiling_history_size`
 * `query_cache_type`
-* `rand_seed1`
-* `rand_seed2`
 * `skip_replication`
-* `slow_query_log`
 * `sql_log_off`
-* `tx_isolation`
 * `wait_timeout`
 
 ## Source

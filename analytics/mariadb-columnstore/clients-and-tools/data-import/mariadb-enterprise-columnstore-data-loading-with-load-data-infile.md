@@ -1,8 +1,15 @@
+---
+description: >-
+  MariaDB ColumnStore translates LOAD DATA INFILE statements into
+  cpimport bulk loads when batch insert mode is on and the statement runs
+  outside a transaction.
+---
+
 # Data Loading with LOAD DATA INFILE
 
 ## Overview
 
-MariaDB Enterprise ColumnStore automatically translates `LOAD DATA [ LOCAL ] INFILE` statements into bulk data loads. By default, it translates the statement into a bulk data load that uses cpimport.bin, which is an internal wrapper around the cpimport tool.
+MariaDB ColumnStore automatically translates `LOAD DATA [ LOCAL ] INFILE` statements into bulk data loads. By default, it translates the statement into a bulk data load that uses cpimport.bin, which is an internal wrapper around the cpimport tool.
 
 ## Intended Use Cases
 
@@ -15,28 +22,32 @@ You can load data using the [LOAD DATA INFILE](https://app.gitbook.com/s/SsmexDF
 
 ![ECStoreDataLoadingS3FlowChart](<../../../.gitbook/assets/ecstoredataloadings3flowchart (1).png>)
 
-MariaDB Enterprise ColumnStore enables batch insert mode by default.
+MariaDB ColumnStore enables batch insert mode by default.
 
-When batch insert mode is enabled, MariaDB Enterprise ColumnStore has special handling for [LOAD DATA INFILE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/inserting-loading-data/load-data-into-tables-or-index/load-data-infile) statements.
+When batch insert mode is enabled, MariaDB ColumnStore has special handling for [LOAD DATA INFILE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/inserting-loading-data/load-data-into-tables-or-index/load-data-infile) statements.
 
-Enterprise ColumnStore uses the following rules:
+ColumnStore uses the following rules:
 
-* If the statement is executed outside of a transaction, Enterprise ColumnStore loads the data using [cpimport](mariadb-enterprise-columnstore-data-loading-with-cpimport.md), which is a command-line utility that is designed to efficiently load data in bulk. Enterprise ColumnStore executes cpimport using a wrapper called `cpimport.bin`.
-* If the statement is executed inside of a transaction, Enterprise ColumnStore loads the data using the DML interface, which is slower.
+* If the statement is executed outside of a transaction, ColumnStore loads the data using [cpimport](mariadb-enterprise-columnstore-data-loading-with-cpimport.md), which is a command-line utility that is designed to efficiently load data in bulk. ColumnStore executes cpimport using a wrapper called `cpimport.bin`.
+* If the statement is executed inside of a transaction, ColumnStore loads the data using the DML interface, which is slower.
 
-Batch insert mode can be disabled by setting the `columnstore_use_import_for_batchinsert` system variable to OFF. When batch insert mode is disabled, Enterprise ColumnStore executes the statements using the DML interface, which is slower.
+Batch insert mode can be disabled by setting the `columnstore_use_import_for_batchinsert` system variable to OFF. When batch insert mode is disabled, ColumnStore executes the statements using the DML interface, which is slower.
 
 ## Insert Cache
 
-Starting with MariaDB Enterprise ColumnStore 6, an insert cache can be enabled to speed up [LOAD DATA INFILE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/inserting-loading-data/load-data-into-tables-or-index/load-data-infile) statements.
+Starting with MariaDB ColumnStore 6, an insert cache can be enabled to speed up [LOAD DATA INFILE](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/inserting-loading-data/load-data-into-tables-or-index/load-data-infile) statements.
 
 The insert cache is disabled by default, but it can be enabled by configuring `columnstore_cache_inserts=ON`:
 
 ```ini
 [mariadb]
 ...
-columnstore_cache_inserts=ON\
+loose-columnstore_cache_inserts=ON
 ```
+
+{% hint style="warning" %}
+The `loose-` prefix is required for ColumnStore system variables in the configuration file. Without it, MariaDB Server will fail to start if the ColumnStore plugin is not installed or has been removed.
+{% endhint %}
 
 The cache is flushed to ColumnStore in the following scenarios:
 
@@ -208,6 +219,6 @@ MariaDB Enterprise ColumnStore ignores the `ON DUPLICATE KEY` clause.
 
 Ensure that duplicate data is removed prior to performing a bulk data load.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

@@ -1,8 +1,8 @@
 # 25.10 LTS update guide
 
-This guide illustrates, step by step, how to update to `25.10.2` from previous versions.
+This guide illustrates, step by step, how to update to `25.10.6` from previous versions. This guide only applies if you are updating from a version prior to `25.10.x`, otherwise you may upgrade directly (see [Helm](../installation/helm.md#updates) and [OpenShift](../installation/openshift.md#updates) docs)
 
-- The Galera data-plane must be updated to the `25.10.2` version. You must set `updateStrategy.autoUpdateDataPlane=true` in your `MariaDB` resources before updating the operator. Then, once updated, the operator will also be updating the data-plane based on its version:
+- The Galera data-plane must be updated to the `25.10.6` version. You must set `updateStrategy.autoUpdateDataPlane=true` in your `MariaDB` resources before updating the operator. Then, once updated, the operator will also be updating the data-plane based on its version:
 ```diff
 apiVersion: enterprise.mariadb.com/v1alpha1
 kind: MariaDB
@@ -15,19 +15,19 @@ spec:
 
 - Once set, you may proceed to update the operator. If you are using __Helm__:
 
-Upgrade the `mariadb-enterprise-operator-crds` helm chart to `25.10.2`:
+Upgrade the `mariadb-enterprise-operator-crds` helm chart to `25.10.6`:
 ```bash
 helm repo update mariadb-enterprise-operator
-helm upgrade --install mariadb-enterprise-operator-crds  mariadb-enterprise-operator/mariadb-enterprise-operator-crds --version 25.10.2
+helm upgrade --install mariadb-enterprise-operator-crds  mariadb-enterprise-operator/mariadb-enterprise-operator-crds --version 25.10.6
 ```
 
-Upgrade the `mariadb-enterprise-operator` helm chart to `25.10.2`:
+Upgrade the `mariadb-enterprise-operator` helm chart to `25.10.6`:
 ```bash 
 helm repo update mariadb-enterprise-operator
-helm upgrade --install mariadb-enterprise-operator mariadb-enterprise-operator/mariadb-enterprise-operator --version 25.10.2
+helm upgrade --install mariadb-enterprise-operator mariadb-enterprise-operator/mariadb-enterprise-operator --version 25.10.6
 ```
 
-As part of the 25.10 LTS release, we have introduced support for LTS versions. Refer to the [Helm docs](https://mariadb.com/docs/tools/mariadb-enterprise-operator/installation/helm#long-term-support-versions) for sticking to LTS versions.
+As part of the 25.10 LTS release, we have introduced support for LTS versions. Refer to the [Helm docs](../installation/helm.md#long-term-support-versions) for sticking to LTS versions.
 
 - If you are on __OpenShift__:
 
@@ -36,14 +36,14 @@ If you are on the `stable` channel using `installPlanApproval=Automatic` in your
 ```bash
 oc get installplan
 NAME            CSV                                     APPROVAL   APPROVED
-install-sjgcs   mariadb-enterprise-operator.v25.10.2    Manual     false
+install-sjgcs   mariadb-enterprise-operator.v25.10.4    Manual     false
 
 oc patch installplan install-sjgcs --type merge -p '{"spec":{"approved":true}}'
 
 installplan.operators.coreos.com/install-sjgcs patched
 ```
 
-As part of the 25.10 LTS release, we have introduced new [release channels](https://mariadb.com/docs/tools/mariadb-enterprise-operator/installation/openshift#release-channels). Consider switching to the `stable-v25.10` if you are willing to stay in the `25.10.x` version:
+As part of the 25.10 LTS release, we have introduced new [release channels](../installation/openshift.md#release-channels). Consider switching to the `stable-v25.10` if you are willing to stay in the `25.10.x` version:
 
 ```yaml
 apiVersion: operators.coreos.com/v1alpha1
@@ -72,7 +72,7 @@ spec:
 -   autoUpdateDataPlane: true
 ```
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 
 {% @marketo/form formId="4316" %}

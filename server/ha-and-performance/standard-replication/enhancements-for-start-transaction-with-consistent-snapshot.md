@@ -15,7 +15,7 @@ This differs from a standard `START TRANSACTION` or `BEGIN` statement, which cre
 
 `START TRANSACTION` and its alias `BEGIN` can be modified with one or more characteristics.
 
-```sql
+```bnf
 START TRANSACTION [transaction_characteristic [, transaction_characteristic] ...]
 
 transaction_characteristic:
@@ -27,7 +27,7 @@ transaction_characteristic:
 For example:
 
 `BEGIN WITH CONSISTENT SNAPSHOT;`\
-`START TRANSACTION READ ONLY, WITH CONSISTENT SNAPSH`OT;
+`START TRANSACTION READ ONLY, WITH CONSISTENT SNAPSHOT`;
 
 ## **The InnoDB Read View**
 
@@ -78,4 +78,6 @@ In this second scenario, the read view for Session 1 is created immediately at T
 
 ### `innodb_snapshot_isolation`
 
-This system variable influences the behavior of locking reads (e.g., `SELECT ... FOR UPDATE`). When [innodb\_snapshot\_isolation](../../server-usage/storage-engines/innodb/innodb-system-variables.md#innodb_snapshot_isolation) is enabled (ON), locking reads will reference the transaction's read view. If a transaction tries to lock a row modified by another transaction not visible in the current read view, MariaDB returns an `ER_CHECKREAD` error instead of waiting for a lock. This enforces stricter snapshot consistency, even for locking operations.
+This system variable influences the behavior of locking reads (for instance, `SELECT ... FOR UPDATE`). When [innodb\_snapshot\_isolation](../../server-usage/storage-engines/innodb/innodb-system-variables.md#innodb_snapshot_isolation) is enabled (`ON`), locking reads reference the transaction's read view. If a transaction tries to lock a row modified by another transaction not visible in the current read view, MariaDB returns an `ER_CHECKREAD` error instead of waiting for a lock. This enforces stricter snapshot consistency, even for locking operations.
+
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>

@@ -1,3 +1,10 @@
+---
+description: >-
+  Self-managed migration to MariaDB Cloud via a logical dump plus live
+  replication, minimizing downtime by streaming changes from the source
+  database while the dump is loaded.
+---
+
 # Migrating Using a Logical Dump and Replication
 
 To minimize downtime during migration, you can set up live replication from your source database to the MariaDB Cloud database.
@@ -80,7 +87,7 @@ If you encounter an error while importing your users, you may need to uninstall 
 {% step %}
 ### **Start Replication**
 
-Turn on replication using MariaDB Cloud stored procedures. There are procedures allowing you to set up and start replication. See our [documentation](../../../reference-guide/stored-procedures.md) for details. The `dump.sql` file you created in step 1 will contain the GTID and binary log information needed for the `change_external_primary` procedure.
+Turn on replication using MariaDB Cloud stored procedures. There are procedures allowing you to set up and start replication. See our [documentation](../../../reference/stored-procedures.md) for details. The `dump.sql` file you created in step 1 will contain the GTID and binary log information needed for the `change_external_primary` procedure.
 
 ```sql
 CALL sky.change_external_primary(host VARCHAR(255), port INT, logfile TEXT, logpos LONG,
@@ -101,11 +108,11 @@ UNINSTALL PLUGIN simple_password_check;
     ```sql
     SET foreign_key_checks = 0;
     ```
-* **Disable Binary Logging**: If binary logging is not required during the import process, and you are using a standalone instance, it can potentially be disabled to improve performance. SkyDBA Services can assist with this as part of a detailed migration plan.
+* **Disable Binary Logging**: If binary logging is not required during the import process, and you are using a standalone instance, it can potentially be disabled to improve performance. Cloud DBA Services can assist with this as part of a detailed migration plan.
 
 ### Data Integrity and Validation
 
-*   **Consistency Checks**: Perform consistency checks on the source database before migration. Use a [supported SQL client](../../../../Connecting%20to%20Sky%20DBs/) to connect to your MariaDB Cloud instance and run the following.
+*   **Consistency Checks**: Perform consistency checks on the source database before migration. Use a [supported SQL client](../../../connecting-to-mariadb-cloud-dbs/connection-overview.md#connecting-from-sql-tools) to connect to your MariaDB Cloud instance and run the following.
 
     ```sql
     CHECK TABLE [table_name] FOR UPGRADE;
@@ -130,7 +137,7 @@ UNINSTALL PLUGIN simple_password_check;
     mysqldump -u [username] -p --default-parallelism=4 --add-drop-database \
         --databases [database_name] > dump.sql
     ```
-* **Incremental Backups**: For large datasets, incremental backups can be used to minimize the amount of data to be transferred. SkyDBA Services can assist you with setting these up as part of a custom migration plan.
+* **Incremental Backups**: For large datasets, incremental backups can be used to minimize the amount of data to be transferred. Cloud DBA Services can assist you with setting these up as part of a custom migration plan.
 
 ### Monitoring and Logging
 
@@ -142,3 +149,5 @@ UNINSTALL PLUGIN simple_password_check;
 * [Backup with mariadb-dump](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/clients-and-utilities/backup-restore-and-import-clients/mariadb-dump)
 * [MariaDB Backup Documentation](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/backup-and-restore)
 * [Advanced Backup Techniques](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-usage/backup-and-restore/backup-optimization)
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

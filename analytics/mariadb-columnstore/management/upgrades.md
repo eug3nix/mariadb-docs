@@ -1,10 +1,17 @@
-# Upgrading MariaDB Enterprise ColumnStore (Alpha)
+---
+description: >-
+  Upgrade MariaDB Enterprise Server and ColumnStore across a cluster with the
+  unified mcs install_es command (Alpha), automating service stops, repository
+  setup, and CMAPI restart.
+---
+
+# Upgrading MariaDB ColumnStore (Alpha)
 
 {% hint style="info" %}
 This page documents an Alpha version of the upgrade procedure using the `mcs install_es` command. Behavior may change. Validate in a non‑production environment first.
 {% endhint %}
 
-This guide explains how to upgrade MariaDB Enterprise Server (ES) and MariaDB Enterprise ColumnStore _across all nodes_ in a cluster using the unified `mcs` command-line tool that you have to run only once.
+This guide explains how to upgrade MariaDB Enterprise Server (ES) and MariaDB ColumnStore _across all nodes_ in a cluster using the unified `mcs` command-line tool that you have to run only once.
 
 {% hint style="info" %}
 The `mcs` command must be run as `root`. Either become `root`, or prefix the `mcs` commands on this page with `sudo`.
@@ -258,6 +265,6 @@ Contact MariaDB Support if you encounter unexpected failures, data issues, or pe
 * Backups: `mcs backup` and Extent Map backup guidance.
 * Cluster management: `mcs cluster start|stop|status` .
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

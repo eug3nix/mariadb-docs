@@ -10,11 +10,13 @@ description: >-
 
 {% tabs %}
 {% tab title="Current" %}
-```sql
+```bnf
 REPAIR [NO_WRITE_TO_BINLOG | LOCAL] TABLE
     tbl_name [, tbl_name] ...
-    [QUICK] [EXTENDED] [USE_FRM] [FORCE
+    [QUICK] [EXTENDED] [USE_FRM] [FORCE]
 ```
+
+![Railroad diagram of REPAIR TABLE — equivalent to the BNF above](../../../.gitbook/assets/repair-table-railroad.svg)
 {% endtab %}
 
 {% tab title="< 11.5" %}
@@ -46,7 +48,7 @@ See [aria\_chk](../../../clients-and-utilities/aria-clients-and-utilities/aria_c
 
 This statement requires [SELECT and INSERT privileges](../account-management-sql-statements/grant.md) for the table.
 
-By default, `REPAIR TABLE` statements are written to the [binary log](../../../server-management/server-monitoring-logs/binary-log/) and will be [replicated](../../../server-usage/storage-engines/myrocks/myrocks-and-replication.md). The `NO_WRITE_TO_BINLOG` keyword (`LOCAL` is an alias) will ensure the statement is not written to the binary log.
+By default, `REPAIR TABLE` statements are written to the [binary log](../../../server-management/server-monitoring-logs/binary-log/) and will be [replicated](../../../ha-and-performance/standard-replication/). The `NO_WRITE_TO_BINLOG` keyword (`LOCAL` is an alias) will ensure the statement is not written to the binary log.
 
 {% tabs %}
 {% tab title="Current" %}
@@ -90,7 +92,7 @@ The `FORCE` option is not available.
 
 ### Progress Reporting
 
-The [Aria](../../../server-usage/storage-engines/aria/) storage engine supports [progress reporting](https://app.gitbook.com/s/WCInJQ9cmGjq1lsTG91E/development-articles/mariadb-internals/using-mariadb-with-your-programs-api/progress-reporting) for this statement.
+The [Aria](../../../server-usage/storage-engines/aria/) storage engine supports [progress reporting](../../product-development/mariadb-internals/using-mariadb-with-your-programs-api/progress-reporting.md) for this statement.
 
 ## See Also
 

@@ -1,5 +1,6 @@
 ---
 description: 'Step 5: Test MariaDB Enterprise Server'
+hidden: true
 ---
 
 # Step 5: Test MariaDB Enterprise Serverd
@@ -8,15 +9,17 @@ description: 'Step 5: Test MariaDB Enterprise Server'
 
 This page details step 5 of the 9-step procedure "Deploy ColumnStore Object Storage Topology".
 
-This step tests MariaDB Enterprise Server and MariaDB Enterprise ColumnStore 23.10.
+This step tests MariaDB Enterprise Server and MariaDB ColumnStore.
+
+{% include "../../../../../.gitbook/includes/the-instructions-were-teste....md" %}
 
 Interactive commands are detailed. Alternatively, the described operations can be performed using automation.
 
 ## Test S3 Connection
 
-MariaDB Enterprise ColumnStore 23.10 includes a `testS3Connection` command to test the S3 configuration, permissions, and connectivity.
+MariaDB ColumnStore 23.10 includes a `testS3Connection` command to test the S3 configuration, permissions, and connectivity.
 
-This action is performed **on each Enterprise ColumnStore node**.
+This action is performed **on each ColumnStore node**.
 
 Test the S3 configuration by executing the following:
 
@@ -292,7 +295,7 @@ INSERT INTO test.contacts (first_name, last_name, email)
 $ sudo mariadb
 ```
 
-4. Execute a [SELECT](broken-reference) query to retrieve the data:
+4. Execute a [SELECT](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/SsmexDFPv2xG2OTyO5yV/reference/sql-statements/data-manipulation/selecting-data/select) query to retrieve the data:
 
 ```sql
 SELECT * FROM test.contacts;
@@ -315,6 +318,6 @@ This page was **step 5 of 9**.
 
 [Next: Step 6: Install MariaDB MaxScale.](step-6-install-mariadb-maxscale.md)
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

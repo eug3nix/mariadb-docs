@@ -4,11 +4,11 @@ description: >-
   datetime expression.
 ---
 
-# TIME
+# TIME Function
 
 ## Syntax
 
-```sql
+```bnf
 TIME(expr)
 ```
 

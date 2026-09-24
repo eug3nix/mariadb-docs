@@ -1,3 +1,10 @@
+---
+description: >-
+  Integrate MariaDB Cloud with MindsDB to perform in-database machine-learning
+  predictions and data analysis through SQL-callable AI models alongside
+  MariaDB tables.
+---
+
 # MindsDB Partner Integration
 
 With the partnership between MariaDB and [MindsDB](https://mindsdb.com/), end-to-end machine learning is available to database services in MariaDB Cloud:
@@ -39,7 +46,7 @@ Before using MariaDB Cloud and MindsDB, both services require an account.
 
 MariaDB Cloud requires a [MariaDB ID](https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/server-management/install-and-upgrade-mariadb/installing-mariadb/mariadb-id-sign-up) account.
 
-For the full procedure that shows how to quickly create a MariaDB ID account and launch a database service in MariaDB Cloud, see "[Quickstart](../../Quickstart/)".
+For the full procedure that shows how to quickly create a MariaDB ID account and launch a database service in MariaDB Cloud, see "[Quickstart](../../quickstart/)".
 
 #### Register for MindsDB
 
@@ -55,12 +62,12 @@ To connect a database service in MariaDB Cloud to MindsDB, perform the following
 
 1.  Create a database service in MariaDB Cloud.
 
-    For the full procedure that shows how to quickly create a MariaDB ID account and launch a database service in MariaDB Cloud, see "[Quickstart](../../Quickstart/)".
+    For the full procedure that shows how to quickly create a MariaDB ID account and launch a database service in MariaDB Cloud, see "[Quickstart](../../quickstart/)".
 2.  Connect to the database service in MariaDB Cloud using a supported client.
 
     For information about which clients are supported and how to connect, see "[Connecting](../)".
 3. Login to your MindsDB Cloud account.
-4.  In the MindsDB Cloud Editor, execute a `CREATE DATABASE` statement to connect your MindsDB account to the the database service in MariaDB Cloud.
+4.  In the MindsDB Cloud Editor, execute a `CREATE DATABASE` statement to connect your MindsDB account to the database service in MariaDB Cloud.
 
     ```sql
     CREATE DATABASE mariadb_cloud
@@ -75,7 +82,7 @@ To connect a database service in MariaDB Cloud to MindsDB, perform the following
     };
     ```
 
-    Replace the placeholders in the `CREATE DATABASE` statement above with your own [connection parameters](../#connecting-using-the-mariadb-client).
+    Replace the placeholders in the `CREATE DATABASE` statement above with your own [connection parameters](../connection-overview.md#connecting-using-the-mariadb-client).
 
 For the full instructions that show how to connect MindsDB with MariaDB SkySQL, see "[MindsDB: MariaDB SkySQL Setup Guide with MindsDB](https://docs.mindsdb.com/connect/connect-mariadb-skysql)" in the Learning Hub of the MindsDB Cloud Editor.
 
@@ -403,3 +410,5 @@ For more examples on the `INSERT INTO` statement, visit the [MindsDB doc page he
 * [MindsDB: Feature Engineering in MindsDB](https://docs.mindsdb.com/sql/feature-eng)
 * [MindsDB: MindsDB and MLflow](https://docs.mindsdb.com/custom-model/mlflow)
 * [Slack: MindsDB Community](https://mindsdbcommunity.slack.com/signup#/domain-signup)
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

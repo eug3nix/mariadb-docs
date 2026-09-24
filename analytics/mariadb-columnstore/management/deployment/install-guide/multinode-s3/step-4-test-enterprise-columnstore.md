@@ -1,22 +1,25 @@
 ---
-description: 'Step 4: Test Enterprise ColumnStore'
+description: 'Step 4: Test ColumnStore'
+hidden: true
 ---
 
-# Step 4: Test Enterprise ColumnStore
+# Step 4: Test ColumnStore
 
 ## Overview
 
-This page details step 4 of a 5-step procedure for deploying Single-Node Enterprise ColumnStore with Object storage.
+This page details step 4 of a 5-step procedure for deploying Multi-Node ColumnStore with Object Storage.
 
-This step tests MariaDB Enterprise Server and MariaDB Enterprise ColumnStore 23.10.
+This step tests MariaDB Enterprise Server and MariaDB ColumnStore.
+
+{% include "../../../../../.gitbook/includes/the-instructions-were-teste....md" %}
 
 Interactive commands are detailed. Alternatively, the described operations can be performed using automation.
 
 ## Test S3 Connection
 
-MariaDB Enterprise ColumnStore 23.10 includes a testS3Connection command to test the S3 configuration, permissions, and connectivity.
+MariaDB ColumnStore 23.10 includes a testS3Connection command to test the S3 configuration, permissions, and connectivity.
 
-On each Enterprise ColumnStore node, test the S3 configuration:
+On each ColumnStore node, test the S3 configuration:
 
 ```bash
 $ sudo testS3Connection
@@ -163,12 +166,12 @@ WHERE  contacts.email = addr.email;
 
 ## Next Step
 
-Navigation in the Single-Node Enterprise ColumnStore topology with Object storage deployment procedure:
+Navigation in the Single-Node ColumnStore topology with Object storage deployment procedure:
 
 This page was step 4 of 5.
 
 [Next: Step 5: Bulk Import of Data.](step-5-bulk-import-of-data.md)
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

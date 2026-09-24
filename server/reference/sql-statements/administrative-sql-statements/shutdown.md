@@ -8,7 +8,7 @@ description: >-
 
 ## Syntax
 
-```sql
+```bnf
 SHUTDOWN [WAIT FOR ALL { SLAVES | REPLICAS } ]
 ```
 
@@ -16,33 +16,33 @@ SHUTDOWN [WAIT FOR ALL { SLAVES | REPLICAS } ]
 
 The `SHUTDOWN` command shuts the server down.
 
-## WAIT FOR ALL REPLICAS / SLAVES
+## WAIT FOR ALL SLAVES / REPLICAS
 
 {% tabs %}
 {% tab title="Current" %}
-The `WAIT FOR ALL REPLICAS` statement can be used throughout.
+The `WAIT FOR ALL REPLICAS` statement can be used as an alias for `WAIT FOR ALL SLAVES`.
 {% endtab %}
 
 {% tab title="< 10.5.1" %}
-The `WAIT FOR ALL SLAVES` option was first added in [MariaDB 10.4.4](../../../release-notes/mariadb-community-server-release-notes/old-releases/release-notes-mariadb-10-4-series/mariadb-1044-release-notes/).
+The `WAIT FOR ALL SLAVES` option was first added in [MariaDB 10.4.4](https://app.gitbook.com/o/diTpXxF5WsbHqTReoBsS/s/aEnK0ZXmUbJzqQrTjFyb/community-server/old-releases/10.4/10.4.4).
 {% endtab %}
 {% endtabs %}
 
 When a primary server is shutdown and it goes through the normal shutdown process, the primary kills client threads in random order. By default, the primary also considers its binary log dump threads to be regular client threads. As a consequence, the binary log dump threads can be killed while client threads still exist, and this means that data can be written on the primary during a normal shutdown that won't be replicated. This is true even if [semi-synchronous replication](../../../ha-and-performance/standard-replication/semisynchronous-replication.md) is being used.
 
-This problem can be solved by shutting down the server with the [SHUTDOWN](shutdown.md) command and by providing the `WAIT FOR ALL REPLICAS`/`WAIT FOR ALL SLAVES` option to the command. For example:
+This problem can be solved by shutting down the server with the [SHUTDOWN](shutdown.md) command and by providing the `WAIT FOR ALL SLAVES`/`WAIT FOR ALL REPLICAS` option to the command. For example:
 
 ```sql
-SHUTDOWN WAIT FOR ALL REPLICAS;
+SHUTDOWN WAIT FOR ALL SLAVES;
 ```
 
-When the `WAIT FOR ALL REPLICAS` option is provided, the server only kills its binary log dump threads after all client threads have been killed, and it only completes the shutdown after the last [binary log](../../../server-management/server-monitoring-logs/binary-log/) has been sent to all connected replicas.
+When the `WAIT FOR ALL SLAVES` option is provided, the server only kills its binary log dump threads after all client threads have been killed, and it only completes the shutdown after the last [binary log](../../../server-management/server-monitoring-logs/binary-log/) has been sent to all connected replicas.
 
 See [Replication Threads: Binary Log Dump Threads and the Shutdown Process](../../../ha-and-performance/standard-replication/replication-threads.md#binary-log-dump-threads-and-the-shutdown-process) for more information.
 
 ## Required Permissions
 
-One must have a `SHUTDOWN` privilege (see [GRANT](../account-management-sql-statements/grant.md)) to use this command. It is the same privilege one needs to use the [mariadb-admin shutdown](../../../clients-and-utilities/administrative-tools/mariadb-admin.md#mariadb-admin-commands) command.
+One must have a `SHUTDOWN` privilege (see [GRANT](../account-management-sql-statements/grant.md)) to use this command. It is the same privilege one needs to use the [mariadb-admin shutdown](../../../clients-and-utilities/administrative-tools/mariadb-admin.md#commands) command.
 
 ## Shutdown for Upgrades
 

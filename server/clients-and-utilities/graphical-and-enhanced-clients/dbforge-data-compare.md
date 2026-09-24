@@ -1,4 +1,14 @@
+---
+description: >-
+  dbForge Data Compare compares and synchronizes data in MariaDB, MySQL, and
+  Percona databases, generating and applying synchronization scripts.
+---
+
 # dbForge Data Compare
+
+{% hint style="info" %}
+dbForge Data Compare is third-party software, not developed or maintained by MariaDB and not included with MariaDB Server. MariaDB doesn't test, validate, or support it. Refer to its own documentation and license terms.
+{% endhint %}
 
 [dbForge Data Compare](https://www.devart.com/dbforge/mysql/datacompare/) helps compare and synchronize data in MariaDB, MySQL, and Percona databases and scripts folders. You can find differences between your data, as it helps analyze comparison results, creates a synchronization script, and applies changes. Additionally, MariaDB data can be compared with command-line support.
 
@@ -27,7 +37,7 @@ Features are described in the following.
 * Choose any database, connection, or script folder with the new Data Comparison Wizard.
 * See the data comparison results in a data result grid.
 
-![](/broken/files/K0Ym5YvXNHRHXwoKIrGW)
+![](<../../.gitbook/assets/script-folder-comparison (1).png>)
 
 ## Configurations for Data Comparison
 

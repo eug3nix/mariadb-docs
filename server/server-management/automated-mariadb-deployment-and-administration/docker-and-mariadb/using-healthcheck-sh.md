@@ -1,4 +1,10 @@
-# using-healthcheck-sh
+---
+description: >-
+  Complete healthcheck.sh Docker reference: --connect, --innodb_initialized,
+  --replication_* checks, .my-healthcheck.cnf config, and environment variables.
+---
+
+# Using Healthcheck
 
 ## Using Healthcheck.sh
 

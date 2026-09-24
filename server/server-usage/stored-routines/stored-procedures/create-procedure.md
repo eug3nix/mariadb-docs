@@ -1,7 +1,7 @@
 ---
 description: >-
-  The CREATE PROCEDURE statement defines a new stored procedure, specifying its
-  name, parameters (IN, OUT, INOUT), and the SQL statements it executes.
+  Complete CREATE PROCEDURE guide for MariaDB. Complete reference documentation
+  for implementation, configuration, and usage with comprehensive examples and.
 ---
 
 # CREATE PROCEDURE
@@ -10,7 +10,7 @@ description: >-
 
 {% tabs %}
 {% tab title="Current" %}
-```sql
+```bnf
 CREATE
     [OR REPLACE]
     [DEFINER = { user | CURRENT_USER | role | CURRENT_ROLE }]
@@ -18,7 +18,8 @@ CREATE
     [characteristic ...] routine_body
 
 proc_parameter:
-    [ IN | OUT | INOUT ] param_name type [DEFAULT value or expression]
+    [ OUT | INOUT | IN OUT] param_name type |
+    [ IN ] param_name type [DEFAULT value or expression]
 
 type:
     Any valid MariaDB data type
@@ -33,6 +34,14 @@ characteristic:
 routine_body:
     Valid SQL procedure statement
 ```
+
+![Railroad diagram of CREATE PROCEDURE — equivalent to the BNF above](../../../.gitbook/assets/create-procedure-railroad.svg)
+
+![Railroad diagram of proc_parameter](../../../.gitbook/assets/create-procedure-parameter-railroad.svg)
+
+![Railroad diagram of characteristic](../../../.gitbook/assets/create-procedure-characteristic-railroad.svg)
+
+The `IN OUT` parameter works only in [Oracle mode](create-procedure.md#oracle-mode).
 {% endtab %}
 
 {% tab title="< 11.8" %}
@@ -64,23 +73,21 @@ routine_body:
 
 ## Description
 
-Creates a [stored procedure](./). By default, a routine is associated with the default database. To associate the routine explicitly with a given database, specify the name as db\_name.sp\_name when you create it.
+Creates a [stored procedure](./). By default, a routine is associated with the default database. To associate the routine explicitly with a given database, specify the name as `db_name.sp_name` when you create it.
 
-When the routine is invoked, an implicit ` USE`` `` `_`db_name`_ is performed (and undone when the routine terminates). The causes the routine to have the given default database while it executes. USE statements within stored routines are disallowed.
+When the routine is invoked, an implicit `USE`` `_`db_name`_ is performed (and undone when the routine terminates). The causes the routine to have the given default database while it executes. `USE` statements within stored routines are disallowed.
 
 When a stored procedure has been created, you invoke it by using the `CALL` statement (see [CALL](../../../reference/sql-statements/stored-routine-statements/call.md)).
 
 To execute the `CREATE PROCEDURE` statement, it is necessary to have the `CREATE ROUTINE` privilege. By default, MariaDB automatically grants the `ALTER ROUTINE` and `EXECUTE` privileges to the routine creator. See also [Stored Routine Privileges](../stored-functions/stored-routine-privileges.md).
 
-The `DEFINER` and SQL SECURITY clauses specify the security context to be used when checking access privileges at routine execution time, as described [here](../stored-functions/stored-routine-privileges.md). Requires the [SET USER](../../../reference/sql-statements/account-management-sql-statements/grant.md#set-user) privilege.
+The `DEFINER` and `SQL SECURITY` clauses specify the security context to be used when checking access privileges at routine execution time, as described [here](../stored-functions/stored-routine-privileges.md). Requires the [SET USER](../../../reference/sql-statements/account-management-sql-statements/grant.md#set-user) privilege.
 
-If the routine name is the same as the name of a built-in SQL function, you must use a space between the name and the following parenthesis when defining the routine, or a syntax error occurs. This is also true when you invoke the routine later. For this reason, we suggest that it is better to avoid re-using the names of existing SQL functions for your own stored routines.
+If the routine name is the same as the name of a built-in SQL function, you must use a space between the name and the following parenthesis when defining the routine, or a syntax error occurs. This is also true when you invoke the routine later. For this reason, we suggest that it is better to avoid reusing the names of existing SQL functions for your own stored routines.
 
 The `IGNORE_SPACE` SQL mode applies to built-in functions, not to stored routines. It is always allowable to have spaces after a routine name, regardless of whether `IGNORE_SPACE` is enabled.
 
 The parameter list enclosed within parentheses must always be present. If there are no parameters, an empty parameter list of `()` should be used. Parameter names are not case sensitive.
-
-Each parameter can be declared to use any valid data type, except that the `COLLATE` attribute cannot be used.
 
 For valid identifiers to use as procedure names, see [Identifier Names](../../../reference/sql-structure/sql-language-structure/identifier-names.md).
 
@@ -96,10 +103,10 @@ If the `IF NOT EXISTS` clause is used, then the procedure will only be created i
 
 Each parameter is an `IN` parameter by default. To specify otherwise for a parameter, use the keyword `OUT` or `INOUT` before the parameter name.
 
-An `IN` parameter passes a value into a procedure. The procedure might modify the value, but the modification is not visible to the caller when the procedure returns. An `OUT` parameter passes a value from the procedure back to the caller. Its initial value is `NULL` within the procedure, and its value is visible to the caller when the procedure returns. An `INOUT` parameter is initialized by the caller, can be\
+An `IN` parameter passes a value into a procedure. The procedure might modify the value, but the modification is not visible to the caller when the procedure returns. An `OUT` parameter passes a value from the procedure back to the caller. Its initial value is `NULL` within the procedure, and its value is visible to the caller when the procedure returns. An `INOUT` parameter is initialized by the caller, can be
 modified by the procedure, and any change made by the procedure is visible to the caller when the procedure returns.
 
-For each `OUT` or `INOUT` parameter, pass a user-defined variable in the`CALL` statement that invokes the procedure so that you can obtain its value when the procedure returns. If you are calling the procedure\
+For each `OUT` or `INOUT` parameter, pass a user-defined variable in the`CALL` statement that invokes the procedure so that you can obtain its value when the procedure returns. If you are calling the procedure
 from within another stored procedure or function, you can also pass a routine parameter or local routine variable as an `IN` or `INOUT` parameter.
 
 ### DEFAULT value or expression
@@ -196,6 +203,8 @@ DELIMITER ;
 
 `CREATE OR REPLACE`:
 
+Re-creating an existing procedure without `OR REPLACE` fails, while `CREATE OR REPLACE` replaces the existing definition:
+
 ```sql
 DELIMITER //
 
@@ -208,10 +217,6 @@ CREATE PROCEDURE simpleproc2 (
 //
 ERROR 1304 (42000): PROCEDURE simpleproc2 already exists
 
-DELIMITER ;
-
-DELIMITER //
-
 CREATE OR REPLACE PROCEDURE simpleproc2 (
   OUT param1 CHAR(10) CHARACTER SET 'utf8' COLLATE 'utf8_bin'
 )
@@ -219,10 +224,9 @@ CREATE OR REPLACE PROCEDURE simpleproc2 (
   SELECT CONCAT('a'),f1 INTO param1 FROM t;
  END;
 //
-ERROR 1304 (42000): PROCEDURE simpleproc2 already exists
+Query OK, 0 rows affected (0.03 sec)
 
 DELIMITER ;
-Query OK, 0 rows affected (0.03 sec)
 ```
 
 ## See Also

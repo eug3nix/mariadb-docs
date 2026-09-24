@@ -8,13 +8,13 @@ The mariadb-enterprise-operator data-plane components are implemented as lightwe
 
 #### Init container
 
-The init container is reponsible for dynamically generating the Pod-specifc configuration files before the MariaDB container starts. It also plays a crucial role in the MariaDB container startup, enabling replica recovery for the replication topolology and guaranteeing ordered deployment of Pods for the Galera topology.
+The init container is responsible for dynamically generating the Pod-specifc configuration files before the MariaDB container starts. It also plays a crucial role in the MariaDB container startup, enabling replica recovery for the replication topolology and guaranteeing ordered deployment of Pods for the Galera topology.
 
 #### Agent sidecar
 
-The agent sidecar provides an HTTP API that enables the operator to remotely manage MariaDB instances. Through this API, the operator is able to remotely operate the data directory and handle the instance lifecycle, including operations such as replica recovery for replication and cluster recovery for the Galera topology.
+The agent sidecar provides an HTTP API that enables the operator to remotely manage MariaDB instances. Through this API, the operator is able to remotely operate the data directory and handle the instance lifecycle, including operations such as replica recovery for replication and cluster recovery for the Galera topology. It supports [multiple authentication](#agent-auth-methods) methods to ensure that only the operator is able to call the agent API.
 
-It supports [multiple authentication](#agent-auth-methods) methods to ensure that only the operator is able to call the agent API.
+Since it has access to the data directory, it is also responsible for periodically archiving binary logs to be used for [point-in-time recovery](../backup-and-restore/pitr.md).
 
 ## Agent auth methods
 
@@ -30,10 +30,12 @@ kind: MariaDB
 metadata:
   name: mariadb-repl
 spec:
+  # [...]
   replication:
     agent:
       kubernetesAuth:
         enabled: true
+  # [...]
 ```
 This Kubernetes-native authentication mechanism eliminates the need for the operator to manage credentials, as it relies entirely on Kubernetes for this purpose. However, the drawback is that the agent requires cluster-wide permissions to impersonate the [`system:auth-delegator`](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#other-component-roles) `ClusterRole` and to create [`TokenReviews`](https://kubernetes.io/docs/reference/kubernetes-api/authentication-resources/token-review-v1/), which are cluster-scoped objects.
 
@@ -47,10 +49,12 @@ kind: MariaDB
 metadata:
   name: mariadb-repl
 spec:
+  # [...]
   replication:
     agent:
       basicAuth:
         enabled: true
+  # [...]
 ```
 
 Unlike the [`ServiceAccount` based authentication](#serviceaccount-based-authentication), the operator needs to explicitly generate credentials to authenticate. The advantage of this approach is that it is entirely decoupled from Kubernetes and it does not require cluster-wide permissions on the Kubernetes API.
@@ -60,6 +64,6 @@ Unlike the [`ServiceAccount` based authentication](#serviceaccount-based-authent
 
 Please refer to the updates documentation for more information about [how to update the data-plane](../updates.md#data-plane-updates).
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

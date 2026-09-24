@@ -1,18 +1,8 @@
 ---
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
+description: >-
+  MariaDB Cloud backup and restore: snapshot, full physical, incremental,
+  logical (mariadb-dump), and binary log backups, plus restore options from
+  managed storage and external buckets.
 ---
 
 # Backup and Restore
@@ -145,7 +135,24 @@ When restoring from a logical dump in MariaDB:
   2. Or use `mysqldump --dump-slave` to include GTID information in the backup
 * Consider using physical backups (mariabackup) instead, as they preserve GTID state
 
+### **Enterprise Cluster Backups**
+
+Backup and restore operations for Enterprise Clusters must be cluster-aware to preserve synchronous consistency and avoid data divergence.
+
+* **Snapshots:** Galera clusters default to cloud-native snapshot backups. Because Galera ensures write-set consistency, a snapshot from any single healthy node safely represents the entire cluster state.
+* **Cluster Restores:** To ensure safe re-formation, restoring a Galera cluster initializes the backup on a single node to bootstrap the cluster. Once the primary node is healthy, MariaDB Cloud uses automated [State Snapshot Transfers (SST)](https://app.gitbook.com/s/3VYeeVGUV4AMqrA3zwy7/high-availability/state-snapshot-transfers-ssts-in-galera-cluster/mariadb-backup-sst-method) to bring the remaining nodes online and sync their state. You can restore a Galera snapshot to the existing service or to a new service.
+
+* **Point-in-Time Recovery:** You can restore an [Enterprise Cluster](../../quickstart/enterprise-cluster.md) to a specific point in time between snapshots, in the same way as a Replicated service.
+
+{% hint style="info" %}
+**Snapshots Only**&#x20;
+
+[MariaDB Enterprise Cluster](../../quickstart/enterprise-cluster.md) supports cloud-native snapshot backups only. Full (physical) backups and logical backups are not available for this topology.
+{% endhint %}
+
 ## Limitations
 
 * Currently, MariaDB Cloud services deployed in Azure can only be backed up and restored using [MariaDB Cloud Snapshots](./#mariadb-cloud-snapshot-backups).
 * MariaDB Cloud Managed backups can only be restored within the same cloud provider. If you need to restore to a MariaDB Cloud service hosted on a different cloud provider, you must export your backup to S3 or GCS storage and follow the steps described [here](restore-examples/restore-from-your-own-bucket.md).
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

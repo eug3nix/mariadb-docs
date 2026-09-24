@@ -1,6 +1,13 @@
+---
+description: >-
+  Rejoin a node to a MariaDB ColumnStore cluster through MaxScale's
+  REST API, calling the mariadbmon module's rejoin command via MaxCtrl or
+  another REST client.
+---
+
 # Rejoining a Node
 
-To rejoin a node with Enterprise ColumnStore, perform the following procedure.
+To rejoin a node with ColumnStore, perform the following procedure.
 
 ## Performing Rejoin in MaxScale
 
@@ -35,6 +42,6 @@ maxctrl list servers
 
 If the node properly rejoined, the `State` column of the node shows `Slave, Running`.
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

@@ -1,8 +1,14 @@
+---
+description: >-
+  Complete container backup guide: docker volume create, mariadb-dump
+  --all-databases, mariadb-backup --backup/--prepare/--copy-back operations.
+---
+
 # Container Backup and Restoration
 
 MariaDB databases in containers need backup and restore like their non-container equivalents.
 
-## Logicial Backups
+## Logical Backups
 
 In this section, we will assume that the MariaDB container has been created as follows:
 

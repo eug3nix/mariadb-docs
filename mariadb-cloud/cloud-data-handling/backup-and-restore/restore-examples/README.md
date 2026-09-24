@@ -1,18 +1,8 @@
 ---
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: false
-  metadata:
-    visible: true
+description: >-
+  MariaDB Cloud restore API examples: managed-storage and external-bucket
+  restoration, point-in-time recovery, listing, and scheduled restore deletion
+  via the SkySQL Backup API.
 ---
 
 # Restore Examples
@@ -58,3 +48,5 @@ Delete scheduled restore operations with restore ID references using API calls.
 {% content-ref url="restore-delete-examples.md" %}
 [restore-delete-examples.md](restore-delete-examples.md)
 {% endcontent-ref %}
+
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>

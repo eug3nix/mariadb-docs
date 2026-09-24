@@ -1,5 +1,6 @@
 ---
 description: 'Step 1: Prepare ColumnStore Nodes'
+hidden: true
 ---
 
 # Step 1: Prepare ColumnStore Nodes
@@ -8,17 +9,19 @@ description: 'Step 1: Prepare ColumnStore Nodes'
 
 This page details step 1 of the 9-step procedure "Deploy ColumnStore Object Storage Topology".
 
-This step prepares systems to host MariaDB Enterprise Server and MariaDB Enterprise ColumnStore 23.10.
+This step prepares systems to host MariaDB Enterprise Server and MariaDB ColumnStore.
+
+{% include "../../../../../.gitbook/includes/the-instructions-were-teste....md" %}
 
 Interactive commands are detailed. Alternatively, the described operations can be performed using automation.
 
 ## Optimize Linux Kernel Parameters
 
-MariaDB Enterprise ColumnStore performs best with Linux kernel optimizations.
+MariaDB ColumnStore performs best with Linux kernel optimizations.
 
-On each server to host an Enterprise ColumnStore node, optimize the kernel:
+On each server to host an ColumnStore node, optimize the kernel:
 
-1. Set the relevant kernel parameters in a sysctl configuration file. To ensure proper change management, use an Enterprise ColumnStore-specific configuration file.
+1. Set the relevant kernel parameters in a sysctl configuration file. To ensure proper change management, use an ColumnStore-specific configuration file.
 
 Create `a /etc/sysctl.d/90-mariadb-enterprise-columnstore.conf file`:
 
@@ -209,7 +212,7 @@ Replace the IP addresses with the addresses in your own environment.
 
 ## Create an S3 Bucket
 
-With the ColumnStore Object Storage topology, it is important to create the S3 bucket before you start ColumnStore. All Enterprise ColumnStore nodes access data from the same bucket.
+With the ColumnStore Object Storage topology, it is important to create the S3 bucket before you start ColumnStore. All ColumnStore nodes access data from the same bucket.
 
 If you already have an S3 bucket, confirm that the bucket is empty.
 
@@ -223,6 +226,6 @@ This page was step 1 of 9.
 
 [Next: Step 2: Configure Shared Local Storage](step-2-configure-shared-local-storage.md).
 
-{% include "https://app.gitbook.com/s/SsmexDFPv2xG2OTyO5yV/~/reusable/pNHZQXPP5OEz2TgvhFva/" %}
+<sub>_This page is: Copyright © 2026 MariaDB. All rights reserved._</sub>
 
 {% @marketo/form formId="4316" %}

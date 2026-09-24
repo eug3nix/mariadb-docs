@@ -1,14 +1,14 @@
 ---
 description: >-
-  Delete a database and all its contents. This command permanently removes the
-  database directory and all tables, routines, and data within it.
+  Complete guide to removing databases in MariaDB. Complete DROP DATABASE syntax
+  with IF EXISTS, permissions, and recovery options for production use.
 ---
 
 # DROP DATABASE
 
 ## Syntax
 
-```sql
+```bnf
 DROP {DATABASE | SCHEMA} [IF EXISTS] db_name
 ```
 
@@ -26,7 +26,7 @@ Use `IF EXISTS` to prevent an error from occurring for databases that do not exi
 
 {% tabs %}
 {% tab title="Current" %}
-[MariaDB 10.6.1](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/mariadb-10-6-series/mariadb-1061-release-notes) supports [Atomic DDL](../atomic-ddl.md).`DROP DATABASE` is implemented as
+[MariaDB 10.6.1](https://app.gitbook.com/s/aEnK0ZXmUbJzqQrTjFyb/community-server/10.6/10.6.1) supports [Atomic DDL](../atomic-ddl.md).`DROP DATABASE` is implemented as
 
 ```sql
 LOOP OVER ALL tables

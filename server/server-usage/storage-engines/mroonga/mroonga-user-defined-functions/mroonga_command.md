@@ -20,6 +20,8 @@ mroonga_command (command)
 
 Returns the result of the Groonga command.
 
+**Note** As a administrative function that sends commands directly into Groonga, it completely bypassed MariaDB privilege control. Do not create this UDF on a multi-user system that relies on privilege separation of accounts.
+
 ## Example
 
 ```sql

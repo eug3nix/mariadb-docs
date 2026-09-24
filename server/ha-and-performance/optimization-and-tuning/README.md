@@ -1,8 +1,8 @@
 ---
 description: >-
-  Optimize MariaDB Server for high availability and performance. Learn about
-  replication, clustering, load balancing, and configuration tuning for robust
-  and efficient database solutions.
+  Optimize and tune MariaDB Server. This section covers buffers and caches,
+  indexing, the query optimizer and hints, compression, and the system
+  variables that control performance.
 ---
 
 # Optimization and Tuning
@@ -126,3 +126,5 @@ Provides techniques for writing efficient SQL, understanding query execution pla
 Optimize MariaDB Server with system variables, configuring various parameters to fine-tune performance, manage resources, and adapt the database to your specific workload requirements.
 {% endcolumn %}
 {% endcolumns %}
+
+<sub>_This page is licensed: CC BY-SA / Gnu FDL_</sub>
